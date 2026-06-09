@@ -1,0 +1,95 @@
+import React from "react";
+import { ArrowRight, GraduationCap, BookOpen, Sparkles, Trophy, FlaskConical, Users } from "lucide-react";
+
+export default function HighSchoolCTA() {
+  return (
+    <section className="py-10 sm:py-16 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            
+            {/* LEFT SIDE CONTENT */}
+            <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+              <span className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-[10px] font-bold tracking-[2px] uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+                Admissions Open
+              </span>
+
+              <h2 className="text-[1.7rem] sm:text-[2.2rem] md:text-[2.8rem] font-bold text-slate-800 mt-3 leading-[1.1]">
+                Future Ready <span className="block text-teal-600 mt-0.5">Learning Environment</span>
+              </h2>
+
+              <p className="mt-3 text-slate-500 text-[13px] sm:text-sm leading-relaxed max-w-lg">
+                Modern academics, smart classrooms, science labs, and technology-driven learning for Grades 6–10.
+              </p>
+
+              {/* MINI HIGHLIGHT CARDS */}
+              <div className="grid grid-cols-3 gap-2 mt-5">
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
+                  <GraduationCap size={18} className="text-teal-600" />
+                  <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Academic Growth</h3>
+                </div>
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
+                  <Sparkles size={18} className="text-cyan-500" />
+                  <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Creative Learning</h3>
+                </div>
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
+                  <BookOpen size={18} className="text-sky-500" />
+                  <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Smart Education</h3>
+                </div>
+              </div>
+
+              {/* ACTION CALL BUTTONS */}
+              <div className="flex flex-wrap gap-2.5 mt-5">
+                <button className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-md shadow-teal-500/20 cursor-pointer">
+                  Apply Now
+                </button>
+                <button className="flex items-center gap-1.5 border border-slate-200 hover:border-teal-500 hover:text-teal-700 text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer bg-white">
+                  Explore Campus <ArrowRight size={14} />
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT GLASS SIDE PANEL */}
+            <div className="relative hidden lg:block min-h-full bg-gradient-to-br from-teal-600 to-cyan-700">
+              <img
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1400&auto=format&fit=crop"
+                alt="Students"
+                className="absolute inset-0 w-full h-full object-cover opacity-25"
+              />
+              <div className="relative z-10 h-full flex flex-col justify-center gap-3 p-7">
+                <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-xl p-4 text-white">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Trophy size={16} className="text-white/80" />
+                    <span className="text-[11px] font-semibold text-white/70 uppercase tracking-wider">Results</span>
+                  </div>
+                  <h3 className="text-3xl font-bold leading-none">98%</h3>
+                  <p className="text-sm text-white/80 mt-0.5">Board Exam Results</p>
+                </div>
+
+                <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-xl p-4 text-white">
+                  <div className="flex items-center gap-2 mb-1">
+                    <FlaskConical size={16} className="text-white/80" />
+                    <span className="text-[11px] font-semibold text-white/70 uppercase tracking-wider">Labs</span>
+                  </div>
+                  <h3 className="text-3xl font-bold leading-none">25+</h3>
+                  <p className="text-sm text-white/80 mt-0.5">Innovation & Science Labs</p>
+                </div>
+
+                <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-xl p-4 text-white">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Users size={16} className="text-white/80" />
+                    <span className="text-[11px] font-semibold text-white/70 uppercase tracking-wider">Activities</span>
+                  </div>
+                  <h3 className="text-3xl font-bold leading-none">15+</h3>
+                  <p className="text-sm text-white/80 mt-0.5">Clubs & Activities</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
