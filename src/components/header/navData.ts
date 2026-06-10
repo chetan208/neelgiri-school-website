@@ -61,5 +61,5 @@ export const navItems: NavItem[] = [
   { label: "Admissions", to: "/admissions" },
   { label: "Notifications", to: "/all-notices" },
   { label: "Transport", to: "/transport" },
-  { label: "Contact", href: "#" },
+  { label: "Contact", to: "/contact" },
 ];
