@@ -30,7 +30,7 @@ interface MediaItem {
 
 interface ApiResponse {
   data?: MediaItem[];
-  items?: MediaItem[];
+  mediaItems?: MediaItem[];
   totalItems: number;
   totalPages: number;
 }
@@ -82,8 +82,8 @@ export default function GalleryManagerPage() {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const { data } = await axios.get<Category[]>(`${SERVER_URL}/api/media/categories`);
-      setCategories(Array.isArray(data) ? data : []);
+      const res = await axios.get<Category[]>(`${SERVER_URL}/api/media/categories`);
+      setCategories(Array.isArray(res.data) ? res.data : []);
     } catch {
       // non-fatal
     }
@@ -98,14 +98,14 @@ export default function GalleryManagerPage() {
     setError(null);
 
     try {
-      const { data: json } = await axios.get<ApiResponse>(`${SERVER_URL}/api/media/`, {
+      const res = await axios.get<ApiResponse>(`${SERVER_URL}/api/media/`, {
         params: { page: pageNum },
       });
 
-      const items: MediaItem[] = json.data ?? json.items ?? [];
+      const items: MediaItem[] = res.data.mediaItems ?? [];
       setAllItems((prev) => (pageNum === 1 ? items : [...prev, ...items]));
-      setTotalItems(json.totalItems);
-      setTotalPages(json.totalPages);
+      setTotalItems(res.data.totalItems);
+      setTotalPages(res.data.totalPages);
       setPage(pageNum);
     } catch (err) {
       setError(
@@ -128,6 +128,7 @@ export default function GalleryManagerPage() {
   }, [fetchCategories, fetchPage]);
 
   // ── Infinite scroll ───────────────────────────────────────────────────────────
+  // rootMargin "0px" — sentinel must actually enter the viewport before next page loads
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -138,7 +139,7 @@ export default function GalleryManagerPage() {
           fetchPage(page + 1);
         }
       },
-      { rootMargin: "400px" }
+      { rootMargin: "0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -184,17 +185,15 @@ export default function GalleryManagerPage() {
     setDeleting(true);
     setDeleteError("");
 
-    // Collect publicIds of selected items (videos have publicId: null)
     const selectedItems = allItems.filter((i) => selected.has(i.id));
-    const publicIds = selectedItems
-      .map((i) => i.publicId)
+    const ids = selectedItems
+      .map((i) => i.id)
       .filter((pid): pid is string => pid !== null && pid !== "");
 
     try {
-      if (publicIds.length > 0) {
-        await axios.post(`${SERVER_URL}/api/media/delete`, { publicIds });
+      if (ids.length > 0) {
+        await axios.post(`${SERVER_URL}/api/media/delete`, { ids });
       }
-      // Remove from local state
       setAllItems((prev) => prev.filter((i) => !selected.has(i.id)));
       setTotalItems((prev) => prev - selected.size);
       clearSelection();
@@ -215,7 +214,6 @@ export default function GalleryManagerPage() {
 
   const handleUploadSuccess = () => {
     setShowUpload(false);
-    // Reset to page 1 and refetch all
     setAllItems([]);
     setInitialLoad(true);
     setSelected(new Set());
@@ -230,7 +228,7 @@ export default function GalleryManagerPage() {
 
       {/* ── Toast ── */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-[100] px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white flex items-center gap-2 transition-all ${
+        <div className={`fixed top-4 right-4 z-100 px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white flex items-center gap-2 transition-all ${
           toast.type === "success" ? "bg-teal-600" : "bg-red-500"
         }`}>
           {toast.type === "success" ? (
@@ -260,7 +258,6 @@ export default function GalleryManagerPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Delete button — shown when selection exists */}
               {selected.size > 0 && (
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
@@ -273,7 +270,6 @@ export default function GalleryManagerPage() {
                 </button>
               )}
 
-              {/* Upload button */}
               <button
                 onClick={() => setShowUpload(true)}
                 className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 transition-colors shadow-sm"
@@ -454,7 +450,7 @@ export default function GalleryManagerPage() {
           </div>
         )}
 
-        {/* Sentinel */}
+        {/* Sentinel — placed after grid, no margin. Next page loads only when this is visible */}
         <div ref={sentinelRef} className="h-1 mt-2" />
 
         {/* Loading spinner */}
@@ -481,7 +477,6 @@ export default function GalleryManagerPage() {
       {/* ── Modals ── */}
       {showUpload && (
         <UploadModal
-          categories={categories}
           onClose={() => setShowUpload(false)}
           onSuccess={handleUploadSuccess}
         />
