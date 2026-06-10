@@ -19,11 +19,11 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-slate-950 overflow-hidden">
+    <footer className="relative bg-[#041622] overflow-hidden border-t border-[#093C5D]/15">
       
       {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 left-0 w-72 h-72 bg-[#FA6781]/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#FFC94D]/5 rounded-full blur-3xl"></div>
 
       {/* Main Footer */}
       <div className="relative z-10">
@@ -36,14 +36,14 @@ export default function Footer() {
               
               {/* Logo */}
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 rounded-2xl bg-[#093C5D] flex items-center justify-center shadow-lg border border-[#093C5D]/25">
                   <GraduationCap className="text-white" size={24} />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white leading-tight">
                     Neelgiri Public School
                   </h2>
-                  <p className="text-xs text-teal-300">
+                  <p className="text-xs text-[#FFC94D]">
                     Affiliated to HPBOSE
                   </p>
                 </div>
@@ -64,7 +64,7 @@ export default function Footer() {
                   <motion.div
                     key={index}
                     whileHover={{ y: -3 }}
-                    className="w-10 h-10 rounded-xl bg-white/5 hover:bg-teal-600 text-slate-300 hover:text-white border border-white/10 flex items-center justify-center transition duration-300 cursor-pointer"
+                    className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#FFC94D] text-slate-300 hover:text-[#093C5D] border border-white/10 hover:border-[#FFC94D] flex items-center justify-center transition duration-300 cursor-pointer"
                   >
                     {icon}
                   </motion.div>
@@ -89,7 +89,7 @@ export default function Footer() {
                   <motion.div
                     key={link}
                     whileHover={{ x: 4 }}
-                    className="flex items-center gap-2 text-slate-400 hover:text-teal-300 text-sm transition duration-300 cursor-pointer"
+                    className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
                   >
                     <ChevronRight size={15} />
                     {link}
@@ -115,7 +115,7 @@ export default function Footer() {
                   <motion.div
                     key={item}
                     whileHover={{ x: 4 }}
-                    className="flex items-center gap-2 text-slate-400 hover:text-teal-300 text-sm transition duration-300 cursor-pointer"
+                    className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
                   >
                     <ChevronRight size={15} />
                     {item}
@@ -131,7 +131,7 @@ export default function Footer() {
               </h3>
               <div className="mt-5 space-y-5">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-teal-300 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
                     <MapPin size={17} />
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed">
@@ -140,7 +140,7 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-teal-300 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
                     <Phone size={17} />
                   </div>
                   <p className="text-slate-400 text-sm">
@@ -149,7 +149,7 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-teal-300 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
                     <Mail size={17} />
                   </div>
                   <p className="text-slate-400 text-sm">
@@ -167,13 +167,13 @@ export default function Footer() {
               © 2026 Neelgiri Public School. All Rights Reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-slate-500">
-              <span className="hover:text-teal-300 transition cursor-pointer">
+              <span className="hover:text-[#FFC94D] transition cursor-pointer">
                 Privacy Policy
               </span>
-              <span className="hover:text-teal-300 transition cursor-pointer">
+              <span className="hover:text-[#FFC94D] transition cursor-pointer">
                 Terms &amp; Conditions
               </span>
-              <span className="hover:text-teal-300 transition cursor-pointer">
+              <span className="hover:text-[#FFC94D] transition cursor-pointer">
                 School Policies
               </span>
             </div>
