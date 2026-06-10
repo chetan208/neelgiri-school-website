@@ -46,8 +46,8 @@ export default function MediaCard({ item, selected, onToggle }: MediaCardProps) 
       onClick={onToggle}
       className={`relative group cursor-pointer rounded-xl overflow-hidden transition-all duration-200 ${
         selected
-          ? "ring-2 ring-teal-500 ring-offset-2 shadow-lg scale-[0.98]"
-          : "ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-md"
+          ? "ring-2 ring-[#FFC94D] ring-offset-2 shadow-lg scale-[0.98]"
+          : "ring-1 ring-[#093C5D]/10 hover:ring-[#093C5D]/30 hover:shadow-md"
       }`}
       style={{ aspectRatio: "4/3" }}
     >
@@ -83,7 +83,7 @@ export default function MediaCard({ item, selected, onToggle }: MediaCardProps) 
       {/* Checkbox */}
       <div className={`absolute top-2 left-2 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-150 z-10 ${
         selected
-          ? "bg-teal-500 border-teal-500"
+          ? "bg-[#59B292] border-[#59B292]"
           : "bg-white/80 border-gray-300 opacity-0 group-hover:opacity-100"
       }`}>
         {selected && (
@@ -97,8 +97,8 @@ export default function MediaCard({ item, selected, onToggle }: MediaCardProps) 
       <div className="absolute top-2 right-2 z-10">
         <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md ${
           item.mediaType === "video"
-            ? "bg-violet-600 text-white"
-            : "bg-teal-500 text-white"
+            ? "bg-[#FA6781] text-white"
+            : "bg-[#59B292] text-white"
         }`}>
           {item.mediaType}
         </span>

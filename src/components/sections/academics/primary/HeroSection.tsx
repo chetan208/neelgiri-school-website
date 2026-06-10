@@ -19,8 +19,8 @@ export default function PrimaryHeroSection() {
 
       {/* Overlays */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/70 to-slate-900/40"></div>
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#59B292]/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#FA6781]/10 rounded-full blur-3xl animate-pulse"></div>
 
       {/* Content */}
       <div className="relative z-10 h-full">
@@ -34,9 +34,9 @@ export default function PrimaryHeroSection() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 mb-5"
             >
-              <Award size={16} className="text-teal-300" />
+              <Award size={16} className="text-[#FFC94D]" />
               <span className="text-xs sm:text-sm text-slate-100 font-medium">
-                Affiliated to <span className="text-teal-300 font-bold">HPBOSE</span>
+                Affiliated to <span className="text-[#FFC94D] font-bold">HPBOSE</span>
               </span>
             </motion.div>
 
@@ -48,9 +48,9 @@ export default function PrimaryHeroSection() {
               className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05]"
             >
               Inspiring Young Minds
-              <span className="block text-teal-300">Through Creative</span>
+              <span className="block text-[#FFC94D]">Through Creative</span>
               <span className="block mt-2 text-white">
-                Learning at <span className="text-teal-300">Neelgiri Public School</span>
+                Learning at <span className="text-[#FFC94D]">Neelgiri Public School</span>
               </span>
             </motion.h1>
 
@@ -72,15 +72,15 @@ export default function PrimaryHeroSection() {
               className="flex flex-wrap gap-3 mt-6"
             >
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <BookOpen size={16} className="text-teal-300" />
+                <BookOpen size={16} className="text-[#FFC94D]" />
                 <span className="text-white text-xs sm:text-sm">Interactive Learning</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <Palette size={16} className="text-teal-300" />
+                <Palette size={16} className="text-[#FFC94D]" />
                 <span className="text-white text-xs sm:text-sm">Creative Activities</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <Puzzle size={16} className="text-teal-300" />
+                <Puzzle size={16} className="text-[#FFC94D]" />
                 <span className="text-white text-xs sm:text-sm">Fun Problem Solving</span>
               </div>
             </motion.div>
@@ -92,7 +92,7 @@ export default function PrimaryHeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-wrap gap-4 mt-7"
             >
-              <button className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-lg cursor-pointer">
+              <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-lg cursor-pointer">
                 Explore Primary Years
               </button>
               <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 cursor-pointer">
@@ -104,7 +104,7 @@ export default function PrimaryHeroSection() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-transparent"></div>
     </section>
   );
 }

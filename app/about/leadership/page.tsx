@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function LeadershipPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <StaffTeam />
     </div>
   );

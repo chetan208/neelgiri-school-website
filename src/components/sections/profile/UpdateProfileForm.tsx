@@ -71,7 +71,7 @@ export default function UpdateProfileForm() {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] animate-fade-in relative">
+    <div className="bg-white border border-[#093C5D]/10 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] animate-fade-in relative">
       
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsModalOpen(false)}>
@@ -81,12 +81,12 @@ export default function UpdateProfileForm() {
       )}
 
       <div className="mb-6">
-        <h2 className="text-base font-bold text-slate-900">Personal Information</h2>
-        <p className="text-xs text-slate-400 mt-0.5">Keep your account details verified and up to date.</p>
+        <h2 className="text-base font-bold text-[#06283D]">Personal Information</h2>
+        <p className="text-xs text-[#06283D]/60 mt-0.5">Keep your account details verified and up to date.</p>
       </div>
 
       {success && (
-        <div className="mb-4 p-3 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-xl flex items-center gap-2 text-xs font-semibold">
+        <div className="mb-4 p-3 bg-[#59B292]/10 border border-[#59B292]/20 text-[#59B292] rounded-xl flex items-center gap-2 text-xs font-semibold">
           <CheckCircle size={16}/> {success}
         </div>
       )}
@@ -99,20 +99,20 @@ export default function UpdateProfileForm() {
       <form onSubmit={handleUpdate} className="space-y-5">
         
         {/* Avatar Selection Tier */}
-        <div className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+        <div className="flex items-center gap-4 bg-[#F8FAFC]/50 p-4 rounded-xl border border-[#093C5D]/10">
           <div 
-            className="w-14 h-14 rounded-xl bg-slate-200 overflow-hidden shrink-0 border border-slate-100 cursor-pointer hover:opacity-80 transition-opacity"
+            className="w-14 h-14 rounded-xl bg-[#093C5D]/10 overflow-hidden shrink-0 border border-[#093C5D]/10 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => imgPreview && setIsModalOpen(true)}
           >
             {imgPreview ? (
               <img src={imgPreview} className="w-full h-full object-cover" alt="Avatar"/>
             ) : (
-              <div className="w-full h-full bg-teal-600 flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-full h-full bg-[#093C5D] flex items-center justify-center text-white font-bold text-lg">
                 {name ? name.charAt(0).toUpperCase() : <User size={24}/>}
               </div>
             )}
           </div>
-          <label className="px-4 py-2 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-700 cursor-pointer hover:bg-slate-50 shadow-sm transition-all">
+          <label className="px-4 py-2 border border-[#093C5D]/20 bg-white rounded-lg text-xs font-bold text-[#06283D]/80 cursor-pointer hover:bg-[#F8FAFC] shadow-sm transition-all">
             Change Profile Photo
             <input type="file" accept="image/*" className="hidden" onChange={handleImgChange} />
           </label>
@@ -120,35 +120,35 @@ export default function UpdateProfileForm() {
 
         {/* Form Inputs Container */}
         <div>
-          <label className="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+          <label className="block text-xs font-bold text-[#06283D] mb-1.5 flex items-center gap-1">
             <User size={13} /> Full Name
           </label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-xs outline-none focus:border-[#FFC94D] focus:ring-2 focus:ring-[#FFC94D]/10 transition-all" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+            <label className="block text-xs font-bold text-[#06283D] mb-1.5 flex items-center gap-1">
               <GraduationCap size={13} /> Qualification
             </label>
-            <input type="text" value={qualification} onChange={(e) => setQualification(e.target.value)} className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" />
+            <input type="text" value={qualification} onChange={(e) => setQualification(e.target.value)} className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-xs outline-none focus:border-[#FFC94D] focus:ring-2 focus:ring-[#FFC94D]/10 transition-all" />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+            <label className="block text-xs font-bold text-[#06283D] mb-1.5 flex items-center gap-1">
               <Book size={13} /> Subject Expert
             </label>
-            <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" />
+            <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-xs outline-none focus:border-[#FFC94D] focus:ring-2 focus:ring-[#FFC94D]/10 transition-all" />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+          <label className="block text-xs font-bold text-[#06283D] mb-1.5 flex items-center gap-1">
             <FileText size={13} /> Biography
           </label>
-          <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 resize-none transition-all" />
+          <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-xs outline-none focus:border-[#FFC94D] focus:ring-2 focus:ring-[#FFC94D]/10 resize-none transition-all" />
         </div>
 
-        <button type="submit" disabled={loading} className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 border-0 cursor-pointer transition-all flex items-center gap-2 shadow-md shadow-teal-600/10">
+        <button type="submit" disabled={loading} className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#FA6781] hover:bg-[#093C5D] border-0 cursor-pointer transition-all flex items-center gap-2 shadow-md shadow-[#FA6781]/10">
           {loading ? <Loader2 size={14} className="animate-spin" /> : "Save Profile Changes"}
         </button>
       </form>

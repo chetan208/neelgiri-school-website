@@ -37,12 +37,12 @@ export default function TransportSection() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#06283D] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Animated Header Section */}
         <div className={`text-center transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}`}>
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Our Transport Network</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#093C5D] tracking-tight">Our Transport Network</h1>
           <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
             Neelgiri Public Senior Secondary School provides safe, reliable, and widespread bus connectivity across the region.
           </p>
@@ -53,7 +53,7 @@ export default function TransportSection() {
           
           {/* Slider & Info Panel */}
           <div className={`lg:col-span-5 space-y-6 transition-all duration-1000 delay-200 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}>
-            <div className="relative overflow-hidden rounded-2xl shadow-md bg-white p-2 aspect-[4/3]">
+            <div className="relative overflow-hidden rounded-2xl shadow-md bg-white p-2 aspect-[4/3] border border-[#093C5D]/10">
               {busImages.map((imgUrl, idx) => (
                 <img 
                   key={idx}
@@ -71,7 +71,7 @@ export default function TransportSection() {
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 border-0 cursor-pointer ${
-                      idx === currentImageIndex ? 'bg-teal-500 w-4' : 'bg-white/60'
+                      idx === currentImageIndex ? 'bg-[#FA6781] w-4' : 'bg-white/60'
                     }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
@@ -79,8 +79,8 @@ export default function TransportSection() {
               </div>
             </div>
 
-            <div className="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-r-xl">
-              <h3 className="font-semibold text-teal-900 text-sm">Safety First</h3>
+            <div className="bg-[#FFC94D]/10 border-l-4 border-[#FFC94D] p-4 rounded-r-xl">
+              <h3 className="font-semibold text-[#093C5D] text-sm">Safety First</h3>
               <p className="text-xs text-slate-600 mt-1">
                 All routes are managed by experienced drivers with fully compliant safety measures and GPS tracking.
               </p>
@@ -102,7 +102,7 @@ export default function TransportSection() {
                     placeholder="Search your route..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-4 pr-10 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all duration-200"
+                    className="w-full pl-4 pr-10 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all duration-200"
                   />
                   <span className="absolute right-3 top-2.5 text-slate-400">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,9 +117,9 @@ export default function TransportSection() {
                   {filteredStations.map((station, index) => (
                     <div 
                       key={index}
-                      className="flex items-center space-x-3 p-2.5 bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-100 rounded-xl transition-all duration-300 group"
+                      className="flex items-center space-x-3 p-2.5 bg-slate-50 hover:bg-[#FFC94D]/10 border border-slate-100 hover:border-[#FFC94D]/30 rounded-xl transition-all duration-300 group"
                     >
-                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#093C5D]/10 flex items-center justify-center text-[#093C5D] group-hover:bg-[#093C5D] group-hover:text-white transition-all duration-300">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />

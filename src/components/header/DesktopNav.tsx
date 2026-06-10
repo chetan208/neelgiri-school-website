@@ -27,10 +27,10 @@ export default function DesktopNav({ navItems, activeNav, setActiveNav, navigate
             onMouseLeave={() => hasDD && closeDD()}
           >
             <button
-              className={`cursor-pointer nav-link flex items-center gap-1 px-4 py-2.5 rounded-xl text-[13.5px] font-semibold transition-all duration-200 ${
+              className={`cursor-pointer nav-link flex items-center gap-1 px-4 py-2.5 rounded-xl text-[13.5px] font-bold transition-all duration-200 hover:bg-[#093C5D]/8 hover:text-[#093C5D] ${
                 activeNav === item.label
-                  ? "text-teal-700 bg-teal-50"
-                  : "text-gray-600 hover:bg-slate-100 hover:text-gray-900"
+                  ? "active text-[#093C5D]"
+                  : "text-[#06283D]"
               }`}
               onClick={() => {
                 setActiveNav(item.label);

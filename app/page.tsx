@@ -4,9 +4,8 @@ import NoticeSection from '@/components/sections/homeSections/news/NoticeSection
 import SchoolProfile from '@/components/sections/homeSections/profile/Profile';
 import OurCourses from '@/components/sections/homeSections/ourCourses/OurCourses';
 import DocumentationSection from '@/components/sections/homeSections/documentation/main';
-import EventsSection from '@/components/sections/homeSections/Events/Events';
+import ContactUs from '@/components/sections/contactUs/main';
 
-// Dhyan dein: Yahan 'export default function' hona zaroori hai
 export default function HomePage() {
   return (
     <>
@@ -15,7 +14,7 @@ export default function HomePage() {
       <SchoolProfile />
       <OurCourses />
       <DocumentationSection />
-      {/* <EventsSection /> */}
+      <ContactUs isHomePage={true} />
     </>
   );
 }

@@ -133,9 +133,9 @@ function Badge({ label, isVideo }: { label: string; isVideo: boolean }) {
       padding: "2px 8px", borderRadius: 99,
       fontSize: 8, fontWeight: 800, letterSpacing: "0.12em",
       textTransform: "uppercase",
-      background: isVideo ? "rgba(239,68,68,0.2)" : "rgba(99,102,241,0.2)",
-      border: `1px solid ${isVideo ? "rgba(252,165,165,0.3)" : "rgba(129,140,248,0.3)"}`,
-      color: isVideo ? "#fecaca" : "#c7d2fe",
+      background: isVideo ? "rgba(239,68,68,0.2)" : "rgba(89,178,146,0.15)",
+      border: `1px solid ${isVideo ? "rgba(252,165,165,0.3)" : "rgba(89,178,146,0.3)"}`,
+      color: isVideo ? "#fecaca" : "#59B292",
       whiteSpace: "nowrap",
     }}>
       {isVideo ? <Film size={8} /> : <Camera size={8} />}
@@ -353,14 +353,14 @@ function CTAButton({ isMobile, inView, animDelay }: CTAButtonProps) {
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "inline-flex", alignItems: "center", gap: 10,
-        padding: isMobile ? "10px 20px" : "11px 24px",
-        borderRadius: 12, border: "none", cursor: "pointer",
-        background: hovered ? "#3730a3" : "#4338ca", color: "#fff",
-        fontSize: isMobile ? 12 : 13, fontWeight: 600,
+        padding: isMobile ? "8px 18px" : "9px 22px",
+        borderRadius: 12, border: "2px solid #06283D", cursor: "pointer",
+        background: hovered ? "#59B292" : "#FFC94D", color: hovered ? "#fff" : "#093C5D",
+        fontSize: isMobile ? 12 : 13, fontWeight: 700,
         fontFamily: "'DM Sans', sans-serif",
-        boxShadow: hovered ? "0 8px 24px rgba(99,102,241,0.45)" : "0 4px 16px rgba(99,102,241,0.2)",
-        transform: hovered ? "translateY(-2px)" : "translateY(0)",
-        transition: "all 0.25s ease",
+        boxShadow: hovered ? "4px 4px 0px #06283D" : "2px 2px 0px #06283D",
+        transform: hovered ? "translate(-2px, -2px)" : "translate(0, 0)",
+        transition: "all 0.2s ease",
         opacity: inView ? 1 : 0,
         animation: inView ? `gCtaIn 0.55s cubic-bezier(0.22,1,0.36,1) ${animDelay}s both` : "none",
       }}
@@ -465,7 +465,8 @@ export default function DocumentationSection() {
       style={{
         position: "relative", width: "100%",
         padding: isMobile ? "28px 12px 36px" : "40px 20px 48px",
-        background: "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(99,102,241,0.05) 0%, transparent 65%), #f8fafc",
+        background: "#F8FAFC",
+        borderTop: "2px solid #093C5D/10",
         fontFamily: "'DM Sans', sans-serif",
         boxSizing: "border-box", overflow: "hidden",
       }}
@@ -473,30 +474,18 @@ export default function DocumentationSection() {
     >
       <style dangerouslySetInnerHTML={{ __html: ANIM_CSS }} />
       
-      <div style={{
-        position: "absolute", top: -80, right: -60,
-        width: 320, height: 320, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)",
-        opacity: badgeIn ? 1 : 0, transition: "opacity 1.2s ease", pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", bottom: -60, left: -40,
-        width: 260, height: 260, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(67,56,202,0.06) 0%, transparent 70%)",
-        opacity: gridIn ? 1 : 0, transition: "opacity 1.2s ease", pointerEvents: "none",
-      }} />
-
       <div style={{ position: "relative", maxWidth: 1050, margin: "0 auto" }}>
 
         <div style={{ textAlign: "center", marginBottom: isMobile ? 20 : 32 }}>
           <div ref={badgeRef as any} style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             padding: "4px 12px", borderRadius: 99,
-            background: "#eef2ff", border: "1px solid #e0e7ff",
-            color: "#4338ca", fontSize: 9, fontWeight: 800,
+            background: "#59B292", border: "2px solid #06283D",
+            color: "#06283D", fontSize: 9, fontWeight: 900,
             letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12,
             opacity: badgeIn ? 1 : 0,
             animation: badgeIn ? "gRevealBadge 0.5s cubic-bezier(0.34,1.56,0.64,1) 0s both" : "none",
+            boxShadow: "2px 2px 0px #06283D",
           }}>
             Media &amp; Documentation
           </div>
@@ -504,18 +493,18 @@ export default function DocumentationSection() {
           <h2 ref={titleRef as any} id="gallery-heading" style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             fontSize: isMobile ? 22 : isTablet ? 28 : 32,
-            fontWeight: 800, color: "#0f172a", lineHeight: 1.2,
+            fontWeight: 800, color: "#093C5D", lineHeight: 1.2,
             maxWidth: 500, margin: "0 auto 10px", letterSpacing: "-0.01em",
             opacity: titleIn ? 1 : 0,
             animation: titleIn ? "gFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.1s both" : "none",
           }}>
             Life at{" "}
-            <span style={{ position: "relative", display: "inline-block", color: "#3730a3" }}>
+            <span style={{ position: "relative", display: "inline-block", color: "#FA6781" }}>
               Neelgiri
               <span style={{
                 position: "absolute", bottom: -2, left: 0, right: 0,
                 height: 3, borderRadius: 2,
-                background: "linear-gradient(90deg, #6366f1, #4f46e5)",
+                background: "#FA6781",
                 transformOrigin: "left",
                 transform: titleIn ? "scaleX(1)" : "scaleX(0)",
                 transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.55s",
@@ -526,7 +515,7 @@ export default function DocumentationSection() {
           </h2>
 
           <p ref={descRef as any} style={{
-            color: "#64748b", fontSize: isMobile ? 12 : 13,
+            color: "#06283D", fontSize: isMobile ? 12 : 13,
             lineHeight: 1.6, maxWidth: 460, margin: "0 auto",
             opacity: descIn ? 1 : 0,
             animation: descIn ? "gFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both" : "none",
@@ -554,8 +543,7 @@ export default function DocumentationSection() {
         }}>
           <CTAButton isMobile={isMobile} inView={ctaIn} animDelay={0.05} />
           <p style={{
-            color: "#94a3b8", fontSize: 10, margin: 0,
-            opacity: ctaIn ? 1 : 0,
+            color: "#06283D", opacity: ctaIn ? 0.7 : 0, fontSize: 10, margin: 0,
             transform: ctaIn ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 0.5s 0.22s, transform 0.5s 0.22s",
           }}>

@@ -43,7 +43,7 @@ export default function MobileCard({ level, isOpen, onToggle, index }: MobileCar
           <LevelIcon size={18} style={{ color: level.color }} strokeWidth={2} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-slate-800 text-[14px] leading-tight">{level.label}</p>
+          <p className="font-bold text-brand-primary text-[14px] leading-tight">{level.label}</p>
           <p className="text-[11px] text-slate-400 font-medium">{level.range}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -68,8 +68,8 @@ export default function MobileCard({ level, isOpen, onToggle, index }: MobileCar
             </div>
           </div>
           <div className="px-4 pb-4 pt-4 bg-white">
-            <h3 className="serif text-[1.15rem] font-black text-slate-800 leading-snug mb-1">{level.headline}</h3>
-            <p className="text-slate-500 text-[13px] leading-relaxed mb-4">{level.desc}</p>
+            <h3 className="serif text-[1.15rem] font-black text-brand-primary leading-snug mb-1">{level.headline}</h3>
+            <p className="text-brand-text-dark/80 text-[13px] leading-relaxed mb-4">{level.desc}</p>
             <div className="flex flex-wrap gap-1.5 mb-4">
               {level.subjects.map((sub, i) => {
                 const SubjectIcon = sub.icon;
@@ -86,7 +86,7 @@ export default function MobileCard({ level, isOpen, onToggle, index }: MobileCar
                 return (
                   <div key={i} className={`in-view-stat flex flex-col items-center py-2.5 bg-slate-50/50 ${i < 2 ? "border-r border-slate-100" : ""}`} style={{ animationDelay: `${0.1 + i * 0.08}s` }}>
                     <StatIcon size={12} className="text-slate-400 mb-0.5" strokeWidth={2} />
-                    <p className="text-[13px] font-black text-slate-800 leading-none">{st.value}</p>
+                    <p className="text-[13px] font-black text-brand-primary leading-none">{st.value}</p>
                     <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-wide mt-0.5">{st.label}</p>
                   </div>
                 );

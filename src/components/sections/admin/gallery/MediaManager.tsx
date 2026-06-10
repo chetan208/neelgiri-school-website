@@ -224,12 +224,12 @@ export default function GalleryManagerPage() {
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
 
       {/* ── Toast ── */}
       {toast && (
         <div className={`fixed top-4 right-4 z-100 px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white flex items-center gap-2 transition-all ${
-          toast.type === "success" ? "bg-teal-600" : "bg-red-500"
+          toast.type === "success" ? "bg-[#59B292]" : "bg-red-500"
         }`}>
           {toast.type === "success" ? (
             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -245,14 +245,14 @@ export default function GalleryManagerPage() {
       )}
 
       {/* ── Header ── */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+      <div className="bg-white border-b border-[#093C5D]/10 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Top row */}
           <div className="flex items-center justify-between gap-4 py-4">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Gallery Manager</h1>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#06283D] tracking-tight">Gallery Manager</h1>
+              <p className="text-xs text-[#06283D]/60 mt-0.5">
                 {initialLoad ? "Loading…" : `${totalItems} total · ${allItems.length} loaded`}
               </p>
             </div>
@@ -272,7 +272,7 @@ export default function GalleryManagerPage() {
 
               <button
                 onClick={() => setShowUpload(true)}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 transition-colors shadow-sm"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-[#FA6781] hover:bg-[#093C5D] transition-colors shadow-sm"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -294,7 +294,7 @@ export default function GalleryManagerPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search…"
-                className="pl-8 pr-4 py-1.5 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-400 w-36 sm:w-48"
+                className="pl-8 pr-4 py-1.5 text-sm rounded-lg border border-[#093C5D]/20 focus:outline-none focus:ring-2 focus:ring-[#FFC94D] w-36 sm:w-48"
               />
             </div>
 
@@ -322,7 +322,7 @@ export default function GalleryManagerPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                   filterCategory === "all"
                     ? "bg-gray-800 text-white border-gray-800"
-                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
+                    : "bg-white text-gray-500 border-[#093C5D]/20 hover:border-[#093C5D]/50"
                 }`}
               >
                 All Categories
@@ -333,8 +333,8 @@ export default function GalleryManagerPage() {
                   onClick={() => setFilterCategory(cat.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border capitalize transition-all ${
                     filterCategory === cat.id
-                      ? "bg-teal-600 text-white border-teal-600"
-                      : "bg-white text-gray-500 border-gray-200 hover:border-teal-300 hover:text-teal-600"
+                      ? "bg-[#FA6781] text-white border-[#FA6781]"
+                      : "bg-white text-gray-500 border-[#093C5D]/20 hover:border-[#FA6781]/40 hover:text-[#FA6781]"
                   }`}
                 >
                   {cat.name}
@@ -356,7 +356,7 @@ export default function GalleryManagerPage() {
               className="flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors"
             >
               <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${
-                isAllSelected ? "bg-teal-500 border-teal-500" : "border-gray-400"
+                isAllSelected ? "bg-[#59B292] border-[#59B292]" : "border-gray-400"
               }`}>
                 {isAllSelected && (
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -370,7 +370,7 @@ export default function GalleryManagerPage() {
             {selected.size > 0 && (
               <>
                 <span className="text-gray-300">|</span>
-                <span className="text-xs text-teal-600 font-semibold">{selected.size} selected</span>
+                <span className="text-xs text-[#093C5D] font-semibold">{selected.size} selected</span>
                 <button onClick={clearSelection} className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2">
                   Clear
                 </button>
@@ -389,7 +389,7 @@ export default function GalleryManagerPage() {
             <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-5 py-3 text-sm text-red-600">
               {error}
             </div>
-            <button onClick={() => fetchPage(1)} className="mt-3 block mx-auto text-sm text-teal-600 underline">
+            <button onClick={() => fetchPage(1)} className="mt-3 block mx-auto text-sm text-[#FA6781] underline">
               Try again
             </button>
           </div>
@@ -443,7 +443,7 @@ export default function GalleryManagerPage() {
             <p className="text-gray-400 text-sm mt-1">Try adjusting filters or upload something new</p>
             <button
               onClick={() => setShowUpload(true)}
-              className="mt-4 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 transition-colors"
+              className="mt-4 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FA6781] hover:bg-[#093C5D] transition-colors"
             >
               Upload Media
             </button>
@@ -457,7 +457,7 @@ export default function GalleryManagerPage() {
         {loading && !initialLoad && (
           <div className="flex justify-center py-8">
             <div className="flex items-center gap-2 text-sm text-gray-400">
-              <svg className="animate-spin w-4 h-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin w-4 h-4 text-[#FFC94D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
               </svg>

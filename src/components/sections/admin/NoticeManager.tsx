@@ -132,7 +132,7 @@ export default function NoticeManager() {
         {!showForm && (
           <button 
             onClick={() => setShowForm(true)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 transition shadow-2xs border-0 cursor-pointer"
+            className="bg-[#093C5D] hover:bg-[#FA6781] text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 transition shadow-2xs border-0 cursor-pointer"
           >
             <Plus size={16} /> Add New Notice
           </button>
@@ -152,7 +152,7 @@ export default function NoticeManager() {
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-emerald-600 font-medium transition cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-[#093C5D] font-medium transition cursor-pointer"
               >
                 <option value="urgent">Urgent</option>
                 <option value="academic">Academic</option>
@@ -168,7 +168,7 @@ export default function NoticeManager() {
                 placeholder="e.g., Mandatory Document Verification Notice"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-emerald-600 font-medium transition"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-[#093C5D] font-medium transition"
               />
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function NoticeManager() {
               placeholder="Provide complete breakdown insights regarding this alert publication..."
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-emerald-600 font-medium transition resize-none"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-sm rounded-lg focus:outline-none focus:border-[#093C5D] font-medium transition resize-none"
             />
           </div>
 
@@ -209,7 +209,7 @@ export default function NoticeManager() {
           <button
             type="submit"
             disabled={submitLoading}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5 disabled:opacity-70 shadow-2xs border-0 cursor-pointer"
+            className="w-full bg-[#093C5D] hover:bg-[#FA6781] text-white py-2.5 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5 disabled:opacity-70 shadow-2xs border-0 cursor-pointer"
           >
             {submitLoading ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
             {submitLoading ? "Processing File Pipelines..." : editingId ? "Update Live Publication" : "Publish Official Notice"}
@@ -234,7 +234,7 @@ export default function NoticeManager() {
                 </div>
                 <p className="text-xs sm:text-sm text-slate-500 font-medium line-clamp-2 leading-relaxed">{notice.description}</p>
                 {notice.documentUrl && (
-                  <a href={notice.documentUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:underline mt-1.5 no-underline">
+                  <a href={notice.documentUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs font-bold text-[#FA6781] hover:underline mt-1.5 no-underline">
                     <FileText size={12} /> View Linked PDF Document
                   </a>
                 )}
@@ -252,11 +252,11 @@ export default function NoticeManager() {
       </div>
 
       {popup.show && (
-        <div className="fixed inset-0 bg-slate-950/20 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-[#06283D]/20 backdrop-blur-xs flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full border border-slate-200 shadow-xl text-center space-y-4 animate-in fade-in zoom-in-95 duration-150 relative">
             <button onClick={closePopup} disabled={deleteLoading} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition disabled:opacity-50 border-0 bg-transparent cursor-pointer"><X size={16} /></button>
             {popup.type === "success" ? (
-              <div className="mx-auto bg-emerald-50 text-emerald-600 w-12 h-12 rounded-full flex items-center justify-center"><CheckCircle2 size={24} /></div>
+              <div className="mx-auto bg-[#59B292]/10 text-[#59B292] w-12 h-12 rounded-full flex items-center justify-center"><CheckCircle2 size={24} /></div>
             ) : (
               <div className="mx-auto bg-rose-50 text-rose-600 w-12 h-12 rounded-full flex items-center justify-center"><AlertTriangle size={24} /></div>
             )}
@@ -271,7 +271,7 @@ export default function NoticeManager() {
                   <button onClick={closePopup} disabled={deleteLoading} className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs sm:text-sm font-bold transition disabled:opacity-50 border-0 cursor-pointer">Cancel</button>
                 </>
               ) : (
-                <button onClick={closePopup} className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs sm:text-sm font-bold transition border-0 cursor-pointer">Acknowledge</button>
+                <button onClick={closePopup} className="w-full py-2.5 bg-[#093C5D] hover:bg-[#06283D] text-white rounded-lg text-xs sm:text-sm font-bold transition border-0 cursor-pointer">Acknowledge</button>
               )}
             </div>
           </div>

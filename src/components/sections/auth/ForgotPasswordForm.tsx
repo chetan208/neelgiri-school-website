@@ -65,7 +65,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
         <button 
           type="button" 
           onClick={() => { setError(""); step === 2 ? setStep(1) : setView("login"); }} 
-          className="text-xs font-bold text-slate-500 hover:text-teal-600 flex items-center gap-1 mb-4 transition-colors bg-transparent border-0 cursor-pointer"
+          className="text-xs font-bold text-slate-500 hover:text-[#FA6781] flex items-center gap-1 mb-4 transition-colors bg-transparent border-0 cursor-pointer"
         >
           <ArrowLeft size={14} /> Back to {step === 2 ? "Email Step" : "Login"}
         </button>
@@ -90,7 +90,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">Email Address</label>
             <div className="relative group">
-              <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+              <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
               <input 
                 type="email" 
                 value={email}
@@ -98,7 +98,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
                 placeholder="teacher@neelgiri.edu"
                 required
                 disabled={loading}
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 outline-none text-xs bg-slate-50/50 disabled:opacity-60"
+                className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#59B292] outline-none text-xs bg-slate-50/50 disabled:opacity-60"
               />
             </div>
           </div>
@@ -111,28 +111,28 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">Enter OTP</label>
             <div className="relative group">
-              <KeyRound size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
-              <input type="text" maxLength={6} value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="6-digit OTP" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-teal-500 text-xs bg-slate-50/50" />
+              <KeyRound size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
+              <input type="text" maxLength={6} value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="6-digit OTP" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#59B292] text-xs bg-slate-50/50" />
             </div>
           </div>
           
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">New Password</label>
             <div className="relative group">
-              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
-              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-teal-500 text-xs bg-slate-50/50" />
+              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
+              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#59B292] text-xs bg-slate-50/50" />
             </div>
           </div>
 
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">Confirm Password</label>
             <div className="relative group">
-              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
-              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-teal-500 text-xs bg-slate-50/50" />
+              <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
+              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required disabled={loading} className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#59B292] text-xs bg-slate-50/50" />
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full h-11 rounded-xl font-bold text-white bg-gradient-to-r from-teal-600 to-teal-500 shadow-md flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
+          <button type="submit" disabled={loading} className="w-full h-11 rounded-xl font-bold text-white bg-[#FA6781] shadow-md flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
             {loading ? <Loader2 size={16} className="animate-spin" /> : "Verify &amp; Reset Password"}
           </button>
         </form>

@@ -6,30 +6,30 @@ import { motion } from "framer-motion";
 
 export default function PrimaryCTASection() {
   return (
-    <section className="py-10 sm:py-16 bg-slate-50">
+    <section className="py-10 sm:py-16 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden rounded-2xl sm:rounded-[32px] bg-white border border-slate-200 shadow-xl"
+          className="relative overflow-hidden rounded-2xl sm:rounded-[32px] bg-white border border-[#093C5D]/20 shadow-xl"
         >
           {/* Top Decorative Gradient Bar */}
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-500 via-cyan-400 to-sky-500" />
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-[#FA6781]" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* LEFT CONTENT */}
             <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
               
               {/* Badge */}
-              <span className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-[10px] font-bold tracking-[2px] uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full bg-[#FFC94D] border border-[#093C5D]/20 text-[#093C5D] text-[10px] font-bold tracking-[2px] uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#093C5D] animate-pulse" />
                 Admissions Open
               </span>
 
               <h2 className="text-[1.7rem] sm:text-[2.2rem] md:text-[2.8rem] font-bold text-slate-800 mt-3 leading-[1.1]">
-                Helping Children <span className="block text-teal-600 mt-0.5">Learn With Joy</span>
+                Helping Children <span className="block text-[#093C5D] mt-0.5">Learn With Joy</span>
               </h2>
 
               <p className="mt-3 text-slate-500 text-[13px] sm:text-sm leading-relaxed max-w-lg">
@@ -38,15 +38,15 @@ export default function PrimaryCTASection() {
 
               {/* Mini Stats Widgets */}
               <div className="flex flex-wrap gap-3 mt-5">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
-                  <Users size={13} className="text-teal-600" />
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#093C5D]/10">
+                  <Users size={13} className="text-[#59B292]" />
                   <span className="text-[11px] font-semibold text-slate-700">500+ Students</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
-                  <BookOpen size={13} className="text-cyan-600" />
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#093C5D]/10">
+                  <BookOpen size={13} className="text-[#FA6781]" />
                   <span className="text-[11px] font-semibold text-slate-700">Activity Based</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#093C5D]/10">
                   <Star size={13} className="text-amber-500" />
                   <span className="text-[11px] font-semibold text-slate-700">HPBOSE Affiliated</span>
                 </div>
@@ -54,10 +54,10 @@ export default function PrimaryCTASection() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-2.5 mt-5">
-                <button className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 shadow-md shadow-teal-500/20 cursor-pointer">
+                <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 shadow-md shadow-[#FA6781]/20 cursor-pointer">
                   Apply For Admission
                 </button>
-                <button className="flex items-center gap-1.5 border border-slate-200 hover:border-teal-500 hover:text-teal-700 text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 cursor-pointer">
+                <button className="flex items-center gap-1.5 border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 cursor-pointer bg-white">
                   Explore Programs
                   <ArrowRight size={14} />
                 </button>
@@ -80,8 +80,8 @@ export default function PrimaryCTASection() {
                 className="absolute bottom-6 left-5 right-5 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/60"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0">
-                    <BookOpen size={16} className="text-teal-600" />
+                  <div className="w-9 h-9 rounded-xl bg-[#FFC94D] border border-[#093C5D]/20 flex items-center justify-center shrink-0">
+                    <BookOpen size={16} className="text-[#093C5D]" />
                   </div>
                   <div>
                     <h3 className="text-[15px] font-bold text-slate-800 leading-tight">

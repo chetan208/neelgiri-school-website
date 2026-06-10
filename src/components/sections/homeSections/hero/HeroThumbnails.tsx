@@ -27,7 +27,7 @@ export default function HeroThumbnails({ slides, current, goTo, progress, setPau
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/20">
               <div
                 className="h-full"
-                style={{ width: `${progress * 100}%`, background: `linear-gradient(90deg,${sl.from},${sl.to})` }}
+                style={{ width: `${progress * 100}%`, background: sl.to }}
               />
             </div>
           )}

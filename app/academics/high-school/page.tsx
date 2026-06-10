@@ -8,7 +8,7 @@ import CTASection from "@/components/sections/academics/high/CTASection";
 
 export default function HighSchoolPage() {
   return (
-    <main className="bg-slate-50 min-h-screen">
+    <main className="bg-[#F8FAFC] min-h-screen">
       <HeroSection />
       <AcademicModules />
       <StudentSpotlight />

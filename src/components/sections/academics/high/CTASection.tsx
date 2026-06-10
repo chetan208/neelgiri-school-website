@@ -3,20 +3,20 @@ import { ArrowRight, GraduationCap, BookOpen, Sparkles, Trophy, FlaskConical, Us
 
 export default function HighSchoolCTA() {
   return (
-    <section className="py-10 sm:py-16 bg-slate-50">
+    <section className="py-10 sm:py-16 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#093C5D]/20 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             
             {/* LEFT SIDE CONTENT */}
             <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
-              <span className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-[10px] font-bold tracking-[2px] uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full bg-[#FFC94D] border border-[#093C5D]/20 text-[#093C5D] text-[10px] font-bold tracking-[2px] uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#093C5D] animate-pulse" />
                 Admissions Open
               </span>
 
               <h2 className="text-[1.7rem] sm:text-[2.2rem] md:text-[2.8rem] font-bold text-slate-800 mt-3 leading-[1.1]">
-                Future Ready <span className="block text-teal-600 mt-0.5">Learning Environment</span>
+                Future Ready <span className="block text-[#093C5D] mt-0.5">Learning Environment</span>
               </h2>
 
               <p className="mt-3 text-slate-500 text-[13px] sm:text-sm leading-relaxed max-w-lg">
@@ -25,33 +25,33 @@ export default function HighSchoolCTA() {
 
               {/* MINI HIGHLIGHT CARDS */}
               <div className="grid grid-cols-3 gap-2 mt-5">
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
-                  <GraduationCap size={18} className="text-teal-600" />
+                <div className="bg-[#F8FAFC] border border-[#093C5D]/10 rounded-xl p-3 flex flex-col items-center text-center">
+                  <GraduationCap size={18} className="text-[#59B292]" />
                   <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Academic Growth</h3>
                 </div>
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
-                  <Sparkles size={18} className="text-cyan-500" />
+                <div className="bg-[#F8FAFC] border border-[#093C5D]/10 rounded-xl p-3 flex flex-col items-center text-center">
+                  <Sparkles size={18} className="text-[#FA6781]" />
                   <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Creative Learning</h3>
                 </div>
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center text-center">
-                  <BookOpen size={18} className="text-sky-500" />
+                <div className="bg-[#F8FAFC] border border-[#093C5D]/10 rounded-xl p-3 flex flex-col items-center text-center">
+                  <BookOpen size={18} className="text-[#093C5D]" />
                   <h3 className="text-[11px] font-semibold text-slate-800 mt-2 leading-tight">Smart Education</h3>
                 </div>
               </div>
 
               {/* ACTION CALL BUTTONS */}
               <div className="flex flex-wrap gap-2.5 mt-5">
-                <button className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-md shadow-teal-500/20 cursor-pointer">
+                <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-md shadow-[#FA6781]/20 cursor-pointer">
                   Apply Now
                 </button>
-                <button className="flex items-center gap-1.5 border border-slate-200 hover:border-teal-500 hover:text-teal-700 text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer bg-white">
+                <button className="flex items-center gap-1.5 border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer bg-white">
                   Explore Campus <ArrowRight size={14} />
                 </button>
               </div>
             </div>
 
             {/* RIGHT GLASS SIDE PANEL */}
-            <div className="relative hidden lg:block min-h-full bg-gradient-to-br from-teal-600 to-cyan-700">
+            <div className="relative hidden lg:block min-h-full bg-[#093C5D]">
               <img
                 src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1400&auto=format&fit=crop"
                 alt="Students"

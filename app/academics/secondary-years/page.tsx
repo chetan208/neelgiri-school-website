@@ -12,7 +12,7 @@ export default function SeniorSecondaryPage() {
   const [active, setActive] = useState("science");
 
   return (
-    <div className="bg-[#f7fafc] min-h-screen">
+    <div className="bg-[#F8FAFC] min-h-screen">
       <AcademicsHero />
 
       <div className="max-w-7xl mx-auto px-5 py-16">

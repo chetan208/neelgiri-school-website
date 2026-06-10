@@ -6,12 +6,12 @@ import { Loader2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const LoadingScreen = ({ message }: { message: string }) => (
-  <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100/80">
+  <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 bg-[#F8FAFC] rounded-2xl border border-[#093C5D]/20">
     <div className="relative flex items-center justify-center">
-      <div className="absolute w-12 h-12 rounded-full border-2 border-teal-500/10 scale-110" />
-      <Loader2 className="animate-spin text-teal-600" size={28} />
+      <div className="absolute w-12 h-12 rounded-full border-2 border-[#093C5D]/20 scale-110" />
+      <Loader2 className="animate-spin text-[#FFC94D]" size={28} />
     </div>
-    <p className="text-xs font-bold tracking-wider text-slate-400 mt-4 uppercase animate-pulse">
+    <p className="text-xs font-bold tracking-wider text-[#06283D]/60 mt-4 uppercase animate-pulse">
       {message}
     </p>
   </div>

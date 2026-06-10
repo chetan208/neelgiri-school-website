@@ -86,7 +86,7 @@ export default function StatsManager() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-slate-800 font-serif">Edit Dashboard Stats</h2>
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition disabled:opacity-70 disabled:cursor-not-allowed shadow-xs border-0 cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 bg-[#093C5D] text-white rounded-lg text-sm font-bold hover:bg-[#FA6781] transition disabled:opacity-70 disabled:cursor-not-allowed shadow-xs border-0 cursor-pointer"
           onClick={handleSave}
           disabled={initialLoading || saveLoading}
         >
@@ -103,7 +103,7 @@ export default function StatsManager() {
             <div key={stat.id} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-4 border border-slate-200/60 rounded-xl bg-slate-50/50">
               <div>
                 <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400">{stat.statLabel}</label>
-                <p className="text-xs font-bold text-slate-700 mt-0.5">Current: <span className="text-emerald-700">{stat.statValue}</span></p>
+                <p className="text-xs font-bold text-slate-700 mt-0.5">Current: <span className="text-[#59B292]">{stat.statValue}</span></p>
               </div>
               
               <div className="flex gap-2">
@@ -111,7 +111,7 @@ export default function StatsManager() {
                   type="text"
                   placeholder="Enter new value"
                   value={inputValues[stat.id] || ""}
-                  className="w-full px-3 py-1.5 bg-white border border-slate-200 text-xs rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all font-medium text-slate-800"
+                  className="w-full px-3 py-1.5 bg-white border border-slate-200 text-xs rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D]/20 focus:border-[#093C5D] transition-all font-medium text-slate-800"
                   onChange={(e) => handleInputChange(stat.id, e.target.value)}
                 />
               </div>
@@ -121,9 +121,9 @@ export default function StatsManager() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-slate-950/20 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-[#06283D]/20 backdrop-blur-xs flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full border border-slate-200 shadow-xl text-center space-y-4 animate-in fade-in zoom-in-95 duration-150">
-            <div className="mx-auto bg-emerald-50 text-emerald-600 w-12 h-12 rounded-full flex items-center justify-center">
+            <div className="mx-auto bg-[#59B292]/10 text-[#59B292] w-12 h-12 rounded-full flex items-center justify-center">
               <CheckCircle2 size={24} />
             </div>
             <div>

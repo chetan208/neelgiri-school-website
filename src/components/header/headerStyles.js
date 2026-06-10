@@ -75,15 +75,15 @@ const CSS = `
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
+  bottom: 4px;
+  left: 16px;
+  right: 16px;
   height: 2px;
   border-radius: 2px;
-  background: #0d9488;
+  background: #093C5D;
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .25s cubic-bezier(.22,1,.36,1);
+  transform-origin: center;
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
 }
 
 .nav-link:hover::after,

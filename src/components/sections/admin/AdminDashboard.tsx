@@ -35,29 +35,29 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-slate-50 text-slate-800 flex flex-col lg:flex-row font-sans relative">
+    <div className="w-full min-h-screen bg-[#F8FAFC] text-[#093C5D] flex flex-col lg:flex-row font-sans relative">
       
       <button 
         onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 bg-slate-950 text-white rounded-full shadow-lg border border-slate-800 flex items-center justify-center hover:bg-slate-800 transition-all active:scale-95 cursor-pointer"
+        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 bg-[#093C5D] text-white rounded-full shadow-lg border border-[#093C5D]/80 flex items-center justify-center hover:bg-[#001F42] transition-all active:scale-95 cursor-pointer"
       >
         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {/* Sticky Left Navigation Sidebar Container */}
       <aside className={`
-        bg-white border-r border-slate-200 transition-all duration-200 z-40
+        bg-white border-r border-[#093C5D]/20 transition-all duration-200 z-40
         lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] lg:w-60 lg:block lg:transform-none lg:opacity-100
         fixed inset-y-0 left-0 w-64
         ${isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full lg:translate-x-0"}
       `}>
-        <div className="p-5 hidden lg:block border-b border-slate-100">
-          <h1 className="text-sm font-black font-serif tracking-tight text-slate-950">Neelgiri School</h1>
-          <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600 mt-0.5">Control Panel</p>
+        <div className="p-5 hidden lg:block border-b border-[#093C5D]/20">
+          <h1 className="text-sm font-black font-serif tracking-tight text-[#093C5D]">Neelgiri School</h1>
+          <p className="text-[9px] font-black uppercase tracking-widest text-[#59B292] mt-0.5">Control Panel</p>
         </div>
 
-        <div className="p-5 lg:hidden border-b border-slate-100 flex justify-between items-center bg-slate-50">
-          <span className="text-xs font-black uppercase tracking-widest text-slate-400">Admin Menu</span>
+        <div className="p-5 lg:hidden border-b border-[#093C5D]/20 flex justify-between items-center bg-[#F8FAFC]">
+          <span className="text-xs font-black uppercase tracking-widest text-[#06283D]/60">Admin Menu</span>
         </div>
         
         <nav className="p-3.5 space-y-1">
@@ -70,8 +70,8 @@ export default function AdminDashboard() {
                 onClick={() => { setActiveTab(item.id as TabIdType); setIsSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
                   isTabActive 
-                    ? "bg-slate-950 border-slate-950 text-white shadow-xs" 
-                    : "text-slate-500 border-transparent bg-transparent hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-[#093C5D] border-[#093C5D] text-white shadow-xs" 
+                    : "text-[#06283D]/70 border-transparent bg-transparent hover:bg-[#093C5D]/10 hover:text-[#093C5D]"
                 }`}
               >
                 {item.icon}
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
 
       {/* Mobile background responsive drawer shade overlay */}
       {isSidebarOpen && (
-        <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 bg-slate-950/20 backdrop-blur-xs z-30 lg:hidden" />
+        <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 bg-[#093C5D]/20 backdrop-blur-xs z-30 lg:hidden" />
       )}
 
       {/* Operational Active Target Form Viewport Grid */}

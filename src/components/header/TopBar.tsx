@@ -4,7 +4,7 @@ import { ACCENT, ACCENT2 } from './navData';
 
 export default function TopBar() {
   return (
-    <div className="hdr hdr-topbar w-full hidden md:block z-50" style={{ background: `linear-gradient(90deg,${ACCENT},${ACCENT2})` }}>
+    <div className="hdr hdr-topbar w-full hidden md:block z-50" style={{ backgroundColor: ACCENT }}>
       <div className="w-full z-50 max-w-screen-2xl mx-auto px-4 sm:px-5 lg:px-7 xl:px-8 h-9 flex items-center justify-between">
         <div className="hidden sm:flex items-center gap-4">
           <a href="#" className="flex items-center gap-1.5 text-white/80 text-[11px]"><Phone size={11} /> +91 12345 67890</a>

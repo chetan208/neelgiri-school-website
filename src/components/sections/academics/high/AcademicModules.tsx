@@ -42,7 +42,7 @@ export default function AcademicModules() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-slate-50 overflow-hidden">
+    <section className="py-16 md:py-24 bg-[#F8FAFC] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         
         {/* Heading */}
@@ -53,13 +53,13 @@ export default function AcademicModules() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <p className="uppercase tracking-[4px] text-teal-700 text-sm font-semibold">
+          <p className="uppercase tracking-[4px] text-[#093C5D] text-sm font-semibold">
             Academic Excellence
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mt-3 leading-tight">
-            Future Focused <span className="block text-teal-700">Learning Programs</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#06283D] mt-3 leading-tight">
+            Future Focused <span className="block text-[#093C5D]">Learning Programs</span>
           </h2>
-          <p className="max-w-2xl mx-auto mt-5 text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="max-w-2xl mx-auto mt-5 text-[#06283D]/70 text-sm sm:text-base leading-relaxed">
             Designed to develop analytical thinking, creativity, scientific understanding, communication, and technology-driven learning.
           </p>
         </motion.div>
@@ -74,7 +74,7 @@ export default function AcademicModules() {
               transition={{ duration: 0.7, delay: index * 0.15 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="group relative bg-white border border-slate-200 rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer"
+              className="group relative bg-white border border-[#093C5D]/20 rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer"
             >
               {/* Top Image */}
               <div className="relative overflow-hidden h-56">
@@ -112,12 +112,12 @@ export default function AcademicModules() {
 
               {/* Content Box */}
               <div className="p-6">
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">{module.description}</p>
+                <p className="text-[#06283D]/70 text-sm sm:text-base leading-relaxed">{module.description}</p>
 
                 {/* Skills/Points */}
                 <div className="flex flex-wrap gap-3 mt-6">
                   {module.points.map((point) => (
-                    <div key={point} className="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium">
+                    <div key={point} className="bg-[#F8FAFC] text-[#06283D] px-4 py-2 rounded-xl text-sm font-medium border border-[#093C5D]/10">
                       {point}
                     </div>
                   ))}
@@ -125,16 +125,16 @@ export default function AcademicModules() {
 
                 {/* Card Bottom Panel */}
                 <div className="mt-7 flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#FFC94D] text-[#093C5D] flex items-center justify-center">
                     <ArrowRight size={18} />
                   </div>
-                  <span className="text-sm font-semibold text-teal-700">Grades 6–10</span>
+                  <span className="text-sm font-semibold text-[#093C5D]">Grades 6–10</span>
                 </div>
               </div>
 
               {/* Shimmer Ambient Light */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none">
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-teal-400/20 rounded-full blur-3xl"></div>
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#59B292]/10 rounded-full blur-3xl"></div>
               </div>
             </motion.div>
           ))}

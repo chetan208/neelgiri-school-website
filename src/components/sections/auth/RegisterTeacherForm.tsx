@@ -130,7 +130,7 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
         <button 
           type="button"
           onClick={() => { setStep(step - 1); setError(""); }}
-          className="text-xs font-semibold text-slate-500 hover:text-teal-600 flex items-center gap-1 mb-4 border-0 bg-transparent cursor-pointer"
+          className="text-xs font-semibold text-[#06283D]/60 hover:text-[#FFC94D] flex items-center gap-1 mb-4 border-0 bg-transparent cursor-pointer"
         >
           <ArrowLeft size={14} /> Back to Step {step - 1}
         </button>
@@ -159,7 +159,7 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
               <input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="name@neelgiri.edu" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 outline-none text-xs bg-slate-50/50" />
             </div>
           </div>
-          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all mt-2 flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl font-bold text-white bg-[#093C5D] hover:bg-[#001F42] transition-all mt-2 flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
             {loading ? <Loader2 size={16} className="animate-spin" /> : "Send OTP"}
           </button>
         </form>
@@ -167,17 +167,17 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
 
       {step === 2 && (
         <form onSubmit={handleVerifyOTP} className="space-y-4">
-          <div className="p-4 bg-teal-50 rounded-xl border border-teal-100 flex gap-3">
-             <ShieldCheck className="text-teal-600 shrink-0" />
+          <div className="p-4 bg-[#F8FAFC] rounded-xl border border-[#093C5D]/20 flex gap-3">
+             <ShieldCheck className="text-[#FA6781] shrink-0" />
              <div>
-               <p className="text-xs text-teal-900 font-bold">Verification Sent</p>
-               <p className="text-[11px] text-teal-700 mt-0.5">Enter the OTP sent to {email}</p>
+               <p className="text-xs text-[#093C5D] font-bold">Verification Sent</p>
+               <p className="text-[11px] text-[#06283D] mt-0.5">Enter the OTP sent to {email}</p>
              </div>
           </div>
           <div>
-            <input type="text" maxLength={6} value={otp} onChange={e => setOtp(e.target.value)} required placeholder="000000" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-center tracking-[0.5em] font-bold text-base outline-none focus:border-teal-500 bg-slate-50/50" />
+            <input type="text" maxLength={6} value={otp} onChange={e => setOtp(e.target.value)} required placeholder="000000" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-center tracking-[0.5em] font-bold text-base outline-none focus:border-[#59B292] bg-slate-50/50" />
           </div>
-          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl font-bold text-white bg-teal-600 hover:bg-teal-700 transition-all mt-2 flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl font-bold text-white bg-[#FA6781] hover:bg-[#093C5D] transition-all mt-2 flex items-center justify-center gap-2 border-0 cursor-pointer text-xs">
             {loading ? <Loader2 size={16} className="animate-spin" /> : "Verify OTP"}
           </button>
         </form>
@@ -188,23 +188,23 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5"><GraduationCap size={12} className="inline mr-1"/>Qualification</label>
-              <input type="text" value={qualification} onChange={e => setQualification(e.target.value)} required placeholder="M.Sc Mathematics" className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-teal-500" />
+              <input type="text" value={qualification} onChange={e => setQualification(e.target.value)} required placeholder="M.Sc Mathematics" className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292]" />
             </div>
             <div>
               <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5"><Book size={12} className="inline mr-1"/>Subject</label>
-              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} required placeholder="Mathematics" className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-teal-500" />
+              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} required placeholder="Mathematics" className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292]" />
             </div>
           </div>
 
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5"><FileText size={12} className="inline mr-1"/>Short Bio</label>
-            <textarea value={bio} onChange={e => setBio(e.target.value)} required placeholder="Experience details..." rows={2} className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-teal-500 resize-none" />
+            <textarea value={bio} onChange={e => setBio(e.target.value)} required placeholder="Experience details..." rows={2} className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292] resize-none" />
           </div>
 
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5">Profile Image</label>
             {!imagePreview ? (
-              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer hover:bg-slate-50 hover:border-teal-400 transition-all">
+              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer hover:bg-slate-50 hover:border-[#59B292] transition-all">
                 <div className="flex flex-col items-center justify-center pt-2 pb-3 text-center">
                   <UploadCloud className="w-6 h-6 text-slate-400 mb-1" />
                   <p className="text-xs text-slate-500 font-medium">Click to upload image</p>
@@ -230,7 +230,7 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
             )}
           </div>
 
-          <button type="submit" disabled={loading} className="w-full h-11 rounded-xl font-bold text-white bg-gradient-to-r from-teal-600 to-teal-500 shadow-md flex items-center justify-center gap-2 border-0 cursor-pointer text-xs disabled:opacity-85 mt-4">
+          <button type="submit" disabled={loading} className="w-full h-11 rounded-xl font-bold text-white bg-[#FA6781] shadow-md flex items-center justify-center gap-2 border-0 cursor-pointer text-xs disabled:opacity-85 mt-4">
             {loading ? (
               <>
                 <Loader2 size={16} className="animate-spin" />

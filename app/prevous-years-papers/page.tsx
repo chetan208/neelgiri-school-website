@@ -51,7 +51,7 @@ export default function PYQArchivePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 antialiased py-8">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#06283D] antialiased py-8">
       <main className="max-w-4xl mx-auto px-4">
         
         {/* HEADER BLOCK */}
@@ -59,10 +59,10 @@ export default function PYQArchivePage() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-bold tracking-wider uppercase mb-3">
             Academic Resource
           </span>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 font-serif">
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-[#093C5D] font-serif">
             Past Examination Hub
           </h1>
-          <p className="max-w-md mx-auto text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+          <p className="max-w-md mx-auto text-xs sm:text-sm text-[#06283D] mt-2 leading-relaxed">
             Your direct gateway to verified previous year question papers. Select your class and subject below to boost your exam preparation.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function PYQArchivePage() {
         {step > 1 && !loading && !error && (
           <button
             onClick={() => setStep(step - 1)}
-            className="mb-6 flex items-center gap-2 text-xs font-bold text-slate-600 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-3xs hover:bg-slate-50 transition-all cursor-pointer"
+            className="mb-6 flex items-center gap-2 text-xs font-bold text-[#06283D] bg-white px-3 py-1.5 rounded-lg border border-[#F8FAFC] shadow-3xs hover:bg-[#F8FAFC] transition-all cursor-pointer"
           >
             <ArrowLeft size={14} /> Back
           </button>
@@ -90,8 +90,8 @@ export default function PYQArchivePage() {
             </button>
           </div>
         ) : loading ? (
-          <div className="flex items-center justify-center py-24 bg-white border border-slate-200 rounded-xl shadow-3xs">
-            <Loader2 className="animate-spin text-slate-600" size={24} />
+          <div className="flex items-center justify-center py-24 bg-white border border-[#F8FAFC] rounded-xl shadow-3xs">
+            <Loader2 className="animate-spin text-[#FFC94D]" size={24} />
           </div>
         ) : (
           <>

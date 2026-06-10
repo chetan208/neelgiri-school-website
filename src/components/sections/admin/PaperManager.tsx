@@ -106,7 +106,7 @@ export default function PaperManager() {
     <div className="space-y-5 max-w-5xl mx-auto p-3 sm:p-6 relative text-slate-800 antialiased">
       {toast.show && (
         <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-3 rounded-xl shadow-xl border w-[90vw] sm:w-auto max-w-sm ${
-          toast.type === "error" ? "bg-red-50 border-red-100 text-red-700" : "bg-emerald-50 border-emerald-100 text-emerald-700"
+          toast.type === "error" ? "bg-red-50 border-red-100 text-red-700" : "bg-[#59B292]/10 border-[#59B292]/20 text-[#59B292]"
         }`}>
           {toast.type === "error" ? <AlertTriangle size={16} className="shrink-0" /> : <CheckCircle2 size={16} className="shrink-0" />}
           <span className="text-xs font-bold tracking-wide break-words">{toast.message}</span>
@@ -118,7 +118,7 @@ export default function PaperManager() {
           <h2 className="text-lg sm:text-xl font-bold text-slate-800 font-serif">Manage Question Papers</h2>
           <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Control archived document structures across student classes.</p>
         </div>
-        <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-3xs border-0 cursor-pointer"><PlusCircle size={14} /> Add New PYQ</button>
+        <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center bg-[#093C5D] hover:bg-[#FA6781] text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-3xs border-0 cursor-pointer"><PlusCircle size={14} /> Add New PYQ</button>
       </div>
 
       <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 no-scrollbar">
@@ -128,7 +128,7 @@ export default function PaperManager() {
             type="button"
             onClick={() => setSelectedClassTab(cls)}
             className={`px-5 py-2 text-xs font-bold transition-all rounded-lg border cursor-pointer ${
-              selectedClassTab === cls ? "bg-emerald-600 border-emerald-600 text-white font-black" : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+              selectedClassTab === cls ? "bg-[#093C5D] border-[#093C5D] text-white font-black" : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
             }`}
           >Class {cls}</button>
         ))}
@@ -160,11 +160,11 @@ export default function PaperManager() {
 
       {/* --- ADD UPLOAD FORM MODAL --- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-3xs p-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-[#06283D]/40 backdrop-blur-3xs p-4">
           <div className="bg-white rounded-xl max-w-md w-full shadow-2xl p-5 space-y-4 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex justify-between items-center">
               <span className="text-sm font-bold flex items-center gap-1.5">
-                <Upload size={14} className="text-emerald-600" /> Upload New Past Paper
+                <Upload size={14} className="text-[#093C5D]" /> Upload New Past Paper
               </span>
               <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 border-0 bg-transparent cursor-pointer"><X size={18} /></button>
             </div>
@@ -203,7 +203,7 @@ export default function PaperManager() {
               </div>
               <div className="flex gap-2 justify-end">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 border border-slate-200 text-slate-500 rounded-xl text-xs bg-white cursor-pointer">Cancel</button>
-                <button type="submit" disabled={actionLoading} className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 border-0 cursor-pointer shadow-xs">
+                <button type="submit" disabled={actionLoading} className="px-4 py-2 bg-[#FA6781] hover:bg-[#093C5D] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 border-0 cursor-pointer shadow-xs">
                   {actionLoading ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
                   <span>Publish</span>
                 </button>
@@ -215,7 +215,7 @@ export default function PaperManager() {
 
       {/* --- RE-ADDED MISSING DELETE CONFIRMATION POPUP MODAL --- */}
       {deleteTargetId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-3xs p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#06283D]/40 backdrop-blur-3xs p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full border border-slate-200 shadow-xl text-center space-y-4 animate-in fade-in zoom-in-95 duration-150">
             <div className="mx-auto bg-rose-50 text-rose-600 w-12 h-12 rounded-full flex items-center justify-center">
               <AlertTriangle size={24} />

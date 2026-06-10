@@ -88,11 +88,11 @@ export default function AdmissionSection() {
   if (!activeYear) return <ClosedView />;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-5xl w-full bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[540px]">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#093C5D] py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-5xl w-full bg-white rounded-2xl shadow-sm border border-[#093C5D]/15 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[540px]">
         
         {/* Sidebar Banner */}
-        <div className="lg:col-span-4 bg-gradient-to-br from-teal-900 to-teal-700 p-5 text-white flex flex-col justify-between relative overflow-hidden min-h-[180px] lg:min-h-full">
+        <div className="lg:col-span-4 bg-[#093C5D] p-5 text-white flex flex-col justify-between relative overflow-hidden min-h-[180px] lg:min-h-full">
           <div className="absolute inset-0 z-0 opacity-15">
             {sideImages.map((img, idx) => (
               <img 
@@ -105,17 +105,17 @@ export default function AdmissionSection() {
           </div>
 
           <div className="relative z-10 space-y-1.5">
-            <span className="bg-teal-500/30 text-teal-200 text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full border border-teal-400/20">
+            <span className="bg-[#FFC94D]/30 text-[#FFC94D] text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full border border-[#FFC94D]/20">
               Session {activeYear}
             </span>
             <h2 className="text-xl font-bold leading-tight">Shape Your Child's Future</h2>
-            <p className="text-teal-100/80 text-[11px] leading-relaxed">
+            <p className="text-white/80 text-[11px] leading-relaxed">
               Neelgiri Public Senior Secondary School provides an interactive pipeline to secure structural student configurations.
             </p>
           </div>
 
-          <div className="relative z-10 pt-3 border-t border-teal-500/30 flex items-center space-x-2 text-[10px] text-teal-100">
-            <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping" />
+          <div className="relative z-10 pt-3 border-t border-white/20 flex items-center space-x-2 text-[10px] text-white/85">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFC94D] animate-ping" />
             <span>Applications are actively evaluated.</span>
           </div>
         </div>
@@ -125,8 +125,8 @@ export default function AdmissionSection() {
           {!isSubmitted ? (
             <div className="w-full">
               <div className="mb-4">
-                <h1 className="text-lg font-bold text-slate-900">Online Registration Form</h1>
-                <p className="text-xs text-slate-500">Provide authentic student specifications to reserve academic slots.</p>
+                <h1 className="text-lg font-bold text-[#093C5D]">Online Registration Form</h1>
+                <p className="text-xs text-[#06283D]/70">Provide authentic student specifications to reserve academic slots.</p>
               </div>
 
               {submitError && (
@@ -146,7 +146,7 @@ export default function AdmissionSection() {
                       value={formData.studentName}
                       onChange={handleChange}
                       placeholder="Full name"
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs"
                     />
                   </div>
                   <div>
@@ -158,7 +158,7 @@ export default function AdmissionSection() {
                       value={formData.FatherName}
                       onChange={handleChange}
                       placeholder="Father's name"
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs"
                     />
                   </div>
                 </div>
@@ -173,7 +173,7 @@ export default function AdmissionSection() {
                       value={formData.MotherName}
                       onChange={handleChange}
                       placeholder="Mother's name"
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs"
                     />
                   </div>
                   <div>
@@ -184,7 +184,7 @@ export default function AdmissionSection() {
                       required
                       value={formData.dob}
                       onChange={handleChange}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs text-slate-700"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs text-slate-700"
                     />
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export default function AdmissionSection() {
                       required
                       value={formData.targetClass}
                       onChange={handleChange}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs cursor-pointer"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs cursor-pointer"
                     >
                       <option value="">Select Class</option>
                       {classes.map((cls, idx) => (
@@ -214,7 +214,7 @@ export default function AdmissionSection() {
                       value={formData.phoneNumber}
                       onChange={handleChange}
                       placeholder="10-digit mobile"
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs"
                     />
                   </div>
                 </div>
@@ -227,7 +227,7 @@ export default function AdmissionSection() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="parent@example.com"
-                    className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs"
+                    className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs"
                   />
                 </div>
 
@@ -240,7 +240,7 @@ export default function AdmissionSection() {
                     value={formData.address}
                     onChange={handleChange}
                     placeholder="Complete residential address..."
-                    className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-xs resize-none"
+                    className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs resize-none"
                   />
                 </div>
 
@@ -248,7 +248,7 @@ export default function AdmissionSection() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg text-xs transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer border-0"
+                    className="w-full sm:w-auto px-5 py-2 bg-[#FA6781] hover:bg-[#093C5D] text-white font-medium rounded-lg text-xs transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer border-0"
                   >
                     {isSubmitting ? (
                       <>

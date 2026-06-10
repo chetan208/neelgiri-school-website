@@ -62,10 +62,10 @@ export default function DesktopPanel({ level }: { level: LevelItem }) {
             </div>
           </div>
 
-          <h3 ref={descRef} className={`serif text-[1.4rem] font-black text-slate-800 leading-snug mb-1.5 ${descIn ? "in-view-reveal" : "opacity-0"}`} style={{ animationDelay: "0.22s" }}>
+          <h3 ref={descRef} className={`serif text-[1.4rem] font-black text-brand-primary leading-snug mb-1.5 ${descIn ? "in-view-reveal" : "opacity-0"}`} style={{ animationDelay: "0.22s" }}>
             {level.headline}
           </h3>
-          <p className={`text-slate-500 text-[13px] leading-relaxed mb-4 ${descIn ? "in-view-up" : "opacity-0"}`} style={{ animationDelay: "0.32s" }}>
+          <p className={`text-brand-text-dark/80 text-[13px] leading-relaxed mb-4 ${descIn ? "in-view-up" : "opacity-0"}`} style={{ animationDelay: "0.32s" }}>
             {level.desc}
           </p>
 
@@ -94,7 +94,7 @@ export default function DesktopPanel({ level }: { level: LevelItem }) {
               return (
                 <div key={i} className={`flex flex-col items-center py-2 bg-slate-50/50 ${i < 2 ? "border-r border-slate-100" : ""} ${statIn ? "in-view-stat" : "opacity-0"}`} style={{ animationDelay: `${0.18 + i * 0.1}s` }}>
                   <StatIcon size={12} className="text-slate-400 mb-0.5" strokeWidth={2} />
-                  <p className="text-sm font-black text-slate-800 leading-none">{st.value}</p>
+                  <p className="text-sm font-black text-brand-primary leading-none">{st.value}</p>
                   <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-wide mt-0.5">{st.label}</p>
                 </div>
               );

@@ -51,7 +51,7 @@ export default function GalleryCard({ item, onClick }: GalleryCardProps) {
   return (
     <div
       onClick={onClick}
-      className="group relative cursor-pointer rounded-xl overflow-hidden bg-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+      className="group relative cursor-pointer rounded-xl overflow-hidden bg-[#FFC94D]/20 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
       style={{ aspectRatio: "4/3" }}
     >
       <img
@@ -63,13 +63,13 @@ export default function GalleryCard({ item, onClick }: GalleryCardProps) {
       />
 
       {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%]" />
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-[#FFC94D]/20 via-[#F8FAFC] to-[#FFC94D]/20 bg-[length:200%_100%]" />
       )}
 
       {item.mediaType === "video" && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/10">
           <div className="w-11 h-11 rounded-full bg-white/95 shadow-md flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-600 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#FFC94D] ml-0.5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -83,7 +83,7 @@ export default function GalleryCard({ item, onClick }: GalleryCardProps) {
 
       <div className="absolute top-2 left-2">
         <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm text-white ${
-          item.mediaType === "video" ? "bg-violet-600" : "bg-teal-500"
+          item.mediaType === "video" ? "bg-[#FFC94D]" : "bg-[#093C5D]"
         }`}>
           {item.mediaType}
         </span>

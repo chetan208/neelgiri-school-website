@@ -38,7 +38,7 @@ export default function LearningSpaces() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-slate-50 overflow-hidden">
+    <section className="py-16 md:py-24 bg-[#F8FAFC] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         
         {/* Heading */}
@@ -49,13 +49,13 @@ export default function LearningSpaces() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <p className="uppercase tracking-[4px] text-teal-700 text-sm font-semibold">
+          <p className="uppercase tracking-[4px] text-[#093C5D] text-sm font-semibold">
             Primary Learning Journey
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mt-3 leading-tight">
-            Learning Designed <span className="block text-teal-700">For Every Stage</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#06283D] mt-3 leading-tight">
+            Learning Designed <span className="block text-[#093C5D]">For Every Stage</span>
           </h2>
-          <p className="max-w-2xl mx-auto mt-5 text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="max-w-2xl mx-auto mt-5 text-[#06283D]/70 text-sm sm:text-base leading-relaxed">
             A joyful and engaging curriculum that builds confidence, creativity, communication, foundational literacy, and problem-solving skills from Nursery to Grade 5.
           </p>
         </motion.div>
@@ -70,7 +70,7 @@ export default function LearningSpaces() {
               transition={{ duration: 0.7, delay: index * 0.15 }}
               viewport={{ once: true }}
               whileHover={{ y: -8 }}
-              className="group bg-white border border-slate-200 rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer"
+              className="group bg-white border border-[#093C5D]/20 rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer"
             >
               {/* Image Header */}
               <div className="relative h-56 overflow-hidden">
@@ -98,18 +98,18 @@ export default function LearningSpaces() {
 
               {/* Card Body */}
               <div className="p-6">
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">{item.description}</p>
+                <p className="text-[#06283D]/70 text-sm sm:text-base leading-relaxed">{item.description}</p>
 
                 {/* Skills Badges */}
                 <div className="flex flex-wrap gap-3 mt-6">
                   {item.skills.map((skill) => (
-                    <div key={skill} className="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium">
+                    <div key={skill} className="bg-[#F8FAFC] text-[#06283D] px-4 py-2 rounded-xl text-sm font-medium border border-[#093C5D]/10">
                       {skill}
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-7 flex items-center gap-2 text-teal-700 font-semibold text-sm">
+                <div className="mt-7 flex items-center gap-2 text-[#093C5D] font-semibold text-sm">
                   <Sparkles size={16} />
                   Interactive & Activity-Based Learning
                 </div>

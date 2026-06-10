@@ -3,7 +3,7 @@ import DocumentationSection from "@/components/sections/homeSections/documentati
 
 export default function CampusTourPage() {
   return (
-    <div className="pt-6 bg-slate-50 min-h-screen">
+    <div className="pt-6 bg-[#F8FAFC] min-h-screen">
       <DocumentationSection />
     </div>
   );

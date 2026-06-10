@@ -9,7 +9,7 @@ import PrimaryCTASection from "@/components/sections/academics/primary/CTASectio
 
 export default function PrimaryYearsPage() {
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-[#F8FAFC] min-h-screen">
       <main>
         <HeroSection />
         <CoreModules />

@@ -25,8 +25,8 @@ export default function DeleteConfirm({ count, onConfirm, onCancel, deleting }: 
         </div>
 
         <div>
-          <h3 className="text-lg font-bold text-gray-900">Delete {count} item{count > 1 ? "s" : ""}?</h3>
-          <p className="text-sm text-gray-500 mt-1">
+          <h3 className="text-lg font-bold text-[#06283D]">Delete {count} item{count > 1 ? "s" : ""}?</h3>
+          <p className="text-sm text-[#06283D]/70 mt-1">
             This will permanently remove {count > 1 ? "these items" : "this item"} from Cloudinary and the database. This action cannot be undone.
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function DeleteConfirm({ count, onConfirm, onCancel, deleting }: 
           <button
             onClick={onCancel}
             disabled={deleting}
-            className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-[#06283D] border border-[#093C5D]/20 hover:bg-[#F8FAFC] transition-colors disabled:opacity-50"
           >
             Cancel
           </button>

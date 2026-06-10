@@ -80,7 +80,7 @@ export default function HeroSection() {
   const slide = slides[current];
 
   return (
-    <section className="relative w-full h-[calc(100vh-90px)] overflow-hidden bg-black">
+    <section className="relative w-full h-[calc(100vh-90px)] overflow-hidden bg-brand-primary">
       {slides.map((sl, i) => {
         const isActive = i === current;
         const isPrev = i === prev;

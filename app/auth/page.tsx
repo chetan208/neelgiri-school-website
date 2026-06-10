@@ -14,23 +14,23 @@ export default function AuthPage() {
 
   return (
     <AuthProtected>
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-        <div className="w-full max-w-[850px] bg-white rounded-3xl shadow-sm border border-slate-100 flex overflow-hidden min-h-[550px]">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+        <div className="w-full max-w-[850px] bg-white rounded-3xl shadow-sm border border-[#F8FAFC] flex overflow-hidden min-h-[550px]">
           
           {/* Left Side - Light Academic Theme */}
-          <div className="hidden md:flex w-[45%] bg-slate-50 p-12 flex-col justify-between relative">
+          <div className="hidden md:flex w-[45%] bg-[#F8FAFC] p-12 flex-col justify-between relative">
             <div className="space-y-6">
-              <div className="w-12 h-12 rounded-2xl bg-teal-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFC94D] flex items-center justify-center">
                 <GraduationCap className="text-white" size={24} />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-slate-900 leading-tight">Excellence in <br/> Education.</h2>
-                <p className="text-slate-500 mt-4 text-xs leading-relaxed">
+                <h2 className="text-3xl font-bold text-[#093C5D] leading-tight">Excellence in <br/> Education.</h2>
+                <p className="text-[#06283D] mt-4 text-xs leading-relaxed">
                   Neelgiri Public School is committed to fostering a community of lifelong learners, critical thinkers, and responsible global citizens.
                 </p>
               </div>
             </div>
-            <div className="text-slate-400 text-[10px] font-medium uppercase tracking-wider">
+            <div className="text-[#06283D] text-[10px] font-medium uppercase tracking-wider opacity-70">
               © 2026 Neelgiri Public School.
             </div>
           </div>
@@ -45,19 +45,19 @@ export default function AuthPage() {
               {view === "register" && (
                 <div className="animate-in fade-in zoom-in duration-500">
                   <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-slate-900">Create Account</h2>
+                    <h2 className="text-2xl font-bold text-[#093C5D]">Create Account</h2>
                     
                     {/* Role Toggle Switch */}
-                    <div className="flex bg-slate-100 p-1 rounded-xl mt-4">
+                    <div className="flex bg-[#F8FAFC] p-1 rounded-xl mt-4">
                       <button 
                         onClick={() => setRole("student")} 
-                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "student" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 bg-transparent"}`}
+                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "student" ? "bg-white shadow-sm text-[#093C5D]" : "text-[#06283D] bg-transparent"}`}
                       >
                         Student
                       </button>
                       <button 
                         onClick={() => setRole("teacher")} 
-                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "teacher" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 bg-transparent"}`}
+                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "teacher" ? "bg-white shadow-sm text-[#093C5D]" : "text-[#06283D] bg-transparent"}`}
                       >
                         Teacher
                       </button>
@@ -71,9 +71,9 @@ export default function AuthPage() {
                   )}
 
                   <div className="mt-6 text-center">
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#06283D]">
                       Already have an account?{" "}
-                      <button onClick={() => setView("login")} className="text-teal-600 font-bold hover:underline bg-transparent border-0 cursor-pointer">
+                      <button onClick={() => setView("login")} className="text-[#FFC94D] font-bold hover:underline bg-transparent border-0 cursor-pointer">
                         Sign In here
                       </button>
                     </p>

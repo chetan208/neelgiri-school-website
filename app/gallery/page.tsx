@@ -195,7 +195,7 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB] font-sans text-gray-800">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#06283D]">
       {/* Header */}
       {/* <div className="bg-white border-b border-gray-100 sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
@@ -223,7 +223,7 @@ export default function GalleryPage() {
 
       {/* Main content area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 px-4 py-3.5 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-[#F8FAFC] px-4 py-3.5 mb-6">
           <FilterBar
             categories={categories}
             selectedCategory={selectedCategory}
@@ -234,15 +234,15 @@ export default function GalleryPage() {
         </div>
 
         {(selectedCategory !== "all" || selectedType !== "all") && (
-          <div className="flex items-center gap-2 mb-4 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 max-w-max">
-            <p className="text-xs text-gray-500">
-              Showing <span className="font-bold text-gray-800">{filteredItems.length}</span> of{" "}
-              <span className="font-bold text-gray-800">{allItems.length}</span> total items loaded
+          <div className="flex items-center gap-2 mb-4 bg-[#F8FAFC] border border-[#FFC94D]/30 rounded-xl px-4 py-2 max-w-max">
+            <p className="text-xs text-[#06283D]">
+              Showing <span className="font-bold text-[#093C5D]">{filteredItems.length}</span> of{" "}
+              <span className="font-bold text-[#093C5D]">{allItems.length}</span> total items loaded
             </p>
-            <span className="text-gray-300">|</span>
+            <span className="text-[#FFC94D]/50">|</span>
             <button
               onClick={() => { setSelectedCategory("all"); setSelectedType("all"); }}
-              className="text-xs font-bold text-teal-600 hover:text-teal-800 transition-colors"
+              className="text-xs font-bold text-[#FFC94D] hover:text-[#093C5D] transition-colors"
             >
               Reset Filters
             </button>
@@ -261,7 +261,7 @@ export default function GalleryPage() {
             </div>
             <button
               onClick={() => fetchPage(1)}
-              className="mt-4 block mx-auto text-sm text-teal-600 font-semibold underline hover:text-teal-800"
+              className="mt-4 block mx-auto text-sm text-[#FFC94D] font-semibold underline hover:text-[#093C5D]"
             >
               Try again
             </button>
@@ -273,7 +273,7 @@ export default function GalleryPage() {
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
-                className="rounded-xl bg-gray-200 animate-pulse"
+                className="rounded-xl bg-[#FFC94D]/20 animate-pulse"
                 style={{ aspectRatio: "4/3" }}
               />
             ))}
@@ -293,7 +293,7 @@ export default function GalleryPage() {
             {loading && Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={`skel-load-${i}`}
-                className="rounded-xl bg-gray-200 animate-pulse"
+                className="rounded-xl bg-[#FFC94D]/20 animate-pulse"
                 style={{ aspectRatio: "4/3" }}
               />
             ))}
@@ -301,12 +301,12 @@ export default function GalleryPage() {
         )}
 
         {!initialLoad && !loading && filteredItems.length === 0 && !error && (
-          <div className="text-center py-24 bg-white border border-gray-100 rounded-2xl shadow-sm">
+          <div className="text-center py-24 bg-white border border-[#F8FAFC] rounded-2xl shadow-sm">
             <div className="text-4xl mb-3">🖼️</div>
-            <p className="text-gray-500 font-medium">No media items found matching the selected filters.</p>
+            <p className="text-[#06283D] font-medium">No media items found matching the selected filters.</p>
             <button
               onClick={() => { setSelectedCategory("all"); setSelectedType("all"); }}
-              className="mt-3 text-sm font-semibold text-teal-600 underline hover:text-teal-800"
+              className="mt-3 text-sm font-semibold text-[#FFC94D] underline hover:text-[#093C5D]"
             >
               View All Content
             </button>
@@ -317,8 +317,8 @@ export default function GalleryPage() {
 
         {loading && !initialLoad && filteredItems.length > 0 && (
           <div className="flex justify-center py-6">
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-              <svg className="animate-spin w-4 h-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#06283D]/60 uppercase tracking-wider">
+              <svg className="animate-spin w-4 h-4 text-[#FFC94D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
               </svg>
@@ -329,8 +329,8 @@ export default function GalleryPage() {
 
         {!loading && !initialLoad && page >= totalPages && allItems.length > 0 && (
           <div className="text-center py-12">
-            <div className="inline-block w-12 h-px bg-gray-200" />
-            <p className="text-xs font-medium text-gray-400 mt-2">All {totalItems} dynamic items loaded</p>
+            <div className="inline-block w-12 h-px bg-[#F8FAFC]" />
+            <p className="text-xs font-medium text-[#06283D]/60 mt-2">All {totalItems} dynamic items loaded</p>
           </div>
         )}
       </div>

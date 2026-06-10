@@ -22,7 +22,7 @@ export default function FilterBar({ categories, selectedCategory, selectedType, 
       
       {/* ─── 1. Type Filter (All, Photos, Videos) ─── */}
       {/* max-w-full aur overflow-x-auto lagaya hai taaki agar bohot choti screen ho toh ye section bhi na tute */}
-      <div className="flex items-center gap-1 bg-gray-50 border border-gray-200/80 rounded-xl p-1.5 w-full sm:w-max overflow-x-auto no-scrollbar shadow-sm shrink-0">
+      <div className="flex items-center gap-1 bg-[#F8FAFC] border border-[#FFC94D]/30 rounded-xl p-1.5 w-full sm:w-max overflow-x-auto no-scrollbar shadow-sm shrink-0">
         {[
           { id: "all", label: "All Media", icon: LayoutGrid },
           { id: "image", label: "Photos", icon: Image },
@@ -36,11 +36,11 @@ export default function FilterBar({ categories, selectedCategory, selectedType, 
               onClick={() => onTypeChange(t.id)}
               className={`flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 whitespace-nowrap active:scale-95 flex-1 sm:flex-initial ${
                 isActive
-                  ? "bg-slate-900 text-white shadow-sm shadow-slate-900/10"
-                  : "text-gray-600 hover:text-slate-900 hover:bg-gray-100"
+                  ? "bg-[#093C5D] text-white shadow-sm shadow-[#093C5D]/10"
+                  : "text-[#06283D] hover:text-[#093C5D] hover:bg-[#F8FAFC]"
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-400"}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-[#FFC94D]"}`} />
               {t.label}
             </button>
           );
@@ -57,8 +57,8 @@ export default function FilterBar({ categories, selectedCategory, selectedType, 
             onClick={() => onCategoryChange("all")}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 whitespace-nowrap active:scale-95 ${
               selectedCategory === "all"
-                ? "border-slate-900 bg-slate-900 text-white shadow-sm shadow-slate-900/10"
-                : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:text-slate-900"
+                ? "border-[#093C5D] bg-[#093C5D] text-white shadow-sm shadow-[#093C5D]/10"
+                : "border-[#F8FAFC] bg-white text-[#06283D] hover:border-[#FFC94D] hover:text-[#093C5D]"
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -74,8 +74,8 @@ export default function FilterBar({ categories, selectedCategory, selectedType, 
                 onClick={() => onCategoryChange(cat.id)}
                 className={`px-4 py-2 rounded-xl text-xs font-semibold capitalize border transition-all duration-200 whitespace-nowrap active:scale-95 ${
                   isActive
-                    ? "border-slate-900 bg-slate-900 text-white shadow-sm shadow-slate-900/10"
-                    : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:text-slate-900"
+                    ? "border-[#093C5D] bg-[#093C5D] text-white shadow-sm shadow-[#093C5D]/10"
+                    : "border-[#F8FAFC] bg-white text-[#06283D] hover:border-[#FFC94D] hover:text-[#093C5D]"
                 }`}
               >
                 {cat.name}

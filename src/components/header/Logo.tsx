@@ -10,7 +10,7 @@ export default function Logo() {
         <div
           className="w-11 h-11 rounded-[13px] flex items-center justify-center shadow-lg"
           style={{
-            background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`,
+            background: ACCENT,
             boxShadow: `0 8px 20px ${ACCENT}30`,
           }}
         >
@@ -18,11 +18,11 @@ export default function Logo() {
         </div>
 
         <div>
-          <p className="hdr-serif text-[26px] font-bold text-gray-900 leading-none tracking-tight">
+          <p className="hdr-serif text-[26px] font-bold text-[#093C5D] leading-none tracking-tight">
             Neelgiri
             <span style={{ color: ACCENT }}>Public</span>
           </p>
-          <p className="text-[9px] uppercase tracking-[0.22em] text-gray-400 mt-1">
+          <p className="text-[9px] uppercase tracking-[0.22em] text-[#06283D] mt-1">
             School
           </p>
         </div>

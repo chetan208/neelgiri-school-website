@@ -62,14 +62,14 @@ export default function ProfileSettingsForm() {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] animate-fade-in max-w-md">
+    <div className="bg-white border border-[#093C5D]/10 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] animate-fade-in max-w-md">
       <div className="mb-6">
-        <h2 className="text-base font-bold text-slate-900">Security Credentials</h2>
-        <p className="text-xs text-slate-400 mt-0.5">Modify access parameters safely through explicit secure verification.</p>
+        <h2 className="text-base font-bold text-[#06283D]">Security Credentials</h2>
+        <p className="text-xs text-[#06283D]/60 mt-0.5">Modify access parameters safely through explicit secure verification.</p>
       </div>
 
       {success && (
-        <div className="mb-4 p-3 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-xl flex items-start gap-2 text-xs font-semibold">
+        <div className="mb-4 p-3 bg-[#59B292]/10 border border-[#59B292]/20 text-[#59B292] rounded-xl flex items-start gap-2 text-xs font-semibold">
           <CheckCircle size={16} className="shrink-0 mt-0.5"/> <span>{success}</span>
         </div>
       )}
@@ -81,14 +81,14 @@ export default function ProfileSettingsForm() {
 
       {subView === "init" ? (
         <div className="space-y-4">
-          <p className="text-xs font-medium text-slate-500 leading-relaxed">
+          <p className="text-xs font-medium text-[#06283D]/75 leading-relaxed">
             To change or update your profile password parameters, click below to trigger a 6-digit secure token validation link.
           </p>
           <button 
             type="button" 
             onClick={triggerForgotAPI} 
             disabled={loading}
-            className="w-full bg-slate-900 text-white font-bold text-xs py-3.5 rounded-xl hover:bg-slate-800 border-0 cursor-pointer transition-all flex items-center justify-center gap-2"
+            className="w-full bg-[#093C5D] hover:bg-[#FA6781] text-white font-bold text-xs py-3.5 rounded-xl border-0 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 size={14} className="animate-spin"/> : "Request Password Modification"}
           </button>
@@ -96,7 +96,7 @@ export default function ProfileSettingsForm() {
       ) : (
         <form onSubmit={handleResultPassword} className="space-y-4" Skinner-layout>
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5">Enter Token OTP</label>
+            <label className="block text-xs font-bold text-[#06283D] mb-1.5">Enter Token OTP</label>
             <input 
               type="text" 
               maxLength={6} 
@@ -104,28 +104,28 @@ export default function ProfileSettingsForm() {
               onChange={e=>setOtp(e.target.value)} 
               placeholder="000000" 
               required 
-              className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-center tracking-widest font-bold text-base outline-none focus:border-teal-500 transition-all" 
+              className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-center tracking-widest font-bold text-base outline-none focus:border-[#093C5D] transition-all" 
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1"><Lock size={13}/>New Password String</label>
+            <label className="block text-xs font-bold text-[#06283D] mb-1.5 flex items-center gap-1"><Lock size={13}/>New Password String</label>
             <input 
               type="password" 
               value={newPassword} 
               onChange={e=>setNewPassword(e.target.value)} 
               placeholder="••••••••" 
               required 
-              className="w-full bg-slate-50/50 border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/5 transition-all" 
+              className="w-full bg-[#F8FAFC]/50 border border-[#093C5D]/20 rounded-xl p-3 text-xs outline-none focus:border-[#FFC94D] focus:ring-2 focus:ring-[#FFC94D]/10 transition-all" 
             />
           </div>
 
           <div className="flex gap-2 pt-2">
-            <button type="submit" disabled={loading} className="flex-1 bg-teal-600 text-white font-bold text-xs py-3 rounded-xl hover:bg-teal-700 border-0 cursor-pointer shadow-md shadow-teal-600/10 flex items-center justify-center gap-1.5">
+            <button type="submit" disabled={loading} className="flex-1 bg-[#FA6781] hover:bg-[#093C5D] text-white font-bold text-xs py-3 rounded-xl border-0 cursor-pointer shadow-md shadow-[#FA6781]/10 flex items-center justify-center gap-1.5">
               {loading ? <Loader2 size={14} className="animate-spin"/> : <ShieldCheck size={14}/>}
               Verify &amp; Complete Reset
             </button>
-            <button type="button" onClick={() => { setSubView("init"); setError(""); setSuccess(""); }} className="px-4 py-3 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl text-xs font-bold border-0 cursor-pointer">
+            <button type="button" onClick={() => { setSubView("init"); setError(""); setSuccess(""); }} className="px-4 py-3 bg-[#F8FAFC] text-[#06283D] hover:bg-[#093C5D]/10 rounded-xl text-xs font-bold border-0 cursor-pointer">
               Cancel
             </button>
           </div>

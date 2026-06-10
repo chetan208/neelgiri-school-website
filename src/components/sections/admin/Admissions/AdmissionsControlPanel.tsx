@@ -65,7 +65,7 @@ export default function AdmissionsControlPanel() {
   }, [activeTab, page, search, searchType, activeYear]);
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F8FAFC] p-4 sm:p-6 lg:p-8">
       <ApplicationDetailsModal 
         isOpen={!!selectedApplication} 
         onClose={() => setSelectedApplication(null)} 
@@ -81,23 +81,23 @@ export default function AdmissionsControlPanel() {
         <SessionManager activeYear={activeYear} refreshSession={fetchSession} />
 
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
-          <div className="flex bg-slate-200/50 p-1.5 rounded-xl w-full sm:w-auto">
+          <div className="flex bg-slate-200/50 p-1.5 rounded-xl w-full sm:w-auto border border-[#093C5D]/10">
             <button 
               onClick={() => { setActiveTab('pending'); setPage(1); setSearch(''); }}
-              className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all border-0 cursor-pointer ${activeTab === 'pending' ? 'bg-white text-teal-700 shadow-sm' : 'text-slate-500 bg-transparent hover:text-slate-700'}`}
+              className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all border-0 cursor-pointer ${activeTab === 'pending' ? 'bg-white text-[#093C5D] shadow-sm' : 'text-slate-500 bg-transparent hover:text-slate-700'}`}
             >
               Pending Requests
             </button>
             <button 
               onClick={() => { setActiveTab('completed'); setPage(1); setSearch(''); }}
-              className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all border-0 cursor-pointer ${activeTab === 'completed' ? 'bg-white text-teal-700 shadow-sm' : 'text-slate-500 bg-transparent hover:text-slate-700'}`}
+              className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all border-0 cursor-pointer ${activeTab === 'completed' ? 'bg-white text-[#093C5D] shadow-sm' : 'text-slate-500 bg-transparent hover:text-slate-700'}`}
             >
               Approved List
             </button>
           </div>
 
           {activeTab === 'pending' && (
-            <div className="flex items-center bg-white border border-slate-200 rounded-xl shadow-sm w-full lg:w-96 overflow-hidden">
+            <div className="flex items-center bg-white border border-[#093C5D]/15 rounded-xl shadow-sm w-full lg:w-96 overflow-hidden">
               <select 
                 value={searchType} 
                 onChange={(e) => { setSearchType(e.target.value as 'name' | 'id'); setSearch(''); }}

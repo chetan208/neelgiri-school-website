@@ -11,8 +11,8 @@ import {
   Award,
 } from "lucide-react";
 
-export const ACCENT = "#0d9488";
-export const ACCENT2 = "#0891b2";
+export const ACCENT = "#093C5D";
+export const ACCENT2 = "#FFC94D";
 
 export interface DropdownItem {
   icon: React.ComponentType<any>;

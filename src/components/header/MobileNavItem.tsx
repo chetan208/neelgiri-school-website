@@ -11,10 +11,10 @@ interface MobileNavItemProps {
 export default function MobileNavItem({ item, onClose }: MobileNavItemProps) {
   const [open, setOpen] = useState(false);
   const hasDD = !!item.dropdown;
-  const itemClasses = "w-full flex items-center justify-between px-5 py-3.5 text-left focus:bg-slate-50/50 outline-none transition-colors";
+  const itemClasses = "w-full flex items-center justify-between px-5 py-3.5 text-left focus:bg-[#093C5D]/10 outline-none transition-colors";
 
   return (
-    <div className="border-b border-gray-50 last:border-0">
+    <div className="border-b border-[#093C5D]/10 last:border-0">
       {hasDD ? (
         <button className={itemClasses} onClick={() => setOpen(!open)}>
           <span className="text-[14px] font-semibold text-gray-700 tracking-wide">
@@ -22,7 +22,7 @@ export default function MobileNavItem({ item, onClose }: MobileNavItemProps) {
           </span>
           <ChevronDown
             size={16}
-            className={`text-gray-400 transition-transform duration-300 ${open ? "rotate-180 text-gray-700" : ""}`}
+            className={`text-[#06283D]/60 transition-transform duration-300 ${open ? "rotate-180 text-[#093C5D]" : ""}`}
           />
         </button>
       ) : (
@@ -60,11 +60,11 @@ export default function MobileNavItem({ item, onClose }: MobileNavItemProps) {
                     <Icon size={14} style={{ color: ACCENT }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-gray-800 truncate">
+                    <p className="text-[13px] font-semibold text-[#093C5D] truncate">
                       {d.label}
                     </p>
                     {d.sub && (
-                      <p className="text-[11px] text-gray-400 truncate mt-0.5">
+                      <p className="text-[11px] text-[#06283D]/60 truncate mt-0.5">
                         {d.sub}
                       </p>
                     )}

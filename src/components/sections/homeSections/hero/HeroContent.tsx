@@ -19,16 +19,14 @@ export default function HeroContent({ slide }: { slide: SlideType }) {
         <span
           className="inline-block mt-1"
           style={{
-            backgroundImage: `linear-gradient(120deg, ${slide.from}, ${slide.to})`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            color: slide.to,
           }}
         >
           {slide.titleAccent}
         </span>
       </h1>
 
-      <div className="w-12 sm:w-16 h-[3px] sm:h-[4px] rounded-full mb-5 sm:mb-7" style={{ background: `linear-gradient(to right, ${slide.from}, ${slide.to})` }} />
+      <div className="w-12 sm:w-16 h-[3px] sm:h-[4px] rounded-full mb-5 sm:mb-7" style={{ background: slide.to }} />
 
       <p className="text-white/80 leading-[1.6] max-w-[500px] mb-7 sm:mb-8 text-[13px] sm:text-[14px] md:text-[15px]">
         {slide.subtitle}
@@ -36,10 +34,10 @@ export default function HeroContent({ slide }: { slide: SlideType }) {
 
       <div className="flex flex-wrap gap-3 sm:gap-4">
         <button
-          className="px-5 py-2.5 sm:px-7 sm:py-3 rounded-full text-white font-bold text-[13px] sm:text-[14px] transition-all duration-300 hover:scale-[1.03]"
+          className="px-5 py-2.5 sm:px-7 sm:py-3 rounded-full text-[#06283D] font-bold text-[13px] sm:text-[14px] transition-all duration-300 hover:scale-[1.03]"
           style={{
-            background: `linear-gradient(135deg, ${slide.from}, ${slide.to})`,
-            boxShadow: `0 8px 24px ${slide.from}55`,
+            background: slide.to,
+            boxShadow: `2px 2px 0px #000`,
           }}
           onClick={() => router.push(slide.ctaTo)}
         >

@@ -20,7 +20,7 @@ export default function OurCourses() {
   const level = levels.find((l) => l.id === active)!;
 
   return (
-    <section className="cr relative w-full bg-slate-50 overflow-hidden border-t border-slate-200/60" style={{ minHeight: "100svh", padding: "clamp(48px,8vh,80px) 16px" }}>
+    <section className="cr relative w-full bg-white overflow-hidden border-t border-slate-200/60" style={{ minHeight: "100svh", padding: "clamp(48px,8vh,80px) 16px" }}>
       <div className="dot-grid absolute inset-0 opacity-40 pointer-events-none" />
 
       <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none blur-[100px]" style={{ background: level.color, opacity: 0.08, transition: "background 0.5s" }} />
@@ -33,7 +33,7 @@ export default function OurCourses() {
             <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mb-2 ${badgeIn ? "in-view-slide" : "opacity-0"}`} style={{ animationDelay: "0s" }}>
               <GraduationCap size={11} className="text-slate-400" /> Academic Programmes
             </div>
-            <h2 className={`serif text-[clamp(1.8rem,4vw,2.6rem)] font-black text-slate-900 leading-tight ${badgeIn ? "in-view-up" : "opacity-0"}`} style={{ animationDelay: "0.12s" }}>
+            <h2 className={`serif text-[clamp(1.8rem,4vw,2.6rem)] font-black text-brand-primary leading-tight ${badgeIn ? "in-view-up" : "opacity-0"}`} style={{ animationDelay: "0.12s" }}>
               Our <span className="shimmer-text">Courses</span>
             </h2>
           </div>
@@ -49,7 +49,7 @@ export default function OurCourses() {
             return (
               <button
                 key={l.id}
-                className={`level-tab flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold cursor-pointer border-0 transition-all ${isA ? "text-white shadow-sm" : "text-slate-600 bg-white border border-slate-200/80 hover:border-slate-300 shadow-xs"} ${tabsIn ? "in-view-tab" : "opacity-0"}`}
+                className={`level-tab flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold cursor-pointer border-0 transition-all ${isA ? "text-white shadow-sm" : "text-brand-text-dark bg-white border border-slate-200/80 hover:border-slate-300 shadow-xs"} ${tabsIn ? "in-view-tab" : "opacity-0"}`}
                 style={{ ...(isA ? { background: l.color, boxShadow: `0 4px 12px -2px ${l.color}35` } : {}), animationDelay: `${i * 0.1}s` }}
                 onClick={() => setActive(l.id)}
               >
@@ -78,7 +78,7 @@ export default function OurCourses() {
                     <MiniIcon size={15} style={{ color: l.color }} strokeWidth={2.5} />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-bold text-slate-800 text-[13px] leading-tight truncate">{l.label}</p>
+                    <p className="font-bold text-brand-primary text-[13px] leading-tight truncate">{l.label}</p>
                     <p className="text-[11px] text-slate-400 font-medium mt-0.5">{l.range}</p>
                   </div>
                   {isA && (

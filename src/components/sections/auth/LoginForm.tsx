@@ -92,7 +92,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
             {role === "student" ? "Student Email / Phone" : "Teacher Employee ID / Email"}
           </label>
           <div className="relative group">
-            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
             <input 
               type="text" 
               disabled={loading}
@@ -100,7 +100,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
               onChange={(e) => role === "student" ? setStudentIdentifier(e.target.value) : setTeacherIdentifier(e.target.value)}
               placeholder={role === "student" ? "Enter student email or phone" : "Enter employee ID or email"}
               required
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none text-xs transition-all bg-slate-50/50 disabled:opacity-60"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#59B292] focus:ring-4 focus:ring-[#59B292]/10 outline-none text-xs transition-all bg-slate-50/50 disabled:opacity-60"
             />
           </div>
         </div>
@@ -108,10 +108,10 @@ export default function LoginForm({ setView }: LoginFormProps) {
         <div>
           <div className="flex justify-between items-center mb-1.5">
             <label className="block text-xs font-bold text-slate-700">Password</label>
-            <button type="button" disabled={loading} onClick={() => setView("forgot")} className="text-xs font-bold text-teal-600 hover:text-teal-700 bg-transparent border-0 cursor-pointer disabled:opacity-50">Forgot?</button>
+            <button type="button" disabled={loading} onClick={() => setView("forgot")} className="text-xs font-bold text-[#FA6781] hover:text-[#093C5D] bg-transparent border-0 cursor-pointer disabled:opacity-50">Forgot?</button>
           </div>
           <div className="relative group">
-            <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+            <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
             <input 
               type={showPassword ? "text" : "password"} 
               disabled={loading}
@@ -119,7 +119,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none text-xs transition-all bg-slate-50/50 disabled:opacity-60"
+              className="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 focus:border-[#59B292] focus:ring-4 focus:ring-[#59B292]/10 outline-none text-xs transition-all bg-slate-50/50 disabled:opacity-60"
             />
             <button 
               type="button" 
@@ -135,7 +135,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
         <button 
           type="submit" 
           disabled={loading}
-          className="w-full h-11 rounded-xl font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md transition-all mt-6 flex items-center justify-center gap-2 disabled:bg-teal-600/70 disabled:cursor-not-allowed border-0 cursor-pointer text-xs"
+          className="w-full h-11 rounded-xl font-bold text-white bg-[#FA6781] hover:bg-[#093C5D] shadow-md transition-all mt-6 flex items-center justify-center gap-2 disabled:bg-[#FA6781]/70 disabled:cursor-not-allowed border-0 cursor-pointer text-xs"
         >
           {loading ? (
             <>
@@ -151,7 +151,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
       <div className="mt-6 text-center">
         <p className="text-xs text-slate-500">
           Don't have an account?{" "}
-          <button type="button" disabled={loading} onClick={() => setView("register")} className="text-teal-600 font-bold hover:underline bg-transparent border-0 cursor-pointer disabled:opacity-50">Sign up</button>
+          <button type="button" disabled={loading} onClick={() => setView("register")} className="text-[#FA6781] font-bold hover:underline bg-transparent border-0 cursor-pointer disabled:opacity-50">Sign up</button>
         </p>
       </div>
     </div>

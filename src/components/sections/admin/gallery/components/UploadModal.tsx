@@ -189,14 +189,14 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#093C5D]/10 shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Upload Media</h2>
-            <p className="text-xs text-gray-400 mt-0.5">Add photos or a YouTube video to the gallery</p>
+            <h2 className="text-lg font-bold text-[#06283D]">Upload Media</h2>
+            <p className="text-xs text-[#06283D]/60 mt-0.5">Add photos or a YouTube video to the gallery</p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#06283D]/60 hover:bg-[#F8FAFC] hover:text-[#06283D] transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -220,9 +220,9 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
                   className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all border ${
                     mediaType === t
                       ? t === "image"
-                        ? "bg-teal-50 border-teal-400 text-teal-700"
-                        : "bg-violet-50 border-violet-400 text-violet-700"
-                      : "bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300"
+                        ? "bg-[#FFC94D]/10 border-[#FFC94D] text-[#093C5D]"
+                        : "bg-[#FA6781]/10 border-[#FA6781] text-[#FA6781]"
+                      : "bg-[#F8FAFC] border-[#093C5D]/20 text-[#06283D]/60 hover:border-[#093C5D]/40"
                   }`}
                 >
                   {t === "image" ? "📷 Images" : "🎬 YouTube Video"}
@@ -241,7 +241,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Annual Sports Day 2025"
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#093C5D]/20 text-sm text-[#093C5D] placeholder-[#06283D]/40 focus:outline-none focus:ring-2 focus:ring-[#FFC94D] focus:border-transparent"
             />
           </div>
 
@@ -259,7 +259,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
                     setCategoryMode((m) => (m === "existing" ? "new" : "existing"));
                     setNewCategoryName("");
                   }}
-                  className="text-xs font-semibold text-teal-600 hover:text-teal-800 transition-colors flex items-center gap-1"
+                  className="text-xs font-semibold text-[#FA6781] hover:text-[#093C5D] transition-colors flex items-center gap-1"
                 >
                   {categoryMode === "existing" ? (
                     <>
@@ -283,7 +283,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
             {/* Loading state */}
             {categoriesLoading && (
               <div className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-400 flex items-center gap-2">
-                <svg className="animate-spin w-4 h-4 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin w-4 h-4 text-[#FFC94D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
@@ -306,7 +306,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
               <select
                 value={selectedCategoryId}
                 onChange={(e) => setSelectedCategoryId(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent bg-white capitalize"
+                className="w-full px-4 py-2.5 rounded-xl border border-[#093C5D]/20 text-sm text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#FFC94D] focus:border-transparent bg-white capitalize"
               >
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id} className="capitalize">
@@ -324,10 +324,10 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                   placeholder="e.g. Sports Day, Cultural Fest…"
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-teal-300 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-[#FFC94D] text-sm text-[#093C5D] placeholder-[#06283D]/40 focus:outline-none focus:ring-2 focus:ring-[#FFC94D] focus:border-transparent"
                   autoFocus
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-teal-500">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#093C5D]">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                   </svg>
@@ -357,10 +357,10 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={onDrop}
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-teal-200 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-teal-400 hover:bg-teal-50/30 transition-all"
+                  className="border-2 border-dashed border-[#093C5D]/20 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#093C5D]/60 hover:bg-[#F8FAFC] transition-all"
                 >
-                  <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-10 h-10 rounded-full bg-[#093C5D]/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#093C5D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -408,7 +408,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
 
               {images.length > 0 && (
                 <div className="flex gap-3 mt-2">
-                  {validImageCount > 0 && <span className="text-xs text-teal-600 font-medium">✓ {validImageCount} valid</span>}
+                  {validImageCount > 0 && <span className="text-xs text-[#59B292] font-medium">✓ {validImageCount} valid</span>}
                   {invalidImageCount > 0 && <span className="text-xs text-red-500 font-medium">✗ {invalidImageCount} invalid (will be skipped)</span>}
                 </div>
               )}
@@ -470,7 +470,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
               </div>
               <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-linear-to-r from-teal-400 to-teal-600 rounded-full transition-all duration-300"
+                  className="h-full bg-[#FA6781] rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -483,14 +483,14 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
           <button
             onClick={onClose}
             disabled={uploading}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-[#06283D] hover:bg-[#F8FAFC] transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={!canSubmit() || uploading}
-            className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#FA6781] hover:bg-[#093C5D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {uploading ? (
               <>

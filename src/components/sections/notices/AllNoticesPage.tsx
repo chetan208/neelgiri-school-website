@@ -17,9 +17,9 @@ export interface NoticeType {
 }
 
 const typeIcons: Record<string, React.ReactNode> = {
-  Urgent: <AlertTriangle size={14} className="text-rose-600 shrink-0" />,
-  Academic: <ShieldCheck size={14} className="text-blue-600 shrink-0" />,
-  Careers: <Briefcase size={14} className="text-amber-600 shrink-0" />,
+  Urgent: <AlertTriangle size={14} className="text-[#FA6781] shrink-0" />,
+  Academic: <ShieldCheck size={14} className="text-[#093C5D] shrink-0" />,
+  Careers: <Briefcase size={14} className="text-[#FFC94D] shrink-0" />,
 };
 
 export default function AllNoticesPage() {
@@ -37,13 +37,13 @@ export default function AllNoticesPage() {
   const getBadgeColor = (type: string) => {
     switch (type.toLowerCase()) {
       case "urgent":
-        return "bg-rose-50 text-rose-700 ring-rose-200 border-rose-200";
+        return "bg-[#FA6781]/10 text-[#FA6781] border-[#FA6781]/20";
       case "academic":
-        return "bg-blue-50 text-blue-700 ring-blue-200 border-blue-200";
+        return "bg-[#093C5D]/10 text-[#093C5D] border-[#093C5D]/20";
       case "careers":
-        return "bg-emerald-50 text-emerald-700 ring-emerald-200 border-emerald-200";
+        return "bg-[#FFC94D]/15 text-[#093C5D] border-[#FFC94D]/25";
       default:
-        return "bg-slate-50 text-slate-700 ring-slate-200 border-slate-200";
+        return "bg-[#FFC94D] text-[#093C5D] border-[#FFC94D]";
     }
   };
 
@@ -101,16 +101,16 @@ export default function AllNoticesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased relative">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#093C5D] font-sans antialiased relative">
       <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6">
         <div className="mb-6">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 font-serif">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#06283D] font-serif">
             Official Notices Archive
           </h1>
         </div>
 
         {/* Filter Controls Bar */}
-        <div className="bg-white border border-slate-200 rounded-xl p-2.5 mb-4 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-white border border-[#093C5D]/10 rounded-xl p-2.5 mb-4 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
             {["All", "Urgent", "Academic", "Careers"].map((tab) => (
               <button
@@ -118,8 +118,8 @@ export default function AllNoticesPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap border cursor-pointer ${
                   activeTab === tab
-                    ? "bg-slate-900 border-slate-900 text-white"
-                    : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+                    ? "bg-[#093C5D] border-[#093C5D] text-white"
+                    : "bg-white text-[#06283D] border-[#093C5D]/20 hover:bg-[#F8FAFC]"
                 }`}
               >
                 {tab}
@@ -128,7 +128,7 @@ export default function AllNoticesPage() {
           </div>
 
           <div className="relative w-full sm:w-64">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#06283D]/60">
               <Search size={14} />
             </span>
             <input
@@ -136,7 +136,7 @@ export default function AllNoticesPage() {
               placeholder="Search notices..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+              className="w-full pl-8 pr-3 py-1.5 bg-white border border-[#093C5D]/20 text-[#093C5D] text-xs rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/20 focus:border-[#FFC94D] transition-all"
             />
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function AllNoticesPage() {
               const item = (
                 <button
                   onClick={() => setSelectedNotice(notice)}
-                  className="w-full text-left block bg-white border border-slate-200 rounded-xl p-3 shadow-2xs hover:border-emerald-500/40 transition-all group cursor-pointer"
+                  className="w-full text-left block bg-white border border-[#093C5D]/10 rounded-xl p-3 shadow-2xs hover:border-[#FFC94D]/40 transition-all group cursor-pointer"
                 >
                   <div className="flex items-center justify-between gap-3 min-w-0">
                     <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
@@ -159,23 +159,23 @@ export default function AllNoticesPage() {
                       </span>
 
                       <div className="min-w-0 flex-1 lg:flex lg:items-center lg:gap-3">
-                        <h2 className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-emerald-700 transition-colors duration-150 truncate">
+                        <h2 className="text-xs sm:text-sm font-bold text-[#06283D] group-hover:text-[#FA6781] transition-colors duration-150 truncate">
                           {notice.title}
                         </h2>
                         {index < 5 && (
-                          <span className="animate-pulse text-[8px] font-black text-rose-600 uppercase tracking-widest">
+                          <span className="animate-pulse text-[8px] font-black text-[#FA6781] uppercase tracking-widest">
                             ● New
                           </span>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 shrink-0 text-[10px] sm:text-xs text-slate-400 font-medium">
+                    <div className="flex items-center gap-3 shrink-0 text-[10px] sm:text-xs text-[#06283D]/60 font-medium">
                       <span className="flex items-center gap-1 whitespace-nowrap">
                         <Clock3 size={11} className="text-slate-300" />
                         {notice.date}
                       </span>
-                      <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600 group-hover:translate-x-0.5 transition-transform">
+                      <span className="hidden sm:inline-flex items-center gap-0.5 text-xs font-bold text-[#FA6781] group-hover:translate-x-0.5 transition-transform">
                         View <ArrowUpRight size={13} strokeWidth={2.5} />
                       </span>
                     </div>
@@ -190,7 +190,7 @@ export default function AllNoticesPage() {
               );
             })
           ) : !loading ? (
-            <div className="bg-white border border-slate-200 rounded-xl p-8 text-center shadow-2xs max-w-xs mx-auto mt-8">
+            <div className="bg-white border border-[#093C5D]/10 rounded-xl p-8 text-center shadow-2xs max-w-xs mx-auto mt-8">
               <h3 className="text-xs font-bold text-slate-800">No Notice found</h3>
             </div>
           ) : null}

@@ -21,14 +21,14 @@ export default function HighSchoolHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40"></div>
 
       {/* Glow Effects */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFC94D]/20 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
 
       {/* Floating Blur Orb */}
       <motion.div
         animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        className="absolute top-20 right-20 w-32 h-32 bg-teal-400/20 rounded-full blur-3xl"
+        className="absolute top-20 right-20 w-32 h-32 bg-[#FFC94D]/20 rounded-full blur-3xl"
       />
 
       {/* Content */}
@@ -43,9 +43,9 @@ export default function HighSchoolHero() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 mb-5 shadow-2xl"
             >
-              <Award size={16} className="text-teal-300" />
+              <Award size={16} className="text-[#FFC94D]" />
               <span className="text-xs sm:text-sm text-slate-100 font-medium">
-                Affiliated to <span className="text-teal-300 font-bold">HPBOSE</span>
+                Affiliated to <span className="text-[#FFC94D] font-bold">HPBOSE</span>
               </span>
             </motion.div>
 
@@ -61,12 +61,12 @@ export default function HighSchoolHero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="block text-teal-300"
+                className="block text-[#FFC94D]"
               >
                 For Future Success
               </motion.span>
               <span className="block mt-2 text-white">
-                at <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-300 to-white">Neelgiri Public School</span>
+                at <span className="text-[#FFC94D]">Neelgiri Public School</span>
               </span>
             </motion.h1>
 
@@ -98,7 +98,7 @@ export default function HighSchoolHero() {
                   transition={{ type: "spring", stiffness: 250 }}
                   className="flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-xl shadow-xl"
                 >
-                  <div className="text-teal-300">{item.icon}</div>
+                  <div className="text-[#FFC94D]">{item.icon}</div>
                   <span className="text-white text-xs sm:text-sm">{item.title}</span>
                 </motion.div>
               ))}
@@ -111,7 +111,7 @@ export default function HighSchoolHero() {
               transition={{ duration: 0.8, delay: 0.7 }}
               className="flex flex-wrap gap-4 mt-7"
             >
-              <button className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-[0_0_30px_rgba(20,184,166,0.35)] cursor-pointer">
+              <button className="bg-[#FFC94D] hover:bg-[#093C5D] text-[#093C5D] hover:text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-[0_0_30px_rgba(213,176,108,0.35)] cursor-pointer">
                 Admission Open
               </button>
               <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 cursor-pointer">
@@ -124,7 +124,7 @@ export default function HighSchoolHero() {
       </div>
 
       {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-transparent"></div>
     </section>
   );
 }

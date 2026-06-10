@@ -56,8 +56,8 @@ function useInView(ref: React.RefObject<HTMLElement | null>, threshold = 0.15) {
 // ── 1. Dynamic Live Marquee Ticker Component ──
 function Ticker({ notices, visible, loading }: TickerProps) {
   return (
-    <div className={`bg-white border border-slate-200/80 rounded-2xl p-2.5 mb-6 flex items-center gap-3 shadow-sm overflow-hidden transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"}`}>
-      <span className="shrink-0 flex items-center gap-1.5 bg-rose-600 text-white text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-xl shadow-xs">
+    <div className={`bg-white border border-[#093C5D]/10 rounded-2xl p-2.5 mb-6 flex items-center gap-3 shadow-sm overflow-hidden transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"}`}>
+      <span className="shrink-0 flex items-center gap-1.5 bg-[#FA6781] text-white text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-xl shadow-xs">
         <Radio size={11} className="animate-pulse" /> Live
       </span>
       <div className="flex-1 overflow-hidden relative mask-gradient">
@@ -66,8 +66,8 @@ function Ticker({ notices, visible, loading }: TickerProps) {
         ) : notices.length > 0 ? (
           <div className="inline-block whitespace-nowrap animate-[marquee_35s_linear_infinite] hover:[animation-play-state:paused] cursor-pointer">
             {[...notices, ...notices].map((n, i) => (
-              <span key={i} className="inline-flex items-center gap-2 mx-8 text-xs font-bold text-slate-500 hover:text-emerald-700 transition-colors">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0 animate-ping" />
+              <span key={i} className="inline-flex items-center gap-2 mx-8 text-xs font-bold text-[#06283D]/70 hover:text-[#093C5D] transition-colors">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FA6781] shrink-0 animate-ping" />
                 {n.title}
               </span>
             ))}
@@ -83,13 +83,13 @@ function Ticker({ notices, visible, loading }: TickerProps) {
 const getBadgeColor = (type: string) => {
   switch (type.toLowerCase()) {
     case "urgent":
-      return "bg-rose-50 text-rose-700 ring-rose-200 border-rose-200";
+      return "bg-[#FA6781]/10 text-[#FA6781] ring-[#FA6781]/20 border-[#FA6781]/20";
     case "academic":
-      return "bg-blue-50 text-blue-700 ring-blue-200 border-blue-200";
+      return "bg-[#093C5D]/10 text-[#093C5D] ring-[#093C5D]/20 border-[#093C5D]/20";
     case "careers":
-      return "bg-emerald-50 text-emerald-700 ring-emerald-200 border-emerald-200";
+      return "bg-[#FFC94D]/15 text-[#093C5D] ring-[#FFC94D]/25 border-[#FFC94D]/25";
     default:
-      return "bg-slate-50 text-slate-700 ring-slate-200 border-slate-200";
+      return "bg-slate-50 text-[#06283D]/70 ring-[#093C5D]/10 border-[#093C5D]/10";
   }
 };
 
@@ -147,15 +147,15 @@ export default function NoticeSection() {
   const criticalFeeds = tickerNotices.length > 0 ? tickerNotices : allNotices;
 
   const PulseCardSkeleton = () => (
-    <div className="w-full bg-white border border-slate-200/60 rounded-xl p-4 flex items-center gap-4 animate-pulse">
-      <div className="w-10 h-5 bg-slate-200 rounded shrink-0"></div>
-      <div className="h-4 bg-slate-200 rounded w-4/5 flex-1"></div>
-      <div className="w-4 h-4 bg-slate-100 rounded-full shrink-0"></div>
+    <div className="w-full bg-white border border-[#093C5D]/10 rounded-xl p-4 flex items-center gap-4 animate-pulse">
+      <div className="w-10 h-5 bg-[#F8FAFC] rounded shrink-0"></div>
+      <div className="h-4 bg-[#F8FAFC] rounded w-4/5 flex-1"></div>
+      <div className="w-4 h-4 bg-[#F8FAFC] rounded-full shrink-0"></div>
     </div>
   );
 
   return (
-    <section ref={sectionRef} className="bg-slate-50 text-slate-800 font-sans antialiased py-8 sm:py-10 px-4 sm:px-6 lg:px-8 flex flex-col justify-center overflow-hidden">
+    <section ref={sectionRef} className="bg-[#F8FAFC] text-[#06283D] font-sans antialiased py-8 sm:py-10 px-4 sm:px-6 lg:px-8 flex flex-col justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto w-full">
         
         <Ticker notices={criticalFeeds} visible={sectionVisible} loading={loading} />
@@ -164,29 +164,29 @@ export default function NoticeSection() {
           
           <div className={`flex flex-col gap-6 transition-all duration-700 ease-out delay-150 ${sectionVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}>
             <div className="space-y-3">
-              <p className="inline-flex items-center gap-1.5 text-[10px] font-black tracking-[0.18em] text-emerald-600 uppercase">
+              <p className="inline-flex items-center gap-1.5 text-[10px] font-black tracking-[0.18em] text-[#FA6781] uppercase">
                 <Bell size={12} /> Desk Updates
               </p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-[1.1] tracking-tight font-serif">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#093C5D] leading-[1.1] tracking-tight font-serif">
                 Official<br />
-                <span className="text-slate-400 font-light italic">Board</span><br />
+                <span className="text-[#FA6781] font-light italic">Board</span><br />
                 Notices
               </h2>
             </div>
 
             <div className={`hidden sm:grid grid-cols-3 gap-2 transition-all duration-700 ease-out delay-300 ${sectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               {[
-                { label: "Urgent", count: stats.urgent, color: "text-rose-600" },
-                { label: "Academic", count: stats.academic, color: "text-sky-600" },
-                { label: "Careers", count: stats.careers, color: "text-amber-600" },
+                { label: "Urgent", count: stats.urgent, color: "text-[#FA6781]" },
+                { label: "Academic", count: stats.academic, color: "text-[#093C5D]" },
+                { label: "Careers", count: stats.careers, color: "text-[#FFC94D]" },
               ].map(({ label, count, color }) => (
-                <div key={label} className="bg-white border border-slate-200/80 rounded-xl px-3 py-2.5 text-center shadow-sm">
+                <div key={label} className="bg-white border border-[#093C5D]/10 rounded-xl px-3 py-2.5 text-center shadow-sm">
                   {loading ? (
-                    <div className="h-6 w-6 bg-slate-200 animate-pulse rounded mx-auto"></div>
+                    <div className="h-6 w-6 bg-[#F8FAFC] animate-pulse rounded mx-auto"></div>
                   ) : (
                     <p className={`text-xl font-black ${color}`}>{count}</p>
                   )}
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">{label}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-[#06283D]/60 mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
@@ -202,24 +202,24 @@ export default function NoticeSection() {
                     key={item.id}
                     onClick={() => setSelectedNotice(item)} 
                     style={{ transitionDelay: sectionVisible ? `${idx * 60}ms` : "0ms" }}
-                    className={`w-full group flex items-center gap-3 bg-white border border-slate-200/70 rounded-xl px-4 py-3.5 shadow-sm hover:border-emerald-400/50 hover:shadow-md hover:shadow-emerald-50/60 transition-all duration-300 ease-out ${sectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                    className={`w-full group flex items-center gap-3 bg-white border border-[#093C5D]/10 rounded-xl px-4 py-3.5 shadow-sm hover:border-[#FFC94D]/50 hover:shadow-md hover:shadow-[#093C5D]/5 transition-all duration-300 ease-out ${sectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                   >
-                    <span className="shrink-0 inline-flex items-center bg-rose-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded animate-pulse">
+                    <span className="shrink-0 inline-flex items-center bg-red-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded animate-pulse">
                       NEW
                     </span>
-                    <p className="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-emerald-700 text-left truncate flex-1">
+                    <p className="text-xs sm:text-sm font-semibold text-[#06283D] group-hover:text-[#093C5D] text-left truncate flex-1">
                       {item.title}
                     </p>
-                    <ArrowUpRight size={14} className="text-emerald-600 shrink-0 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    <ArrowUpRight size={14} className="text-[#FA6781] shrink-0 opacity-90 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </button>
                 ))
               ) : (
-                <div className="text-center p-8 bg-white border rounded-xl text-slate-400 text-xs">No active board notices published.</div>
+                <div className="text-center p-8 bg-white border border-[#093C5D]/10 rounded-xl text-[#06283D]/50 text-xs">No active board notices published.</div>
               )}
             </div>
 
             <div className={`mt-6 flex justify-center lg:justify-start transition-all duration-700 ease-out delay-500 ${sectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <Link href="/all-notices" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-slate-900 text-white text-xs font-bold tracking-wide hover:bg-emerald-700 shadow-md transition-all duration-200 group">
+              <Link href="/all-notices" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-[#093C5D] text-white text-xs font-bold tracking-wide hover:bg-[#FA6781] shadow-md transition-all duration-200 group">
                 View All Board Notices
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-200" />
               </Link>

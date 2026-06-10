@@ -64,8 +64,8 @@ export default function SchoolHeader() {
     <>
       <style>{CSS}</style>
       <TopBar />
-      <header className={`hdr hdr-nav sticky top-0 z-50 transition-all duration-500 ease-in-out ${scrolled ? "bg-white/80 backdrop-blur-md border-b border-gray-100/80 shadow-sm" : "bg-transparent"}`}>
-        <div className="absolute top-0 left-0 right-0 h-[3px] opacity-90" style={{ background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT2}, ${ACCENT})` }} />
+      <header className={`hdr hdr-nav sticky top-0 z-50 transition-all duration-500 ease-in-out ${scrolled ? "bg-white/80 backdrop-blur-md border-b border-[#093C5D]/15 shadow-sm" : "bg-transparent"}`}>
+        <div className="absolute top-0 left-0 right-0 h-[3px] opacity-90" style={{ backgroundColor: ACCENT }} />
         <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-5 lg:px-7 xl:px-8">
           <div className="flex items-center justify-between h-[76px]">
             <div className="flex items-center shrink-0 transform hover:scale-[1.01] transition-transform duration-200">

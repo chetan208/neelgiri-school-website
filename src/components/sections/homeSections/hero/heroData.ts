@@ -26,8 +26,8 @@ export const slides: SlideType[] = [
     cta: "Explore Programs",
     ctaTo: "/academics",
     ctaSecondary: "Take a Tour",
-    from: "#0d9488",
-    to: "#06b6d4",
+    from: "#FFC94D",
+    to: "#FA6781",
   },
   {
     id: 2,
@@ -40,8 +40,8 @@ export const slides: SlideType[] = [
     ctaTo: "/admissions",
     ctaSecondary: "Admissions Info",
     ctaSecondaryTo: "/admissions",
-    from: "#7c3aed",
-    to: "#a855f7",
+    from: "#FFC94D",
+    to: "#59B292",
   },
   {
     id: 3,
@@ -54,7 +54,7 @@ export const slides: SlideType[] = [
     ctaTo: "/about/leadership",
     ctaSecondary: "View Gallery",
     ctaSecondaryTo: "/gallery",
-    from: "#d97706",
-    to: "#f59e0b",
+    from: "#59B292",
+    to: "#FA6781",
   },
 ];
