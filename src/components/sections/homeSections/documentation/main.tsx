@@ -1,36 +1,71 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
-  Play, ArrowRight, Calendar, Eye,
+  Play, ArrowRight, Calendar,
   Film, Camera, Maximize2, Image as ImageIcon,
 } from "lucide-react";
+import Link from "next/link";
+import axios from "axios";
 
 /* ─────────────────────────────────────────────
    TypeScript Interfaces Configuration Mappings
 ───────────────────────────────────────────── */
+interface Category {
+  id: string;
+  name: string;
+}
+
 interface MediaItemType {
-  id: number;
-  type: "photo" | "video";
-  category: string;
+  id: string;
   title: string;
-  date: string;
-  src: string;
-  albumCount?: number;
-  duration?: string;
-  big: boolean;
+  mediaType: "image" | "video";
+  url: string;
+  publicId: string;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  category: Category;
+}
+
+interface ApiResponse {
+  mediaItems: MediaItemType[];
+  totalItems: number;
+  totalPages: number;
 }
 
 interface CardProps {
   item: MediaItemType;
   style: React.CSSProperties;
   animDelay: number;
+  isBig: boolean;
 }
 
 interface CTAButtonProps {
   isMobile: boolean;
   inView: boolean;
   animDelay: number;
+}
+
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:8000";
+
+/** YouTube URL se thumbnail extract karne ka absolute optimized helper */
+function getYoutubeThumb(url: string): string {
+  const patterns = [
+    /youtu\.be\/([^?&]+)/,
+    /youtube\.com\/watch\?v=([^&]+)/,
+    /youtube\.com\/embed\/([^?&]+)/,
+    /youtube\.com\/shorts\/([^?&]+)/,
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`;
+  }
+  return url;
+}
+
+function isYouTubeUrl(url: string) {
+  return url.includes("youtube.com") || url.includes("youtu.be");
 }
 
 /* ─────────────────────────────────────────────
@@ -64,14 +99,6 @@ const ANIM_CSS = `
     from { opacity: 0; transform: translateY(32px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes gFadeSlide {
-    from { opacity: 0; transform: translateX(20px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes gScaleIn {
-    from { opacity: 0; transform: scale(0.86) translateY(16px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
   @keyframes gRevealBadge {
     from { opacity: 0; transform: scale(0.8) translateY(-6px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
@@ -98,34 +125,6 @@ const ANIM_CSS = `
   }
 `;
 
-const MEDIA_ITEMS: MediaItemType[] = [
-  {
-    id: 1, type: "photo", category: "Annual Function",
-    title: "Annual Day Celebrations 2024", date: "Dec 18, 2024",
-    src: "https://picsum.photos/seed/school1/900/700", albumCount: 48, big: true,
-  },
-  {
-    id: 2, type: "video", category: "Sports Day",
-    title: "Sports Day 2024 — Highlights", date: "Nov 5, 2024",
-    src: "https://picsum.photos/seed/school2/600/400", duration: "4:32", big: false,
-  },
-  {
-    id: 3, type: "photo", category: "Science Fair",
-    title: "Inter-School Exhibition", date: "Oct 22, 2024",
-    src: "https://picsum.photos/seed/school3/600/400", albumCount: 31, big: false,
-  },
-  {
-    id: 4, type: "photo", category: "Arts & Culture",
-    title: "Classical Dance Recital", date: "Sep 14, 2024",
-    src: "https://picsum.photos/seed/school4/600/400", albumCount: 24, big: false,
-  },
-  {
-    id: 5, type: "video", category: "Commencement",
-    title: "Graduation Ceremony 2024", date: "Mar 30, 2024",
-    src: "https://picsum.photos/seed/school5/600/400", duration: "12:08", big: false,
-  },
-];
-
 /* ─── Badge ──────────────────────────────────────────────── */
 function Badge({ label, isVideo }: { label: string; isVideo: boolean }) {
   return (
@@ -146,49 +145,50 @@ function Badge({ label, isVideo }: { label: string; isVideo: boolean }) {
 }
 
 /* ─── Photo Card ─────────────────────────────────────────── */
-function PhotoCard({ item, style, animDelay }: CardProps) {
+function PhotoCard({ item, style, animDelay, isBig }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
   const [cardRef, cardIn] = useInView({ threshold: 0.08 });
 
-  const animName = item.big ? "gBigCardIn" : "gCardIn";
-  const duration = item.big ? "0.75s" : "0.6s";
+  const animName = isBig ? "gBigCardIn" : "gCardIn";
+  const duration = isBig ? "0.75s" : "0.6s";
+  const formattedDate = new Date(item.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
   return (
-    <div
+    <Link 
+      href="/gallery"
       ref={cardRef as any}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         ...style,
-        position: "relative", borderRadius: 16, overflow: "hidden", cursor: "pointer",
+        display: "block", position: "relative", borderRadius: 16, overflow: "hidden", cursor: "pointer",
         boxShadow: hovered ? "0 16px 40px rgba(0,0,0,0.22)" : "0 2px 12px rgba(0,0,0,0.06)",
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
         transition: "box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1)",
         opacity: cardIn ? 1 : 0,
         animation: cardIn ? `${animName} ${duration} cubic-bezier(0.22,1,0.36,1) ${animDelay}s both` : "none",
       }}
-      role="article"
     >
+      {/* Fallback Shimmer/Background */}
       <div style={{
         position: "absolute", inset: 0,
-        background: "linear-gradient(135deg,#312e81,#1e1b4b)",
+        background: "linear-gradient(135deg,#1e1b4b,#0f172a)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        opacity: imgLoaded && !imgError ? 0 : 1, transition: "opacity 0.4s",
+        opacity: imgLoaded ? 0 : 1, transition: "opacity 0.4s",
       }}>
-        <ImageIcon size={32} color="rgba(255,255,255,0.15)" />
+        <ImageIcon size={32} color="rgba(255,255,255,0.15)" className="animate-pulse" />
       </div>
 
       <img
-        src={item.src} alt={item.title}
-        onLoad={() => setImgLoaded(true)}
-        onError={() => setImgError(true)}
+        src={item.url} 
+        alt={item.title}
+        onLoad={() => setImgLoaded(true)} // 💡 FIXED: state trigger sync error
         style={{
           position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
           transform: hovered ? "scale(1.07)" : "scale(1)",
           transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
-          opacity: imgLoaded && !imgError ? 1 : 0,
+          opacity: imgLoaded ? 1 : 0, // 💡 FIXED: opacity handling logic mismatch
           animation: cardIn ? `gImgZoom 1.2s cubic-bezier(0.22,1,0.36,1) ${animDelay}s both` : "none",
         }}
       />
@@ -216,7 +216,7 @@ function PhotoCard({ item, style, animDelay }: CardProps) {
           transform: cardIn ? "translateY(0)" : "translateY(8px)",
           transition: `opacity 0.4s ${animDelay + 0.2}s, transform 0.4s ${animDelay + 0.2}s`,
         }}>
-          <Badge label={item.category} isVideo={false} />
+          <Badge label={item.category?.name ?? "General"} isVideo={false} />
         </div>
         <h3 style={{
           color: "#fff", fontSize: 12, fontWeight: 600, lineHeight: 1.3, margin: "6px 0 0",
@@ -235,14 +235,11 @@ function PhotoCard({ item, style, animDelay }: CardProps) {
           transition: "opacity 0.3s, transform 0.3s",
         }}>
           <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 9, color: "rgba(255,255,255,0.5)" }}>
-            <Calendar size={9} /> {item.date}
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 9, fontWeight: 700, color: "#a5b4fc" }}>
-            <Eye size={9} /> {item.albumCount} photos
+            <Calendar size={9} /> {formattedDate}
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -250,43 +247,45 @@ function PhotoCard({ item, style, animDelay }: CardProps) {
 function VideoCard({ item, style, animDelay }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
   const [cardRef, cardIn] = useInView({ threshold: 0.08 });
 
+  const thumbUrl = isYouTubeUrl(item.url) ? getYoutubeThumb(item.url) : item.url;
+  const formattedDate = new Date(item.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+
   return (
-    <div
+    <Link
+      href="/gallery"
       ref={cardRef as any}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         ...style,
-        position: "relative", borderRadius: 16, overflow: "hidden", cursor: "pointer",
+        display: "block", position: "relative", borderRadius: 16, overflow: "hidden", cursor: "pointer",
         boxShadow: hovered ? "0 16px 40px rgba(0,0,0,0.22)" : "0 2px 12px rgba(0,0,0,0.06)",
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
         transition: "box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1)",
         opacity: cardIn ? 1 : 0,
         animation: cardIn ? `gCardIn 0.6s cubic-bezier(0.22,1,0.36,1) ${animDelay}s both` : "none",
       }}
-      role="article"
     >
       <div style={{
         position: "absolute", inset: 0,
         background: "linear-gradient(135deg,#4c0519,#881337)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        opacity: imgLoaded && !imgError ? 0 : 1, transition: "opacity 0.4s",
+        opacity: imgLoaded ? 0 : 1, transition: "opacity 0.4s",
       }}>
         <Film size={28} color="rgba(255,255,255,0.15)" />
       </div>
 
       <img
-        src={item.src} alt={item.title}
+        src={thumbUrl} 
+        alt={item.title}
         onLoad={() => setImgLoaded(true)}
-        onError={() => setImgError(true)}
         style={{
           position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
           transform: hovered ? "scale(1.07)" : "scale(1)",
           transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
-          opacity: imgLoaded && !imgError ? 1 : 0,
+          opacity: imgLoaded ? 1 : 0,
           animation: cardIn ? `gImgZoom 1.2s cubic-bezier(0.22,1,0.36,1) ${animDelay}s both` : "none",
         }}
       />
@@ -295,18 +294,6 @@ function VideoCard({ item, style, animDelay }: CardProps) {
         position: "absolute", inset: 0,
         background: "linear-gradient(to top, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.2) 60%, transparent 100%)",
       }} />
-
-      <div style={{
-        position: "absolute", top: 10, right: 10,
-        padding: "2px 8px", borderRadius: 6,
-        background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)",
-        color: "#fff", fontSize: 9, fontWeight: 700,
-        opacity: cardIn ? 1 : 0,
-        transform: cardIn ? "translateY(0)" : "translateY(-6px)",
-        transition: `opacity 0.35s ${animDelay + 0.3}s, transform 0.35s ${animDelay + 0.3}s`,
-      }}>
-        {item.duration}
-      </div>
 
       <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{
@@ -330,7 +317,7 @@ function VideoCard({ item, style, animDelay }: CardProps) {
           transform: cardIn ? "translateY(0)" : "translateY(8px)",
           transition: `opacity 0.4s ${animDelay + 0.2}s, transform 0.4s ${animDelay + 0.2}s`,
         }}>
-          <Badge label={item.category} isVideo={true} />
+          <Badge label={item.category?.name ?? "General"} isVideo={true} />
         </div>
         <h3 style={{
           color: "#fff", fontSize: 12, fontWeight: 600, lineHeight: 1.3, margin: "6px 0 0",
@@ -349,10 +336,10 @@ function VideoCard({ item, style, animDelay }: CardProps) {
           transform: hovered ? "translateY(0)" : "translateY(5px)",
           transition: "opacity 0.3s, transform 0.3s",
         }}>
-          <Calendar size={9} /> {item.date}
+          <Calendar size={9} /> {formattedDate}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -360,7 +347,8 @@ function VideoCard({ item, style, animDelay }: CardProps) {
 function CTAButton({ isMobile, inView, animDelay }: CTAButtonProps) {
   const [hovered, setHovered] = useState(false);
   return (
-    <button
+    <Link
+      href="/gallery"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -389,19 +377,39 @@ function CTAButton({ isMobile, inView, animDelay }: CTAButtonProps) {
           transition: "transform 0.2s",
         }} />
       </span>
-    </button>
+    </Link>
   );
 }
 
 /* ─── Main Component ─────────────────────────────────────── */
 export default function DocumentationSection() {
+  const [items, setItems] = useState<MediaItemType[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
   const [windowWidth, setWindowWidth] = useState(1200);
+  const [loading, setLoading] = useState(true);
 
   const [badgeRef, badgeIn] = useInView({ threshold: 0.2 });
   const [titleRef, titleIn] = useInView({ threshold: 0.2 });
   const [descRef,  descIn]  = useInView({ threshold: 0.2 });
   const [gridRef,  gridIn]  = useInView({ threshold: 0.06 });
   const [ctaRef,   ctaIn]   = useInView({ threshold: 0.3 });
+
+  useEffect(() => {
+    async function loadLivePreview() {
+      try {
+        const res = await axios.get<ApiResponse>(`${SERVER_URL}/api/media/`, {
+          params: { page: 1 }
+        });
+        setItems(res.data.mediaItems ?? []);
+        setTotalItems(res.data.totalItems ?? 0);
+      } catch (err) {
+        console.error("Failed to map dynamic section states:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadLivePreview();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -416,34 +424,47 @@ export default function DocumentationSection() {
   const isTablet  = windowWidth >= 640 && windowWidth < 1024;
   const isDesktop = windowWidth >= 1024;
 
-  const visibleItems = isMobile ? MEDIA_ITEMS.slice(0, 3) : MEDIA_ITEMS;
+  const visibleItems = useMemo(() => {
+    const sliced = items.slice(0, 5);
+    return isMobile ? sliced.slice(0, 3) : sliced;
+  }, [items, isMobile]);
 
-  const buildCardStyle = (item: MediaItemType): React.CSSProperties => {
-    const base: React.CSSProperties = { minHeight: isMobile ? 190 : 210 };
+  const buildCardStyle = (item: MediaItemType, idx: number): React.CSSProperties => {
+    const base: React.CSSProperties = { minHeight: isMobile ? 180 : 200 };
     if (isMobile) return { ...base, gridColumn: "span 1" };
     if (isTablet) {
-      if (item.big) return { ...base, gridColumn: "span 2", minHeight: 240 };
+      if (idx === 0) return { ...base, gridColumn: "span 2", minHeight: 230 };
       return { ...base, gridColumn: "span 1" };
     }
-    if (item.big) return { ...base, gridColumn: "span 2", gridRow: "span 2", minHeight: "100%" };
+    if (idx === 0) return { ...base, gridColumn: "span 2", gridRow: "span 2", minHeight: "100%" };
     return { ...base, gridColumn: "span 1" };
   };
 
-  const getDelay = (item: MediaItemType, i: number) => item.big ? 0.05 : 0.1 + i * 0.1;
+  const getDelay = (idx: number) => idx === 0 ? 0.05 : 0.1 + idx * 0.1;
 
   const gridStyle: React.CSSProperties = {
     display: "grid",
-    gap: isMobile ? 10 : 12,
+    gap: isMobile ? 10 : 14,
     gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
-    gridAutoRows: isDesktop ? "190px" : "auto",
+    gridAutoRows: isDesktop ? "185px" : "auto",
     alignItems: "stretch",
   };
+
+  if (loading) {
+    return (
+      <div className="w-full bg-[#f8fafc] py-24 flex justify-center items-center">
+        <div className="w-8 h-8 border-2 border-t-indigo-600 border-zinc-200 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (visibleItems.length === 0) return null;
 
   return (
     <section
       style={{
         position: "relative", width: "100%",
-        padding: isMobile ? "32px 14px 40px" : "44px 20px 52px",
+        padding: isMobile ? "28px 12px 36px" : "40px 20px 48px",
         background: "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(99,102,241,0.05) 0%, transparent 65%), #f8fafc",
         fontFamily: "'DM Sans', sans-serif",
         boxSizing: "border-box", overflow: "hidden",
@@ -467,7 +488,7 @@ export default function DocumentationSection() {
 
       <div style={{ position: "relative", maxWidth: 1050, margin: "0 auto" }}>
 
-        <div style={{ textAlign: "center", marginBottom: isMobile ? 24 : 36 }}>
+        <div style={{ textAlign: "center", marginBottom: isMobile ? 20 : 32 }}>
           <div ref={badgeRef as any} style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             padding: "4px 12px", borderRadius: 99,
@@ -482,7 +503,7 @@ export default function DocumentationSection() {
 
           <h2 ref={titleRef as any} id="gallery-heading" style={{
             fontFamily: "'Playfair Display', Georgia, serif",
-            fontSize: isMobile ? 24 : isTablet ? 30 : 34,
+            fontSize: isMobile ? 22 : isTablet ? 28 : 32,
             fontWeight: 800, color: "#0f172a", lineHeight: 1.2,
             maxWidth: 500, margin: "0 auto 10px", letterSpacing: "-0.01em",
             opacity: titleIn ? 1 : 0,
@@ -516,18 +537,20 @@ export default function DocumentationSection() {
 
         <div ref={gridRef as any} style={gridStyle}>
           {visibleItems.map((item, i) => {
-            const cardStyle = buildCardStyle(item);
-            const delay = getDelay(item, i);
-            return item.type === "photo"
-              ? <PhotoCard key={item.id} item={item} style={cardStyle} animDelay={delay} />
-              : <VideoCard key={item.id} item={item} style={cardStyle} animDelay={delay} />;
+            const cardStyle = buildCardStyle(item, i);
+            const delay = getDelay(i);
+            const isBigItem = !isMobile && i === 0;
+
+            return item.mediaType === "image"
+              ? <PhotoCard key={item.id} item={item} style={cardStyle} animDelay={delay} isBig={isBigItem} />
+              : <VideoCard key={item.id} item={item} style={cardStyle} animDelay={delay} isBig={isBigItem} />;
           })}
         </div>
 
         <div ref={ctaRef as any} style={{
           display: "flex", flexDirection: "column",
           alignItems: "center", gap: 8,
-          marginTop: isMobile ? 24 : 32,
+          marginTop: isMobile ? 20 : 28,
         }}>
           <CTAButton isMobile={isMobile} inView={ctaIn} animDelay={0.05} />
           <p style={{
@@ -536,7 +559,7 @@ export default function DocumentationSection() {
             transform: ctaIn ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 0.5s 0.22s, transform 0.5s 0.22s",
           }}>
-            View all 1,200+ photos and 85+ videos in our media archive
+            View all {totalItems} dynamic items loaded in our media archive
           </p>
         </div>
 

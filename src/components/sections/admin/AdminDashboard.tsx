@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import StatsManager from "./StatsManager";
 import NoticeManager from "./NoticeManager";
 import PaperManager from "./PaperManager";
-import MediaManager from "./MediaManager";
+import MediaManager from "./gallery/MediaManager";
 import AdmissionsControlPanel from "./Admissions/AdmissionsControlPanel"; // Placeholder import path mapping
 
 type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions";

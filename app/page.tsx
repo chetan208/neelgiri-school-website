@@ -15,7 +15,7 @@ export default function HomePage() {
       <SchoolProfile />
       <OurCourses />
       <DocumentationSection />
-      <EventsSection />
+      {/* <EventsSection /> */}
     </>
   );
 }

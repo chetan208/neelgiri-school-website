@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation"; // 💡 Added usePathname
 import TopBar from "./TopBar";
 import Logo from "./Logo";
 import DesktopNav from "./DesktopNav";
@@ -14,10 +14,30 @@ export default function SchoolHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [activeDD, setActiveDD] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState("Home");
-
-  const ddTimer = useRef<NodeJS.Timeout | null>(null);
+  
+  // 💡 Hook current URL route properties monitor karne ke liye
+  const pathname = usePathname();
   const router = useRouter();
+  const ddTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // ─── 💡 Dynamic Route Tracking State Management ───
+  const activeNav = useMemo(() => {
+    // Exact match target logic checking default route hierarchy bounds
+    for (const item of navItems) {
+      // Condition 1: Single level target elements comparison
+      if (item.to && item.to === pathname) {
+        return item.label;
+      }
+      // Condition 2: Nested dropdown element routes extraction tracing
+      if (item.dropdown) {
+        const hasMatchedChild = item.dropdown.some((child) => child.to === pathname && child.to !== "#");
+        if (hasMatchedChild) {
+          return item.label; // Return parent tab label if route matches a sub-item
+        }
+      }
+    }
+    return "Home"; // Default fallback structure logic boundaries
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -54,8 +74,8 @@ export default function SchoolHeader() {
             <div className="hidden lg:flex items-center justify-center flex-1 px-8">
               <DesktopNav
                 navItems={navItems}
-                activeNav={activeNav}
-                setActiveNav={setActiveNav}
+                activeNav={activeNav} // 💡 Now handles auto dynamic parameters binding implicitly
+                setActiveNav={() => {}} // Local state override disabled as usePathname rules natively
                 navigate={handleNavigate}
                 activeDD={activeDD}
                 openDD={openDD}
