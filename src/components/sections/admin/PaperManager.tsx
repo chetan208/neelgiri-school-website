@@ -105,7 +105,7 @@ export default function PaperManager() {
   return (
     <div className="space-y-5 max-w-5xl mx-auto p-3 sm:p-6 relative text-slate-800 antialiased">
       {toast.show && (
-        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-3 rounded-xl shadow-xl border w-[90vw] sm:w-auto max-w-sm ${
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-2 px-4 py-3 rounded-xl shadow-xl border w-[90vw] sm:w-auto max-w-sm ${
           toast.type === "error" ? "bg-red-50 border-red-100 text-red-700" : "bg-[#59B292]/10 border-[#59B292]/20 text-[#59B292]"
         }`}>
           {toast.type === "error" ? <AlertTriangle size={16} className="shrink-0" /> : <CheckCircle2 size={16} className="shrink-0" />}
