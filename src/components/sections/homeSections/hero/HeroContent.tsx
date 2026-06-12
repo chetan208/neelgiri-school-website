@@ -39,7 +39,16 @@ export default function HeroContent({ slide }: { slide: SlideType }) {
             background: slide.to,
             boxShadow: `2px 2px 0px #000`,
           }}
-          onClick={() => router.push(slide.ctaTo)}
+          onClick={() => {
+            if (slide.ctaTo.startsWith("#")) {
+              const el = document.getElementById(slide.ctaTo.substring(1));
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            } else {
+              router.push(slide.ctaTo);
+            }
+          }}
         >
           {slide.cta}
         </button>

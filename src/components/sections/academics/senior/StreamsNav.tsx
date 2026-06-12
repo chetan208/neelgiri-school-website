@@ -10,9 +10,8 @@ interface StreamsNavProps {
 
 export default function StreamsNav({ active, setActive }: StreamsNavProps) {
   const tabs = [
-    { id: "science", label: "Science" },
-    { id: "commerce", label: "Commerce" },
-    { id: "arts", label: "Arts" },
+    { id: "medical", label: "Medical" },
+    { id: "non-medical", label: "Non-Medical" },
   ];
 
   const activeIndex = tabs.findIndex((t) => t.id === active);

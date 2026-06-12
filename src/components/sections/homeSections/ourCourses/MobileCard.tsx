@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Star, ChevronRight, ArrowUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useInView } from "./useInView";
 import { LevelItem } from "./data";
 
@@ -13,6 +14,7 @@ interface MobileCardProps {
 }
 
 export default function MobileCard({ level, isOpen, onToggle, index }: MobileCardProps) {
+  const router = useRouter();
   const [cardRef, cardIn] = useInView();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const firstRender = useRef(true);
@@ -92,7 +94,11 @@ export default function MobileCard({ level, isOpen, onToggle, index }: MobileCar
                 );
               })}
             </div>
-            <button className="cta-btn w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white border-0 cursor-pointer" style={{ background: level.color, boxShadow: `0 4px 12px ${level.color}30` }}>
+            <button 
+              className="cta-btn w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white border-0 cursor-pointer" 
+              style={{ background: level.color, boxShadow: `0 4px 12px ${level.color}30` }}
+              onClick={() => router.push(level.path)}
+            >
               Explore Programme <ArrowUpRight size={14} strokeWidth={2.5} />
             </button>
           </div>

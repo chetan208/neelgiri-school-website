@@ -7,7 +7,6 @@ import {
   Phone,
   Mail,
   ChevronRight,
-  GraduationCap,
 } from "lucide-react";
 
 import {
@@ -54,16 +53,18 @@ export default function Footer() {
             <div className="lg:col-span-1">
               
               {/* Logo */}
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#093C5D] flex items-center justify-center shadow-lg border border-[#093C5D]/25">
-                  <GraduationCap className="text-white" size={24} />
-                </div>
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="/school_logo.png"
+                  alt="Neelgiri Public Sen. Sec. School Logo"
+                  className="w-12 h-12 rounded-full object-contain shadow-md"
+                />
                 <div>
-                  <p className="text-lg font-bold text-white leading-tight">
+                  <p className="text-base font-bold text-white leading-tight">
                     Neelgiri Public School
                   </p>
-                  <p className="text-xs text-[#FFC94D]">
-                    Affiliated to HPBOSE
+                  <p className="text-[10px] text-[#FFC94D] font-medium tracking-wide uppercase mt-0.5">
+                    Sen. Sec. Lower Hatwas
                   </p>
                 </div>
               </div>

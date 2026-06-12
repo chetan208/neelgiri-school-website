@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Clock3, AlertTriangle, ShieldCheck, Briefcase, FileText, X } from "lucide-react";
+import { Clock3, AlertTriangle, ShieldCheck, Briefcase, FileText, X, ArrowUpRight } from "lucide-react";
 
 // TypeScript Interface declaration
 interface NoticeDataType {
@@ -10,6 +10,7 @@ interface NoticeDataType {
   title: string;
   date: string;
   excerpt: string;
+  description?: string;
   link?: string;
 }
 
@@ -25,6 +26,16 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 export default function NoticeCard({ selectedNotice, setSelectedNotice }: NoticeCardProps) {
+  const isAdmissionOpenNotice = (selectedNotice.link === "custom:admissions" || 
+                                 selectedNotice.title.toLowerCase().includes("admission")) &&
+                                !selectedNotice.title.toLowerCase().includes("close") &&
+                                !selectedNotice.title.toLowerCase().includes("closed");
+
+  const isCalendarNotice = selectedNotice.link === "custom:calendar" || 
+                           selectedNotice.title.toLowerCase().includes("holiday") || 
+                           selectedNotice.title.toLowerCase().includes("exam") ||
+                           selectedNotice.title.toLowerCase().includes("calendar");
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#06283D]/40 backdrop-blur-xs animate-fadeIn">
       {/* Backdrop Click to Close */}
@@ -64,24 +75,44 @@ export default function NoticeCard({ selectedNotice, setSelectedNotice }: Notice
           {/* Detailed Content */}
           <div className="space-y-1.5">
             <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#093C5D]">Detailed Information</h4>
-            <p className="text-xs sm:text-sm text-[#06283D]/80 leading-relaxed font-normal bg-white">
-              {selectedNotice.excerpt}
+            <p className="text-xs sm:text-sm text-[#06283D]/80 leading-relaxed font-normal bg-white whitespace-pre-line">
+              {selectedNotice.description || selectedNotice.excerpt}
             </p>
           </div>
         </div>
 
         {/* Modal Footer Link */}
         <div className="p-4 border-t border-[#093C5D]/10 bg-[#F8FAFC] flex sm:justify-end">
-          <a
-            href={selectedNotice.link || "#"}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group no-underline"
-          >
-            <FileText size={14} />
-            Download Official Document
-            <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
-          </a>
+          {isAdmissionOpenNotice ? (
+            <a
+              href="/admissions"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group no-underline cursor-pointer"
+            >
+              <FileText size={14} />
+              Apply Now
+              <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ml-1" />
+            </a>
+          ) : isCalendarNotice ? (
+            <a
+              href="/academic-calendar"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group no-underline cursor-pointer"
+            >
+              <FileText size={14} />
+              View Academic Calendar
+              <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ml-1" />
+            </a>
+          ) : selectedNotice.link && selectedNotice.link !== "#" ? (
+            <a
+              href={selectedNotice.link}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group no-underline cursor-pointer"
+            >
+              <FileText size={14} />
+              Download Official Document
+              <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ml-1" />
+            </a>
+          ) : null}
         </div>
 
       </div>

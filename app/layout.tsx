@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: "Neelgiri School",
   description: "Welcome to Neelgiri School Website",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/school_logo.png",
+    apple: "/school_logo.png",
   },
 };
 

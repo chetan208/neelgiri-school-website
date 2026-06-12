@@ -20,7 +20,7 @@ export default function OurCourses() {
   const level = levels.find((l) => l.id === active)!;
 
   return (
-    <section className="cr relative w-full bg-white overflow-hidden border-t border-slate-200/60" style={{ minHeight: "100svh", padding: "clamp(48px,8vh,80px) 16px" }}>
+    <section id="our-courses" className="cr relative w-full bg-white overflow-hidden border-t border-slate-200/60" style={{ minHeight: "100svh", padding: "clamp(48px,8vh,80px) 16px" }}>
       <div className="dot-grid absolute inset-0 opacity-40 pointer-events-none" />
 
       <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none blur-[100px]" style={{ background: level.color, opacity: 0.08, transition: "background 0.5s" }} />

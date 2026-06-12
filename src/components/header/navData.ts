@@ -44,14 +44,14 @@ export const navItems: NavItem[] = [
     dropdown: [
       { icon: GraduationCap, label: "Primary (1–5)", sub: "Foundation years", to: "/academics/primary-years" },
       { icon: BookMarked, label: "High School (6–10)", sub: "Core curriculum", to: "/academics/high-school" },
-      { icon: FlaskConical, label: "Senior Secondary (11–12)", sub: "Science · Commerce · Arts", to: "/academics/secondary-years" },
+      { icon: FlaskConical, label: "Senior Secondary (11–12)", sub: "Medical & Non-Medical", to: "/academics/secondary-years" },
     ],
   },
   {
     label: "Resources",
     href: "#",
     dropdown: [
-      { icon: FileText, label: "Academic Calendar", sub: "Term dates & holidays", to: "#" },
+      { icon: FileText, label: "Academic Calendar", sub: "Term dates & holidays", to: "/academic-calendar" },
       { icon: ClipboardList, label: "Previous Question Papers", sub: "Download past papers", to: "/prevous-years-papers" },
       { icon: Newspaper, label: "School News", sub: "Latest announcements", to: "#" },
       { icon: Award, label: "Achievements", sub: "Student accomplishments", to: "#" },

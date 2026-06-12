@@ -210,6 +210,9 @@ export default function NoticeSection() {
                     <p className="text-xs sm:text-sm font-semibold text-[#06283D] group-hover:text-[#093C5D] text-left truncate flex-1">
                       {item.title}
                     </p>
+                    <span className="text-[10px] text-slate-400 font-medium shrink-0 ml-auto mr-1 select-none">
+                      {item.date}
+                    </span>
                     <ArrowUpRight size={14} className="text-[#FA6781] shrink-0 opacity-90 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </button>
                 ))

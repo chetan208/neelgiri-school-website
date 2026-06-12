@@ -30,6 +30,7 @@ export interface LevelItem {
   subjects: SubjectItem[];
   stats: StatItem[];
   age: string;
+  path: string;
 }
 
 export const levels: LevelItem[] = [
@@ -58,6 +59,7 @@ export const levels: LevelItem[] = [
       { icon: Trophy, value: "#1",     label: "Ranked" },
     ],
     age: "Ages 6 – 11",
+    path: "/academics/primary-years",
   },
   {
     id: "high",
@@ -84,6 +86,7 @@ export const levels: LevelItem[] = [
       { icon: Trophy, value: "98%",    label: "Pass Rate" },
     ],
     age: "Ages 11 – 16",
+    path: "/academics/high-school",
   },
   {
     id: "senior",
@@ -96,13 +99,13 @@ export const levels: LevelItem[] = [
     tagText: "#FA6781",
     image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=900&q=80&fit=crop",
     headline: "Crafting Future Leaders",
-    desc: "Science, Commerce & Humanities streams with exam-ready depth for top university placements.",
+    desc: "Specialized Medical & Non-Medical streams with exam-ready depth for medical, engineering, and tech careers.",
     subjects: [
-      { icon: FlaskConical, label: "Physics / Chem" },
-      { icon: Code2,        label: "Computer Sci" },
+      { icon: FlaskConical, label: "Physics & Chem" },
       { icon: Microscope,   label: "Biology" },
-      { icon: BookMarked,   label: "Accountancy" },
-      { icon: Globe,        label: "Economics" },
+      { icon: Calculator,   label: "Mathematics" },
+      { icon: Code2,        label: "Computer Sci" },
+      { icon: BookOpen,     label: "English" },
     ],
     stats: [
       { icon: Users,  value: "2,000+", label: "Students" },
@@ -110,5 +113,6 @@ export const levels: LevelItem[] = [
       { icon: Trophy, value: "Top 5%", label: "Board" },
     ],
     age: "Ages 16 – 18",
+    path: "/academics/secondary-years",
   },
 ];

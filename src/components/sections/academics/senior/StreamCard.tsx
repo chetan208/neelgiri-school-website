@@ -1,5 +1,8 @@
+'use client';
+
 import React from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface StreamCardProps {
   title: string;
@@ -10,6 +13,8 @@ interface StreamCardProps {
 }
 
 export default function StreamCard({ title, image, description, subjects, careers }: StreamCardProps) {
+  const router = useRouter();
+
   return (
     <div className="max-w-6xl mx-auto bg-white border border-[#093C5D]/20 rounded-2xl overflow-hidden shadow-sm grid lg:grid-cols-[280px_1fr]">
       {/* IMAGE */}
@@ -69,8 +74,11 @@ export default function StreamCard({ title, image, description, subjects, career
         </div>
 
         {/* BUTTON */}
-        <button className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FA6781] hover:bg-[#093C5D] text-white text-[12px] font-bold transition-all duration-300 hover:translate-x-1 cursor-pointer border-0 shadow-sm shadow-[#FA6781]/10">
-          Learn More
+        <button 
+          onClick={() => router.push("/admissions")}
+          className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FA6781] hover:bg-[#093C5D] text-white text-[12px] font-bold transition-all duration-300 hover:translate-x-1 cursor-pointer border-0 shadow-sm shadow-[#FA6781]/10"
+        >
+          Apply for Admission
           <ArrowRight size={13} />
         </button>
       </div>

@@ -1,130 +1,173 @@
 'use client';
 
-import React from "react";
-import { ArrowRight, Award, BookOpen, FlaskConical, MonitorSmartphone } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { Award } from "lucide-react";
 
 export default function HighSchoolHero() {
+  const router = useRouter();
+
+  const images = [
+    { src: "/assets/academics/high/medal_ceremony.jpg", title: "Medal Ceremony" },
+    { src: "/assets/academics/high/students_bench.jpg", title: "Campus Life" },
+    { src: "/assets/academics/high/bus_students.jpg", title: "School Transport" },
+    { src: "/assets/academics/high/building.jpg", title: "Main Building" },
+  ];
+
+  const [imgIndex, setImgIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setImgIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
+  const handleExploreClick = () => {
+    const el = document.getElementById("modules-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <section className="relative h-[calc(100vh-80px)] min-h-[560px] max-h-[760px] overflow-hidden">
-      {/* Background Image */}
-      <motion.img
-        initial={{ scale: 1.08 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: "easeOut" }}
-        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000&auto=format&fit=crop"
-        alt="Students collaborating"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+    <section
+      className="relative overflow-hidden min-h-[80vh] bg-gradient-to-br from-[#093C5D]/5 via-white to-slate-100 flex items-center border-b border-slate-200/60"
+    >
+      {/* Subtle Dot Grid pattern */}
+      <div className="dot-grid absolute inset-0 opacity-20 pointer-events-none" />
 
-      {/* Animated Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40"></div>
-
-      {/* Glow Effects */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFC94D]/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-
-      {/* Floating Blur Orb */}
+      {/* Soft Glow Orbs for Light Theme */}
       <motion.div
-        animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        className="absolute top-20 right-20 w-32 h-32 bg-[#FFC94D]/20 rounded-full blur-3xl"
+        className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] bg-[#FFC94D]/10 rounded-full blur-3xl top-[-50px] left-[-50px] pointer-events-none"
+        animate={{ y: [0, 15, 0], x: [0, 10, 0] }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-cyan-400/5 rounded-full blur-3xl bottom-[-80px] right-[-80px] pointer-events-none"
+        animate={{ y: [0, -20, 0], x: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 h-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center">
-          <div className="max-w-3xl">
-            
-            {/* HPBOSE Badge */}
-            <motion.div
+      {/* MAIN CONTENT GRID */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          
+          {/* LEFT SIDE: TEXT CONTENT (Col-span 6 on desktop) */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            {/* BADGE */}
+            <motion.span
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[#093C5D] text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase border border-[#093C5D]/15 bg-[#093C5D]/5 backdrop-blur-xs"
+            >
+              <Award size={12} className="text-[#FA6781]" />
+              HPBOSE Affiliated
+            </motion.span>
+
+            {/* HEADING */}
+            <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 mb-5 shadow-2xl"
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="text-[#06283D] font-black leading-[1.1] text-[2.1rem] xs:text-[2.4rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.5rem]"
             >
-              <Award size={16} className="text-[#FFC94D]" />
-              <span className="text-xs sm:text-sm text-slate-100 font-medium">
-                Affiliated to <span className="text-[#FFC94D] font-bold">HPBOSE</span>
-              </span>
-            </motion.div>
-
-            {/* Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 45 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05]"
-            >
-              Preparing Students
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 1 }}
-                className="block text-[#FFC94D]"
-              >
-                For Future Success
-              </motion.span>
-              <span className="block mt-2 text-white">
-                at <span className="text-[#FFC94D]">Neelgiri Public School</span>
-              </span>
+              Future Ready<br />
+              <span className="text-[#FA6781]">Classes 9 &amp; 10</span>
             </motion.h1>
 
-            {/* Description */}
+            {/* LINE */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 75, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="h-1 rounded-full bg-[#FA6781] mt-3"
+            />
+
+            {/* DESCRIPTION */}
             <motion.p
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-5 text-sm sm:text-base md:text-lg text-slate-200 leading-relaxed max-w-2xl"
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="mt-4 text-slate-600 leading-[1.7] text-[14px] sm:text-base md:text-lg max-w-xl"
             >
-              A modern learning environment focused on science, technology, creativity, leadership, and critical thinking for students from Grades 6–10.
+              HPBOSE curriculum focused on concept clarity, board preparation, analytical thinking, and overall student development.
             </motion.p>
 
-            {/* Feature Pills */}
+            {/* BUTTONS */}
             <motion.div
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex flex-wrap gap-3 mt-6"
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-3 mt-6"
             >
-              {[
-                { icon: <BookOpen size={16} />, title: "Smart Classes" },
-                { icon: <FlaskConical size={16} />, title: "Science Labs" },
-                { icon: <MonitorSmartphone size={16} />, title: "Digital Learning" },
-              ].map((item) => (
-                <motion.div
-                  key={item.title}
-                  whileHover={{ y: -4, scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 250 }}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-xl shadow-xl"
-                >
-                  <div className="text-[#FFC94D]">{item.icon}</div>
-                  <span className="text-white text-xs sm:text-sm">{item.title}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="flex flex-wrap gap-4 mt-7"
-            >
-              <button className="bg-[#FFC94D] hover:bg-[#093C5D] text-[#093C5D] hover:text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-[0_0_30px_rgba(213,176,108,0.35)] cursor-pointer">
-                Admission Open
-              </button>
-              <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 cursor-pointer">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={handleExploreClick}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#093C5D] hover:bg-[#FA6781] text-white font-bold text-sm transition-all duration-300 cursor-pointer border-0 shadow-md shadow-[#093C5D]/15"
+              >
                 Explore Academics
-                <ArrowRight size={16} />
-              </button>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => router.push("/admissions")}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full text-slate-700 font-bold text-sm transition-all duration-300 border border-slate-300 bg-white hover:bg-slate-50 cursor-pointer"
+              >
+                Admission Open
+              </motion.button>
             </motion.div>
           </div>
+
+          {/* RIGHT SIDE: LARGER IMAGE SLIDER (Col-span 6 on desktop) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="lg:col-span-6 flex justify-center w-full"
+          >
+            <div className="relative w-full max-w-[550px] aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-white p-2">
+              {images.map((img, idx) => (
+                <div
+                  key={idx}
+                  className={`absolute inset-2 transition-all duration-700 ease-in-out transform ${
+                    idx === imgIndex ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                  }`}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.title}
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                  {/* Caption Overlay with Light/Dark contrast */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-5 pt-12 flex flex-col justify-end rounded-b-2xl">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-[#FFC94D]">{img.title}</span>
+                    <p className="text-xs text-white/90 mt-0.5 font-medium">Classes IX &amp; X academic activities</p>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Dots indicator */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 bg-black/40 backdrop-blur-sm px-3.5 py-2 rounded-full">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setImgIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 border-0 cursor-pointer ${
+                      idx === imgIndex ? "bg-[#FA6781] w-4" : "bg-white/60"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
-
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-transparent"></div>
     </section>
   );
-}
+}

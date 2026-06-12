@@ -12,9 +12,10 @@ export default function TransportSection() {
   ];
 
   const busImages = [
-    "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1494512417462-fe9f1b724d31?auto=format&fit=crop&w=800&q=80"
+    "/assets/transport/bus_parked.png",
+    "/assets/transport/bus_garland.png",
+    "/assets/transport/bus_students.png",
+    "/assets/transport/bus_staff.png"
   ];
 
   const [searchQuery, setSearchQuery] = useState("");

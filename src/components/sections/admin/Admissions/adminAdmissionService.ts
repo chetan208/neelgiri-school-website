@@ -8,6 +8,16 @@ const apiClient = axios.create({
   withCredentials: true 
 });
 
+const getCalculatedSession = (date: Date = new Date()): string => {
+  const year = date.getFullYear();
+  const march31 = new Date(year, 2, 31, 23, 59, 59, 999);
+  if (date.getTime() <= march31.getTime()) {
+    return `${year - 1}-${String(year).slice(-2)}`;
+  } else {
+    return `${year}-${String(year + 1).slice(-2)}`;
+  }
+};
+
 export const adminAdmissionService = {
   getActiveYear: async () => {
     return (await apiClient.get('/active-admission-year')).data;
@@ -21,22 +31,24 @@ export const adminAdmissionService = {
     return (await apiClient.post('/close-admissions', { year })).data;
   },
   
-  getPending: async (page = 1, limit = 10, search = '', searchType = 'name', year = '2026-27') => {
-    let url = `/view-admissions?year=${year}&pageNumber=${page}&pageSize=${limit}`;
+  getPending: async (page = 1, limit = 10, search = '', searchType = 'name', year?: string) => {
+    const queryYear = year || getCalculatedSession();
+    let url = `/view-admissions?year=${queryYear}&pageNumber=${page}&pageSize=${limit}`;
     
     if (search) {
       if (searchType === 'id') {
-        url = `/pending-admission-details?id=${search}&year=${year}`;
+        url = `/pending-admission-details?id=${search}&year=${queryYear}`;
       } else {
-        url = `/pending-admission-details?studentName=${search}&year=${year}&pageNumber=${page}&pageSize=${limit}`;
+        url = `/pending-admission-details?studentName=${search}&year=${queryYear}&pageNumber=${page}&pageSize=${limit}`;
       }
     }
     
     return (await apiClient.get(url)).data;
   },
 
-  getCompleted: async (page = 1, limit = 10, year = '2026-27') => {
-    return (await apiClient.get(`/complete-admission-details?year=${year}&pageNumber=${page}&pageSize=${limit}`)).data;
+  getCompleted: async (page = 1, limit = 10, year?: string) => {
+    const queryYear = year || getCalculatedSession();
+    return (await apiClient.get(`/complete-admission-details?year=${queryYear}&pageNumber=${page}&pageSize=${limit}`)).data;
   },
 
   updateStatus: async (id: string | number, status: string) => {

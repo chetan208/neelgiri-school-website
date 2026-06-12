@@ -33,7 +33,16 @@ export default function AdmissionsControlPanel() {
     setIsLoading(true);
     try {
       let res;
-      const queryYear = activeYear || '2026-27'; 
+      const getCalculatedSession = (date: Date = new Date()): string => {
+        const year = date.getFullYear();
+        const march31 = new Date(year, 2, 31, 23, 59, 59, 999);
+        if (date.getTime() <= march31.getTime()) {
+          return `${year - 1}-${String(year).slice(-2)}`;
+        } else {
+          return `${year}-${String(year + 1).slice(-2)}`;
+        }
+      };
+      const queryYear = activeYear || getCalculatedSession(); 
       
       if (activeTab === 'pending') {
         res = await adminAdmissionService.getPending(page, 10, search, searchType, queryYear);

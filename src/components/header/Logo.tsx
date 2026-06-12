@@ -1,29 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
-import { BookOpen } from 'lucide-react';
-import { ACCENT, ACCENT2 } from './navData';
 
 export default function Logo() {
   return (
     <div>
-      <Link href="/" className="flex items-center gap-3 no-underline shrink-0">
-        <div
-          className="w-11 h-11 rounded-[13px] flex items-center justify-center shadow-lg"
-          style={{
-            background: ACCENT,
-            boxShadow: `0 8px 20px ${ACCENT}30`,
-          }}
-        >
-          <BookOpen size={20} color="white" />
-        </div>
+      <Link href="/" className="flex items-center gap-2.5 no-underline shrink-0 group">
+        <img
+          src="/school_logo.png"
+          alt="Neelgiri Public Sen. Sec. School Logo"
+          className="w-14 h-14 rounded-full object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
+        />
 
-        <div>
-          <p className="hdr-serif text-[26px] font-bold text-[#093C5D] leading-none tracking-tight">
-            Neelgiri
-            <span style={{ color: ACCENT }}>Public</span>
+        <div className="flex flex-col justify-center">
+          <p className="hdr-serif text-[20px] sm:text-[22px] font-extrabold text-[#093C5D] leading-none tracking-tight">
+            Neelgiri Public
           </p>
-          <p className="text-[9px] uppercase tracking-[0.22em] text-[#06283D] mt-1">
-            School
+          <p className="text-[9px] uppercase tracking-[0.05em] text-[#06283D] font-bold mt-1">
+            Sen. Sec. School, Lower Hatwas
           </p>
         </div>
       </Link>

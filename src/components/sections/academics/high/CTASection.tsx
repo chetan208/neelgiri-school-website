@@ -53,7 +53,7 @@ export default function HighSchoolCTA() {
             {/* RIGHT GLASS SIDE PANEL */}
             <div className="relative hidden lg:block min-h-full bg-[#093C5D]">
               <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1400&auto=format&fit=crop"
+                src="/assets/academics/high/admission_banner.jpg"
                 alt="Students"
                 className="absolute inset-0 w-full h-full object-cover opacity-25"
               />

@@ -2,10 +2,12 @@
 
 import React from "react";
 import { Star, ChevronRight, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useInView } from "./useInView";
 import { LevelItem } from "./data";
 
 export default function DesktopPanel({ level }: { level: LevelItem }) {
+  const router = useRouter();
   const [panelRef, panelIn] = useInView();
   const [imgRef, imgIn]     = useInView();
   const [headRef, headIn]   = useInView();
@@ -101,7 +103,11 @@ export default function DesktopPanel({ level }: { level: LevelItem }) {
             })}
           </div>
           <div ref={btnRef} className={`flex gap-2 ${btnIn ? "in-view-up" : "opacity-0"}`} style={{ animationDelay: "0.12s" }}>
-            <button className="cta-btn flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-[13px] font-bold text-white border-0 cursor-pointer" style={{ background: level.color, boxShadow: `0 4px 14px -2px ${level.color}40` }}>
+            <button 
+              className="cta-btn flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-[13px] font-bold text-white border-0 cursor-pointer" 
+              style={{ background: level.color, boxShadow: `0 4px 14px -2px ${level.color}40` }}
+              onClick={() => router.push(level.path)}
+            >
               Explore Programme <ChevronRight size={13} strokeWidth={2.5} />
             </button>
             <button className="cta-btn px-4 py-2.5 rounded-xl text-[13px] font-semibold cursor-pointer border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors">

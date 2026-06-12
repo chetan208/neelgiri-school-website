@@ -9,14 +9,24 @@ interface SessionManagerProps {
   refreshSession: () => Promise<void>;
 }
 
+const getCalculatedSession = (date: Date = new Date()): string => {
+  const year = date.getFullYear();
+  const march31 = new Date(year, 2, 31, 23, 59, 59, 999);
+  if (date.getTime() <= march31.getTime()) {
+    return `${year - 1}-${String(year).slice(-2)}`;
+  } else {
+    return `${year}-${String(year + 1).slice(-2)}`;
+  }
+};
+
 export default function SessionManager({ activeYear, refreshSession }: SessionManagerProps) {
-  const [yearInput, setYearInput] = useState('');
+  const [yearInput, setYearInput] = useState(getCalculatedSession());
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ isOpen: false, title: '', message: '', isError: false });
 
   const handleAction = async (action: 'open' | 'close') => {
     if (action === 'open' && !yearInput) {
-      return setModal({ isOpen: true, title: 'Input Required', message: 'Please enter an academic year (e.g., 2026-27).', isError: true });
+      return setModal({ isOpen: true, title: 'Input Required', message: 'Unable to calculate academic session.', isError: true });
     }
     setLoading(true);
     try {
@@ -26,7 +36,7 @@ export default function SessionManager({ activeYear, refreshSession }: SessionMa
         await adminAdmissionService.closeAdmission(activeYear);
       }
       await refreshSession();
-      setYearInput('');
+      setYearInput(getCalculatedSession());
     } catch (error: any) {
       setModal({ isOpen: true, title: 'Error', message: error.response?.data?.message || 'Action failed to execute.', isError: true });
     } finally {
@@ -64,10 +74,9 @@ export default function SessionManager({ activeYear, refreshSession }: SessionMa
             <>
               <input 
                 type="text" 
-                placeholder="e.g., 2026-27" 
+                readOnly
                 value={yearInput}
-                onChange={(e) => setYearInput(e.target.value)}
-                className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D] w-full sm:w-36 transition-all"
+                className="px-4 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 focus:outline-none w-full sm:w-36 transition-all cursor-not-allowed select-none"
               />
               <button 
                 onClick={() => handleAction('open')} disabled={loading}

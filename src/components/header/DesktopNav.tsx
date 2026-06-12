@@ -16,7 +16,7 @@ interface DesktopNavProps {
 
 export default function DesktopNav({ navItems, activeNav, setActiveNav, navigate, activeDD, openDD, closeDD }: DesktopNavProps) {
   return (
-    <nav className="hidden lg:flex items-center gap-1 ml-10 flex-1">
+    <nav className="hidden lg:flex items-center gap-1 ml-4">
       {navItems.map((item) => {
         const hasDD = !!item.dropdown;
 

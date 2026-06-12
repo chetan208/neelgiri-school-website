@@ -71,11 +71,11 @@ export default function SchoolHeader() {
             <div className="flex items-center shrink-0 transform hover:scale-[1.01] transition-transform duration-200">
               <Logo />
             </div>
-            <div className="hidden lg:flex items-center justify-center flex-1 px-8">
+            <div className="hidden lg:flex items-center justify-start flex-1 px-4">
               <DesktopNav
                 navItems={navItems}
-                activeNav={activeNav} // 💡 Now handles auto dynamic parameters binding implicitly
-                setActiveNav={() => {}} // Local state override disabled as usePathname rules natively
+                activeNav={activeNav}
+                setActiveNav={() => {}}
                 navigate={handleNavigate}
                 activeDD={activeDD}
                 openDD={openDD}

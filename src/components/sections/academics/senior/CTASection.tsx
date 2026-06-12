@@ -1,7 +1,12 @@
+'use client';
+
 import React from "react";
 import { GraduationCap, Lightbulb, BookOpen, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SeniorSecondaryCTA() {
+  const router = useRouter();
+
   return (
     <section className="w-full bg-[#F8FAFC] py-6 px-4">
       <div className="max-w-6xl mx-auto bg-white border border-[#093C5D]/15 rounded-2xl overflow-hidden shadow-md grid lg:grid-cols-2">
@@ -36,10 +41,16 @@ export default function SeniorSecondaryCTA() {
 
           {/* BUTTONS */}
           <div className="flex flex-wrap gap-2.5 mt-5">
-            <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer border-0 shadow-sm shadow-[#FA6781]/15">
+            <button 
+              onClick={() => router.push("/admissions")}
+              className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer border-0 shadow-sm shadow-[#FA6781]/15"
+            >
               Apply Now
             </button>
-            <button className="border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-700 px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-white">
+            <button 
+              onClick={() => router.push("/campus-tour")}
+              className="border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-700 px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-white"
+            >
               Explore Campus
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
@@ -58,7 +69,7 @@ export default function SeniorSecondaryCTA() {
               <p className="text-sm mt-0.5">Senior Secondary Program</p>
             </div>
             <div className="bg-white/10 border border-white/20 backdrop-blur-md rounded-xl p-4 text-white">
-              <h3 className="text-xl font-bold leading-tight">Science &amp; Commerce</h3>
+              <h3 className="text-xl font-bold leading-tight">Medical &amp; Non-Medical</h3>
               <p className="text-sm mt-0.5">Streams Available</p>
             </div>
             <div className="bg-white/10 border border-white/20 backdrop-blur-md rounded-xl p-4 text-white">

@@ -11,6 +11,7 @@ export interface NoticeType {
   type: "Urgent" | "Academic" | "Careers" | string;
   title: string;
   excerpt: string;
+  description?: string;
   date: string;
   link: string;
   badgeColor: string;
@@ -58,7 +59,8 @@ export default function AllNoticesPage() {
           id: notice.id || notice._id,
           type: notice.type.charAt(0).toUpperCase() + notice.type.slice(1),
           title: notice.title,
-          excerpt: notice.description ? notice.description.substring(0, 100) + "..." : "",
+          excerpt: notice.description ? (notice.description.length > 100 ? notice.description.substring(0, 100) + "..." : notice.description) : "",
+          description: notice.description || "",
           date: new Date(notice.createdAt).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "short",
