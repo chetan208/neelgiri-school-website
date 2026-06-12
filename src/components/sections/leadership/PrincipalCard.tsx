@@ -1,5 +1,5 @@
 import React from "react";
-import { GraduationCap, Quote } from "lucide-react";
+import { GraduationCap, Quote, User } from "lucide-react";
 
 // TypeScript specifications define ki
 export interface FacultyType {
@@ -21,11 +21,17 @@ export default function PrincipalCard({ principal }: { principal: FacultyType })
       <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] lg:grid-cols-[360px_1fr] items-center">
         {/* IMAGE CONTAINER */}
         <div className="bg-slate-50 w-full h-[240px] sm:h-[300px] md:h-full flex items-center justify-center p-4 border-b md:border-b-0 md:border-r border-slate-100">
-          <img
-            src={principal.imageUrl || "https://picsum.photos/seed/principal/400/400"}
-            alt={principal.name}
-            className="max-w-full max-h-full object-contain rounded-xl"
-          />
+          {principal.imageUrl ? (
+            <img
+              src={principal.imageUrl}
+              alt={principal.name}
+              className="max-w-full max-h-full object-contain rounded-xl"
+            />
+          ) : (
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-cyan-50/80 border border-cyan-150 text-cyan-600 flex items-center justify-center">
+              <User size={48} className="stroke-[1.5]" />
+            </div>
+          )}
         </div>
 
         {/* CONTENT SIDE */}

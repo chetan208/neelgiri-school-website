@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState } from "react";
-import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap } from "lucide-react";
+import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap, Users } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import StatsManager from "./StatsManager";
 import NoticeManager from "./NoticeManager";
 import PaperManager from "./PaperManager";
 import MediaManager from "./gallery/MediaManager";
 import AdmissionsControlPanel from "./Admissions/AdmissionsControlPanel"; // Placeholder import path mapping
+import StaffManager from "./StaffManager";
 
-type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions";
+type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions" | "staff";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabIdType>("stats");
@@ -23,11 +24,13 @@ export default function AdminDashboard() {
     notices: <NoticeManager />,
     papers: <PaperManager />,
     media: <MediaManager />,
-    admissions: <AdmissionsControlPanel />
+    admissions: <AdmissionsControlPanel />,
+    staff: <StaffManager />
   };
 
   const menuItems = [
     { id: "stats", label: "School Stats", icon: <BarChart3 size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
+    { id: "staff", label: "Manage Staff", icon: <Users size={15} />, isVisible: user.role === "Owner" },
     { id: "notices", label: "Notices Archive", icon: <FileText size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "papers", label: "Question Papers", icon: <BookOpen size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "media", label: "Media Gallery", icon: <Image size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
@@ -90,7 +93,13 @@ export default function AdminDashboard() {
       {/* Operational Active Target Form Viewport Grid */}
       <main className="flex-1 min-w-0 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          {TabComponents[activeTab]}
+          {activeTab === "staff" && user.role !== "Owner" ? (
+            <div className="text-center py-20 text-slate-500 font-semibold font-serif text-lg">
+              Access Denied. Owner permissions required to manage staff.
+            </div>
+          ) : (
+            TabComponents[activeTab]
+          )}
         </div>
       </main>
 

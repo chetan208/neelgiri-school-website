@@ -1,5 +1,5 @@
 import React from "react";
-import { Quote } from "lucide-react";
+import { Quote, User } from "lucide-react";
 import { FacultyType } from "./PrincipalCard";
 
 export default function TeacherCard({ teacher }: { teacher: FacultyType }) {
@@ -7,11 +7,17 @@ export default function TeacherCard({ teacher }: { teacher: FacultyType }) {
     <div className="flex flex-col justify-between overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
       {/* IMAGE CONTAINER */}
       <div className="relative bg-slate-50 flex items-center justify-center p-2 h-[160px] sm:h-[200px]">
-        <img
-          src={teacher.imageUrl || "https://picsum.photos/seed/teacher/300/300"}
-          alt={teacher.name}
-          className="max-w-full max-h-full object-contain rounded-xl"
-        />
+        {teacher.imageUrl ? (
+          <img
+            src={teacher.imageUrl}
+            alt={teacher.name}
+            className="max-w-full max-h-full object-contain rounded-xl"
+          />
+        ) : (
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-cyan-50/80 border border-cyan-150 text-cyan-600 flex items-center justify-center">
+            <User size={32} className="stroke-[1.5]" />
+          </div>
+        )}
       </div>
 
       {/* CONTENT */}

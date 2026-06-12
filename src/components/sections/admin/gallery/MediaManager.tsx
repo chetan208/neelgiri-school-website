@@ -192,7 +192,7 @@ export default function GalleryManagerPage() {
 
     try {
       if (ids.length > 0) {
-        await axios.post(`${SERVER_URL}/api/media/delete`, { ids });
+        await axios.post(`${SERVER_URL}/api/media/delete`, { ids },{withCredentials: true});
       }
       setAllItems((prev) => prev.filter((i) => !selected.has(i.id)));
       setTotalItems((prev) => prev - selected.size);
