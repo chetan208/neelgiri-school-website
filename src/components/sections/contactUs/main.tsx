@@ -74,7 +74,7 @@ export default function ContactUs({ isHomePage = false }: { isHomePage?: boolean
             </svg>
             <span className="text-[11px] font-black text-[#FFC94D] tracking-widest uppercase">Neelgiri Public School</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#093C5D] mb-3 font-serif">Get in Touch</h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#093C5D] mb-3 font-serif">Get in Touch</h2>
           <p className="text-xs sm:text-sm text-[#06283D]/70 max-w-md mx-auto leading-relaxed">Have questions about admissions, curriculum, or facilities? Fill out the form below and we will contact you shortly.</p>
         </div>
 

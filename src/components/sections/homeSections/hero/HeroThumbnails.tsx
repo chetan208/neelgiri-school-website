@@ -22,7 +22,7 @@ export default function HeroThumbnails({ slides, current, goTo, progress, setPau
           className="relative w-20 h-14 rounded-xl overflow-hidden"
           style={{ opacity: i === current ? 1 : 0.5 }}
         >
-          <img src={sl.image} alt="" className="w-full h-full object-cover" />
+          <img src={sl.image} alt={`Thumbnail: ${sl.title} ${sl.titleAccent}`} className="w-full h-full object-cover" />
           {i === current && (
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/20">
               <div

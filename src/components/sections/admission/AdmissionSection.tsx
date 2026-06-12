@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { admissionService, AdmissionFormData } from './admissionService';
 import LoadingView from './LoadingView';
 import ClosedView from './ClosedView';
@@ -242,6 +243,18 @@ export default function AdmissionSection() {
                     placeholder="Complete residential address..."
                     className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#093C5D] focus:bg-white transition-all text-xs resize-none"
                   />
+                </div>
+
+                <div className="flex items-start gap-2 py-1 select-none">
+                  <input
+                    type="checkbox"
+                    id="acceptTerms"
+                    required
+                    className="mt-0.5 w-3.5 h-3.5 accent-[#093C5D] border border-slate-300 rounded cursor-pointer"
+                  />
+                  <label htmlFor="acceptTerms" className="text-[10px] text-slate-500 font-medium leading-snug cursor-pointer">
+                    I agree to the <Link href="/terms-conditions" target="_blank" className="text-[#093C5D] font-bold underline hover:text-[#FA6781]">Terms &amp; Conditions</Link> and <Link href="/school-policies" target="_blank" className="text-[#093C5D] font-bold underline hover:text-[#FA6781]">School Policies</Link> of the institution.
+                  </label>
                 </div>
 
                 <div className="pt-1.5">

@@ -6,6 +6,10 @@ import SchoolFooter from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Neelgiri School",
   description: "Welcome to Neelgiri School Website",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
