@@ -159,6 +159,7 @@ export default function UploadModal({ onClose, onSuccess }: UploadModalProps) {
 
       await axios.post(`${SERVER_URL}/api/media/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
         onUploadProgress: (e) => {
           if (e.total) setProgress(Math.round((e.loaded / e.total) * 100));
         },

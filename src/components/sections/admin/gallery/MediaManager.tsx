@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 import MediaCard from "./components/MediaCard";
 import UploadModal from "./components/UploadModal";
 import DeleteConfirm from "./components/DeleteConfirm";
@@ -26,6 +27,7 @@ interface MediaItem {
   createdAt: string;
   updatedAt: string;
   category: Category;
+  order?: number;
 }
 
 interface ApiResponse {
@@ -54,6 +56,11 @@ export default function GalleryManagerPage() {
   const [filterCategory, setFilterCategory] = useState("all");
   const [filterType, setFilterType] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Drag & drop sorting
+  const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
+  const dragStartItemsRef = useRef<MediaItem[]>([]);
+  const isReorderable = filterCategory === "all" && filterType === "all" && !searchQuery.trim();
 
   // Selection
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -221,6 +228,69 @@ export default function GalleryManagerPage() {
     showToast("Media uploaded successfully!", "success");
   };
 
+  // ── Drag & Drop Reordering ───────────────────────────────────────────────────
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    if (!isReorderable) return;
+    dragStartItemsRef.current = allItems;
+    setDraggedIdx(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent, targetIdx: number) => {
+    e.preventDefault();
+    if (!isReorderable || draggedIdx === null || draggedIdx === targetIdx) return;
+
+    // Move item in real-time locally
+    const updatedItems = [...allItems];
+    const [draggedItem] = updatedItems.splice(draggedIdx, 1);
+    updatedItems.splice(targetIdx, 0, draggedItem);
+
+    setAllItems(updatedItems);
+    setDraggedIdx(targetIdx);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDragEnd = async () => {
+    setDraggedIdx(null);
+    if (!isReorderable || dragStartItemsRef.current.length === 0) return;
+
+    // Update the local order property on each item to match its new index
+    const reorderedItems = allItems.map((item, idx) => ({
+      ...item,
+      order: idx,
+    }));
+
+    // Calculate only the items whose order has actually changed
+    const ordersToSave = reorderedItems
+      .map((item, idx) => ({
+        id: item.id,
+        order: idx,
+        oldOrder: dragStartItemsRef.current.find((orig) => orig.id === item.id)?.order,
+      }))
+      .filter((item) => item.oldOrder === undefined || item.oldOrder !== item.order)
+      .map(({ id, order }) => ({ id, order }));
+
+    // Reset drag reference
+    dragStartItemsRef.current = [];
+
+    if (ordersToSave.length === 0) {
+      return;
+    }
+
+    // Save order
+    try {
+      await axios.put(`${SERVER_URL}/api/media/reorder`, { orders: ordersToSave }, { withCredentials: true });
+      showToast("Media order saved successfully!", "success");
+    } catch (err) {
+      showToast("Failed to save media order", "error");
+      fetchPage(1); // rollback
+    }
+  };
+
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
@@ -228,7 +298,7 @@ export default function GalleryManagerPage() {
 
       {/* ── Toast ── */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-100 px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white flex items-center gap-2 transition-all ${
+        <div className={`fixed top-4 right-4 z-[9999] px-5 py-3 rounded-xl shadow-xl text-sm font-semibold text-white flex items-center gap-2 transition-all ${
           toast.type === "success" ? "bg-[#59B292]" : "bg-red-500"
         }`}>
           {toast.type === "success" ? (
@@ -377,6 +447,11 @@ export default function GalleryManagerPage() {
               </>
             )}
 
+            {isReorderable && (
+              <span className="text-xs text-[#093C5D]/60 bg-[#093C5D]/5 border border-[#093C5D]/10 px-2.5 py-1 rounded-lg font-medium hidden md:inline-flex items-center gap-1 animate-pulse">
+                🖐️ Drag &amp; drop cards to reorder
+              </span>
+            )}
             <span className="ml-auto text-xs text-gray-400">
               Showing {filteredItems.length} of {allItems.length} loaded
             </span>
@@ -414,13 +489,33 @@ export default function GalleryManagerPage() {
         {/* Grid */}
         {!initialLoad && filteredItems.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {filteredItems.map((item) => (
-              <MediaCard
+            {filteredItems.map((item, idx) => (
+              <motion.div
                 key={item.id}
-                item={item}
-                selected={selected.has(item.id)}
-                onToggle={() => toggleSelect(item.id)}
-              />
+                layout
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 28
+                }}
+              >
+                <div
+                  draggable={isReorderable}
+                  onDragStart={(e) => handleDragStart(e, idx)}
+                  onDragOver={(e) => handleDragOver(e, idx)}
+                  onDragEnd={handleDragEnd}
+                  onDrop={handleDrop}
+                  className={`transition-all duration-200 ${
+                    isReorderable ? "cursor-grab active:cursor-grabbing" : ""
+                  } ${draggedIdx === idx ? "opacity-40 scale-95" : ""}`}
+                >
+                  <MediaCard
+                    item={item}
+                    selected={selected.has(item.id)}
+                    onToggle={() => toggleSelect(item.id)}
+                  />
+                </div>
+              </motion.div>
             ))}
             {/* Loading more skeletons */}
             {loading && !initialLoad &&
