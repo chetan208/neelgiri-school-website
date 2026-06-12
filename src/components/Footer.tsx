@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   MapPin,
   Phone,
@@ -18,6 +19,24 @@ import {
 import { motion } from "framer-motion";
 
 export default function Footer() {
+  const quickLinks = [
+    { label: "About School", href: "/about/our-story" },
+    { label: "Admissions", href: "/admissions" },
+    { label: "Primary Years", href: "/academics/primary-years" },
+    { label: "Middle School", href: "/academics/high-school" },
+    { label: "Senior Secondary", href: "/academics/secondary-years" },
+    { label: "Contact Us", href: "/contact" },
+  ];
+
+  const academicsLinks = [
+    { label: "Nursery & Kindergarten", href: "/academics/primary-years" },
+    { label: "Primary (1–5)", href: "/academics/primary-years" },
+    { label: "Middle School (6–8)", href: "/academics/high-school" },
+    { label: "Secondary (9–10)", href: "/academics/high-school" },
+    { label: "Senior Secondary (11–12)", href: "/academics/secondary-years" },
+    { label: "Science & Computer Labs", href: "/campus-tour" },
+  ];
+
   return (
     <footer className="relative bg-[#041622] overflow-hidden border-t border-[#093C5D]/15">
       
@@ -40,9 +59,9 @@ export default function Footer() {
                   <GraduationCap className="text-white" size={24} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white leading-tight">
+                  <p className="text-lg font-bold text-white leading-tight">
                     Neelgiri Public School
-                  </h2>
+                  </p>
                   <p className="text-xs text-[#FFC94D]">
                     Affiliated to HPBOSE
                   </p>
@@ -78,22 +97,16 @@ export default function Footer() {
                 Quick Links
               </h3>
               <div className="mt-5 space-y-3">
-                {[
-                  "About School",
-                  "Admissions",
-                  "Primary Years",
-                  "Middle School",
-                  "Senior Secondary",
-                  "Contact Us",
-                ].map((link) => (
-                  <motion.div
-                    key={link}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
-                  >
-                    <ChevronRight size={15} />
-                    {link}
-                  </motion.div>
+                {quickLinks.map((item) => (
+                  <Link key={item.label} href={item.href} className="no-underline block">
+                    <motion.div
+                      whileHover={{ x: 4 }}
+                      className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
+                    >
+                      <ChevronRight size={15} />
+                      {item.label}
+                    </motion.div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -104,22 +117,16 @@ export default function Footer() {
                 Academics
               </h3>
               <div className="mt-5 space-y-3">
-                {[
-                  "Nursery & Kindergarten",
-                  "Primary (1–5)",
-                  "Middle School (6–8)",
-                  "Secondary (9–10)",
-                  "Senior Secondary (11–12)",
-                  "Science & Computer Labs",
-                ].map((item) => (
-                  <motion.div
-                    key={item}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
-                  >
-                    <ChevronRight size={15} />
-                    {item}
-                  </motion.div>
+                {academicsLinks.map((item) => (
+                  <Link key={item.label} href={item.href} className="no-underline block">
+                    <motion.div
+                      whileHover={{ x: 4 }}
+                      className="flex items-center gap-2 text-slate-400 hover:text-[#FFC94D] text-sm transition duration-300 cursor-pointer"
+                    >
+                      <ChevronRight size={15} />
+                      {item.label}
+                    </motion.div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -167,15 +174,15 @@ export default function Footer() {
               © 2026 Neelgiri Public School. All Rights Reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-slate-500">
-              <span className="hover:text-[#FFC94D] transition cursor-pointer">
+              <Link href="/privacy-policy" className="no-underline text-slate-500 hover:text-[#FFC94D] transition">
                 Privacy Policy
-              </span>
-              <span className="hover:text-[#FFC94D] transition cursor-pointer">
+              </Link>
+              <Link href="/terms-conditions" className="no-underline text-slate-500 hover:text-[#FFC94D] transition">
                 Terms &amp; Conditions
-              </span>
-              <span className="hover:text-[#FFC94D] transition cursor-pointer">
+              </Link>
+              <Link href="/school-policies" className="no-underline text-slate-500 hover:text-[#FFC94D] transition">
                 School Policies
-              </span>
+              </Link>
             </div>
           </div>
 

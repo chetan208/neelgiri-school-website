@@ -68,7 +68,7 @@ export default function MobileCard({ level, isOpen, onToggle, index }: MobileCar
             </div>
           </div>
           <div className="px-4 pb-4 pt-4 bg-white">
-            <h3 className="serif text-[1.15rem] font-black text-brand-primary leading-snug mb-1">{level.headline}</h3>
+            <h4 className="serif text-[1.15rem] font-black text-brand-primary leading-snug mb-1">{level.headline}</h4>
             <p className="text-brand-text-dark/80 text-[13px] leading-relaxed mb-4">{level.desc}</p>
             <div className="flex flex-wrap gap-1.5 mb-4">
               {level.subjects.map((sub, i) => {
