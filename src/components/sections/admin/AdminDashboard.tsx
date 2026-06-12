@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap, Users } from "lucide-react";
+import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap, Users, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import StatsManager from "./StatsManager";
 import NoticeManager from "./NoticeManager";
@@ -9,8 +9,9 @@ import PaperManager from "./PaperManager";
 import MediaManager from "./gallery/MediaManager";
 import AdmissionsControlPanel from "./Admissions/AdmissionsControlPanel"; // Placeholder import path mapping
 import StaffManager from "./StaffManager";
+import ContactManager from "./ContactManager";
 
-type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions" | "staff";
+type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions" | "staff" | "contact";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabIdType>("stats");
@@ -25,12 +26,14 @@ export default function AdminDashboard() {
     papers: <PaperManager />,
     media: <MediaManager />,
     admissions: <AdmissionsControlPanel />,
-    staff: <StaffManager />
+    staff: <StaffManager />,
+    contact: <ContactManager />
   };
 
   const menuItems = [
     { id: "stats", label: "School Stats", icon: <BarChart3 size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "staff", label: "Manage Staff", icon: <Users size={15} />, isVisible: user.role === "Owner" },
+    { id: "contact", label: "Contact Inquiries", icon: <Mail size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "notices", label: "Notices Archive", icon: <FileText size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "papers", label: "Question Papers", icon: <BookOpen size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "media", label: "Media Gallery", icon: <Image size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
@@ -96,6 +99,10 @@ export default function AdminDashboard() {
           {activeTab === "staff" && user.role !== "Owner" ? (
             <div className="text-center py-20 text-slate-500 font-semibold font-serif text-lg">
               Access Denied. Owner permissions required to manage staff.
+            </div>
+          ) : activeTab === "contact" && user.role !== "Owner" && user.role !== "Admin" ? (
+            <div className="text-center py-20 text-slate-500 font-semibold font-serif text-lg">
+              Access Denied. Admin permissions required to view contact messages.
             </div>
           ) : (
             TabComponents[activeTab]

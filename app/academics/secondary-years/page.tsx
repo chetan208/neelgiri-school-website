@@ -1,34 +1,12 @@
-'use client';
+import React from "react";
+import SeniorSecondaryContent from "@/components/sections/academics/senior/SeniorSecondaryContent";
+import { Metadata } from "next";
 
-import React, { useState } from "react";
-import AcademicsHero from "@/components/sections/academics/senior/AcademicsHero";
-import StreamsNav from "@/components/sections/academics/senior/StreamsNav";
-import ScienceStream from "@/components/sections/academics/senior/ScienceStream";
-import CommerceStream from "@/components/sections/academics/senior/CommerceStream";
-import ArtsStream from "@/components/sections/academics/senior/ArtsStream";
-import CTASection from "@/components/sections/academics/senior/CTASection";
+export const metadata: Metadata = {
+  title: "Senior Secondary Curriculum | Neelgiri Public School",
+  description: "Explore senior secondary streams for classes XI and XII. We offer specialized courses in Science, Commerce, and Arts with expert guidance.",
+};
 
 export default function SeniorSecondaryPage() {
-  const [active, setActive] = useState("science");
-
-  return (
-    <div className="bg-[#F8FAFC] min-h-screen">
-      <AcademicsHero />
-
-      <div className="max-w-7xl mx-auto px-5 py-16">
-        <StreamsNav
-          active={active}
-          setActive={setActive}
-        />
-
-        <div className="mt-12">
-          {active === "science" && <ScienceStream />}
-          {active === "commerce" && <CommerceStream />}
-          {active === "arts" && <ArtsStream />}
-        </div>
-      </div>
-
-      <CTASection />
-    </div>
-  );
+  return <SeniorSecondaryContent />;
 }
