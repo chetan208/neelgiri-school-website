@@ -78,7 +78,7 @@ export default function PrimaryCTASection() {
               <img
                 src="/assets/academics/primary/primary_students_lake.jpg"
                 alt="Primary school students of Neelgiri Public School participating in outdoor learning activity near a lake"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover hidden lg:block"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
 

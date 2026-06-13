@@ -62,7 +62,7 @@ export default function SeniorSecondaryCTA() {
           <img
             src="/assets/academics/senior/school_building.jpg"
             alt="Neelgiri Public School senior secondary campus and laboratory building"
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            className="absolute inset-0 w-full h-full object-cover opacity-20 hidden lg:block"
           />
           <div className="absolute inset-0 bg-[#093C5D]/40" />
           <div className="relative z-10 h-full flex flex-col justify-center gap-3 p-6 lg:p-8">

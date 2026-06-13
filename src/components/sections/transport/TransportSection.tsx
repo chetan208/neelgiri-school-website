@@ -68,8 +68,8 @@ export default function TransportSection() {
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
                     priority={idx === 0}
-                    className={`object-cover transition-[opacity,transform] duration-700 ease-in-out transform transform-gpu will-change-[transform,opacity] ${
-                      idx === currentImageIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                    className={`object-cover transition-opacity duration-700 ease-in-out ${
+                      idx === currentImageIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
                     }`}
                   />
                 ))}
