@@ -5,12 +5,12 @@ import {
 } from "lucide-react";
 
 export interface SubjectItem {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties; strokeWidth?: number }>;
   label: string;
 }
 
 export interface StatItem {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties; strokeWidth?: number }>;
   value: string;
   label: string;
 }
@@ -20,7 +20,7 @@ export interface LevelItem {
   label: string;
   short: string;
   range: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties; strokeWidth?: number }>;
   color: string;
   tagBg: string;
   tagText: string;
@@ -43,7 +43,7 @@ export const levels: LevelItem[] = [
     color: "#093C5D",
     tagBg: "#FFC94D",
     tagText: "#093C5D",
-    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80&fit=crop",
+    image: "/assets/academics/primary/primary_students_science.jpg",
     headline: "Building Bright Beginnings",
     desc: "A nurturing foundation that sparks curiosity and a love for learning through play-based discovery.",
     subjects: [
@@ -70,7 +70,7 @@ export const levels: LevelItem[] = [
     color: "#59B292",
     tagBg: "rgba(89, 178, 146, 0.15)",
     tagText: "#3b8b70",
-    image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=900&q=80&fit=crop",
+    image: "/assets/academics/high/students_bench.jpg",
     headline: "Expanding Horizons",
     desc: "Rigorous yet engaging curriculum sharpening analytical thinking and scientific reasoning.",
     subjects: [
@@ -97,7 +97,7 @@ export const levels: LevelItem[] = [
     color: "#FA6781",
     tagBg: "rgba(250, 103, 129, 0.15)",
     tagText: "#FA6781",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=900&q=80&fit=crop",
+    image: "/assets/academics/senior/chemistry_lab.jpg",
     headline: "Crafting Future Leaders",
     desc: "Specialized Medical & Non-Medical streams with exam-ready depth for medical, engineering, and tech careers.",
     subjects: [

@@ -54,7 +54,7 @@ export default function HighSchoolCTA() {
             <div className="relative hidden lg:block min-h-full bg-[#093C5D]">
               <img
                 src="/assets/academics/high/admission_banner.jpg"
-                alt="Students"
+                alt="Neelgiri Public School high school students in chemistry laboratory"
                 className="absolute inset-0 w-full h-full object-cover opacity-25"
               />
               <div className="relative z-10 h-full flex flex-col justify-center gap-3 p-7">

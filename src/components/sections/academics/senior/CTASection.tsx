@@ -58,11 +58,13 @@ export default function SeniorSecondaryCTA() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div
-          className="relative hidden lg:block min-h-[360px] bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop')" }}
-        >
-          <div className="absolute inset-0 bg-[#093C5D]/85" />
+        <div className="relative hidden lg:block min-h-[360px] bg-[#093C5D] overflow-hidden">
+          <img
+            src="/assets/academics/senior/school_building.jpg"
+            alt="Neelgiri Public School senior secondary campus and laboratory building"
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-[#093C5D]/40" />
           <div className="relative z-10 h-full flex flex-col justify-center gap-3 p-6 lg:p-8">
             <div className="bg-white/10 border border-white/20 backdrop-blur-md rounded-xl p-4 text-white">
               <h3 className="text-2xl font-bold leading-tight">New</h3>

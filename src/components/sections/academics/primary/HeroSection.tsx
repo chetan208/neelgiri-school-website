@@ -1,110 +1,195 @@
 'use client';
 
-import React from "react";
-import { ArrowRight, Award, BookOpen, Palette, Puzzle } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Award, BookOpen, Palette, Puzzle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function PrimaryHeroSection() {
+  const router = useRouter();
+
+  const images = [
+    { src: "/assets/academics/primary/primary_kids_krishna.jpg", title: "Janmashtami Celebration" },
+    { src: "/assets/academics/primary/primary_students_statue.jpg", title: "Outdoor Excursion" },
+    { src: "/assets/academics/primary/primary_students_lake.jpg", title: "Eco Park Visit" },
+    { src: "/assets/academics/primary/primary_students_bridge.jpg", title: "Campus Excursion" },
+  ];
+
+  const [imgIndex, setImgIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setImgIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
+  const handleExploreClick = () => {
+    const el = document.getElementById("modules-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <section className="relative h-[calc(100vh-80px)] min-h-[560px] max-h-[760px] overflow-hidden">
-      {/* Background Image */}
-      <motion.img
-        initial={{ scale: 1.08 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: "easeOut" }}
-        src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000&auto=format&fit=crop"
-        alt="Primary school students"
-        className="absolute inset-0 w-full h-full object-cover"
+    <section
+      className="relative overflow-hidden min-h-[80vh] bg-gradient-to-br from-[#093C5D]/5 via-white to-slate-100 flex items-center border-b border-slate-200/60 pt-16 lg:pt-0"
+    >
+      {/* Subtle Dot Grid pattern */}
+      <div className="dot-grid absolute inset-0 opacity-20 pointer-events-none" />
+
+      {/* Soft Glow Orbs for Light Theme */}
+      <motion.div
+        className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] bg-[#FFC94D]/10 rounded-full blur-3xl top-[-50px] left-[-50px] pointer-events-none"
+        animate={{ y: [0, 15, 0], x: [0, 10, 0] }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-cyan-400/5 rounded-full blur-3xl bottom-[-80px] right-[-80px] pointer-events-none"
+        animate={{ y: [0, -20, 0], x: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity }}
       />
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/70 to-slate-900/40"></div>
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#59B292]/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#FA6781]/10 rounded-full blur-3xl animate-pulse"></div>
+      {/* MAIN CONTENT GRID */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          
+          {/* LEFT SIDE: TEXT CONTENT (Col-span 6 on desktop) */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            {/* BADGE */}
+            <motion.span
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[#093C5D] text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase border border-[#093C5D]/15 bg-[#093C5D]/5 backdrop-blur-xs"
+            >
+              <Award size={12} className="text-[#FA6781]" />
+              Nursery to Grade 5
+            </motion.span>
 
-      {/* Content */}
-      <div className="relative z-10 h-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center">
-          <div className="max-w-3xl">
-            
-            {/* Badge */}
-            <motion.div
+            {/* HEADING */}
+            <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2 mb-5"
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="text-[#06283D] font-black leading-[1.1] text-[2.1rem] xs:text-[2.4rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.5rem]"
             >
-              <Award size={16} className="text-[#FFC94D]" />
-              <span className="text-xs sm:text-sm text-slate-100 font-medium">
-                Affiliated to <span className="text-[#FFC94D] font-bold">HPBOSE</span>
-              </span>
-            </motion.div>
-
-            {/* Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05]"
-            >
-              Inspiring Young Minds
-              <span className="block text-[#FFC94D]">Through Creative</span>
-              <span className="block mt-2 text-white">
-                Learning at <span className="text-[#FFC94D]">Neelgiri Public School</span>
-              </span>
+              Inspiring Young<br />
+              <span className="text-[#FA6781]">Minds with Joy</span>
             </motion.h1>
 
-            {/* Description */}
+            {/* LINE */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 75, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="h-1 rounded-full bg-[#FA6781] mt-3"
+            />
+
+            {/* DESCRIPTION */}
             <motion.p
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-5 text-sm sm:text-base md:text-lg text-slate-200 leading-relaxed max-w-2xl"
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="mt-4 text-slate-600 leading-[1.7] text-[14px] sm:text-base md:text-lg max-w-xl"
             >
-              Building strong foundations through activity-based learning, creativity, communication, curiosity, and joyful classroom experiences for Primary Years 1–5.
+              Our Primary School curriculum creates a joyful, activity-based learning environment for Nursery, LKG, UKG, and Grades 1 to 5. We focus on building foundational literacy, analytical thinking, creativity, and confidence.
             </motion.p>
 
             {/* Feature Pills */}
             <motion.div
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-wrap gap-3 mt-6"
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="flex flex-wrap gap-2.5 mt-4"
             >
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <BookOpen size={16} className="text-[#FFC94D]" />
-                <span className="text-white text-xs sm:text-sm">Interactive Learning</span>
+              <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
+                <BookOpen size={14} className="text-[#093C5D]" />
+                <span className="text-slate-700 text-xs font-semibold">Active Learning</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <Palette size={16} className="text-[#FFC94D]" />
-                <span className="text-white text-xs sm:text-sm">Creative Activities</span>
+              <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
+                <Palette size={14} className="text-[#FA6781]" />
+                <span className="text-slate-700 text-xs font-semibold">Creative Arts</span>
               </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
-                <Puzzle size={16} className="text-[#FFC94D]" />
-                <span className="text-white text-xs sm:text-sm">Fun Problem Solving</span>
+              <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
+                <Puzzle size={14} className="text-[#59B292]" />
+                <span className="text-slate-700 text-xs font-semibold">Foundational Skills</span>
               </div>
             </motion.div>
 
-            {/* Buttons */}
+            {/* BUTTONS */}
             <motion.div
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap gap-4 mt-7"
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-3 mt-6"
             >
-              <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 shadow-lg cursor-pointer">
-                Explore Primary Years
-              </button>
-              <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition duration-300 cursor-pointer">
-                Take Virtual Tour
-                <ArrowRight size={16} />
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={handleExploreClick}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#093C5D] hover:bg-[#FA6781] text-white font-bold text-sm transition-all duration-300 cursor-pointer border-0 shadow-md shadow-[#093C5D]/15"
+              >
+                Explore Programs
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => router.push("/contact")}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full text-slate-700 font-bold text-sm transition-all duration-300 border border-slate-300 bg-white hover:bg-slate-50 cursor-pointer"
+              >
+                Admission Enquiry
+              </motion.button>
             </motion.div>
           </div>
+
+          {/* RIGHT SIDE: LARGER IMAGE SLIDER (Col-span 6 on desktop) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="lg:col-span-6 flex justify-center w-full"
+          >
+            <div className="relative w-full max-w-[550px] aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-white p-2">
+              {images.map((img, idx) => (
+                <div
+                  key={idx}
+                  className={`absolute inset-2 transition-all duration-700 ease-in-out transform ${
+                    idx === imgIndex ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                  }`}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.title}
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                  {/* Caption Overlay */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-5 pt-12 flex flex-col justify-end rounded-b-2xl">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-[#FFC94D]">{img.title}</span>
+                    <p className="text-xs text-white/90 mt-0.5 font-medium">Neelgiri Primary School Activities</p>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Dots indicator */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 bg-black/40 backdrop-blur-sm px-3.5 py-2 rounded-full">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setImgIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 border-0 cursor-pointer ${
+                      idx === imgIndex ? "bg-[#FA6781] w-4" : "bg-white/60"
+                    }`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-transparent"></div>
     </section>
   );
 }

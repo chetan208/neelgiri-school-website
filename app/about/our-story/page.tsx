@@ -11,7 +11,7 @@ export default function OurStoryPage() {
   return (
     <div className="bg-[#F8FAFC] min-h-screen pt-4">
       {/* Direct HistoryTimeline component ko render kiya */}
-      <HistoryTimeline />
+      <HistoryTimeline isStandAlone={true} />
     </div>
   );
 }

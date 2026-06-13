@@ -3,8 +3,8 @@ import { FileText, Scale } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | Neelgiri Sen. Sec. Public School",
-  description: "Official Terms and Conditions governing the use of Neelgiri Sen. Sec. Public School website.",
+  title: "Terms & Conditions | Neelgiri Sr. Sec. Public School",
+  description: "Official Terms and Conditions governing the use of Neelgiri Sr. Sec. Public School website.",
 };
 
 export default function TermsConditionsPage() {
@@ -26,7 +26,7 @@ export default function TermsConditionsPage() {
             Terms &amp; Conditions
           </h1>
           <p className="text-xs sm:text-sm text-[#06283D]/60 mt-2">
-            Last Updated: June 12, 2026 | Neelgiri Sen. Sec. Public School, Hatwas
+            Last Updated: June 12, 2026 | Neelgiri Sr. Sec. Public School, Hatwas
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function TermsConditionsPage() {
               1. Acceptance of Terms
             </h2>
             <p>
-              By accessing, browsing, or using the website of <strong>Neelgiri Sen. Sec. Public School, Hatwas</strong>, you acknowledge that you have read, understood, and agreed to be bound by these Terms &amp; Conditions, as well as all applicable local laws and regulations governing educational websites. If you do not agree, please exit the site.
+              By accessing, browsing, or using the website of <strong>Neelgiri Sr. Sec. Public School, Hatwas</strong>, you acknowledge that you have read, understood, and agreed to be bound by these Terms &amp; Conditions, as well as all applicable local laws and regulations governing educational websites. If you do not agree, please exit the site.
             </p>
           </section>
 
@@ -54,7 +54,7 @@ export default function TermsConditionsPage() {
                 <strong>Ownership:</strong> All website content—including but not limited to logos, branding, text copy, graphic designs, layout templates, photos, videos, and academic documentation—is protected by copyright, trademark, and intellectual property laws.
               </li>
               <li>
-                <strong>Restricted Use:</strong> No part of this website may be copied, reproduced, republished, uploaded, posted, transmitted, or distributed in any form for commercial or public use without prior, explicit written consent from the Principal of Neelgiri Sen. Sec. Public School, Hatwas.
+                <strong>Restricted Use:</strong> No part of this website may be copied, reproduced, republished, uploaded, posted, transmitted, or distributed in any form for commercial or public use without prior, explicit written consent from the Principal of Neelgiri Sr. Sec. Public School, Hatwas.
               </li>
             </ul>
           </section>

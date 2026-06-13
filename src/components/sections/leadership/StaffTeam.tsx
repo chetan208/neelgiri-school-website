@@ -48,10 +48,10 @@ export default function StaffTeam() {
             Our Faculty
           </div>
 
-          <h2 className="mt-5 text-[2rem] sm:text-[3rem] font-black text-slate-800">
+          <h1 className="mt-5 text-[2rem] sm:text-[3rem] font-black text-slate-800">
             Meet Our
             <span className="text-cyan-600"> Expert Team</span>
-          </h2>
+          </h1>
 
           <p className="mt-4 max-w-2xl mx-auto text-slate-500 text-sm sm:text-base leading-[1.9]">
             Dedicated educators committed to empowering students.

@@ -3,8 +3,8 @@ import { Shield, Lock } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Neelgiri Sen. Sec. Public School",
-  description: "Official Privacy Policy of Neelgiri Sen. Sec. Public School, Hatwas. Read about our guidelines on data protection and informational usage.",
+  title: "Privacy Policy | Neelgiri Sr. Sec. Public School",
+  description: "Official Privacy Policy of Neelgiri Sr. Sec. Public School, Hatwas. Read about our guidelines on data protection and informational usage.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-xs sm:text-sm text-[#06283D]/60 mt-2">
-            Effective Date: June 12, 2026 | Neelgiri Sen. Sec. Public School, Hatwas
+            Effective Date: June 12, 2026 | Neelgiri Sr. Sec. Public School, Hatwas
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
               1. Introduction
             </h2>
             <p>
-              Welcome to the official website of <strong>Neelgiri Sen. Sec. Public School, Hatwas</strong>. We are committed to protecting the privacy of our students, parents, guardians, faculty, and website visitors. This Privacy Policy outlines the types of information we collect through our online platform, how we use it, and the security measures we have established to protect your personal details.
+              Welcome to the official website of <strong>Neelgiri Sr. Sec. Public School, Hatwas</strong>. We are committed to protecting the privacy of our students, parents, guardians, faculty, and website visitors. This Privacy Policy outlines the types of information we collect through our online platform, how we use it, and the security measures we have established to protect your personal details.
             </p>
           </section>
 
@@ -88,7 +88,7 @@ export default function PrivacyPolicyPage() {
               4. Data Sharing and Non-Disclosure
             </h2>
             <p>
-              We enforce a strict anti-spam policy. <strong>Neelgiri Sen. Sec. Public School, Hatwas</strong> guarantees that:
+              We enforce a strict anti-spam policy. <strong>Neelgiri Sr. Sec. Public School, Hatwas</strong> guarantees that:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
               <li>We will <strong>never</strong> sell, rent, lease, trade, or share your contact details or personal information with third-party marketing or advertising agencies.</li>

@@ -12,7 +12,12 @@ export default function ContactUs({ isHomePage = false }: { isHomePage?: boolean
   const [apiError, setApiError] = useState("");
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -52,6 +57,7 @@ export default function ContactUs({ isHomePage = false }: { isHomePage?: boolean
       const data = await response.json();
       if (data) setSubmitted(true);
     } catch (err) {
+      console.error("Contact Form Submission Error:", err);
       setApiError("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
@@ -74,7 +80,11 @@ export default function ContactUs({ isHomePage = false }: { isHomePage?: boolean
             </svg>
             <span className="text-[11px] font-black text-[#FFC94D] tracking-widest uppercase">Neelgiri Public School</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#093C5D] mb-3 font-serif">Get in Touch</h2>
+          {isHomePage ? (
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#093C5D] mb-3 font-serif">Get in Touch</h2>
+          ) : (
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#093C5D] mb-3 font-serif">Get in Touch</h1>
+          )}
           <p className="text-xs sm:text-sm text-[#06283D]/70 max-w-md mx-auto leading-relaxed">Have questions about admissions, curriculum, or facilities? Fill out the form below and we will contact you shortly.</p>
         </div>
 

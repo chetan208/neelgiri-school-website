@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import SectionLabel from "./SectionLabel";
 import { timeline, colorMap } from "./constants";
 
-export default function HistoryTimeline() {
+export default function HistoryTimeline({ isStandAlone = false }: { isStandAlone?: boolean }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -20,12 +20,21 @@ export default function HistoryTimeline() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14 border-b border-white pb-8">
         <div className="space-y-2">
           <SectionLabel>Our Story</SectionLabel>
-          <h2 className="text-3xl md:text-4xl font-black text-brand-primary tracking-tight font-serif">
-            History &amp;{" "}
-            <span className="text-brand-accent">
-              Heritage
-            </span>
-          </h2>
+          {isStandAlone ? (
+            <h1 className="text-3xl md:text-4xl font-black text-brand-primary tracking-tight font-serif">
+              History &amp;{" "}
+              <span className="text-brand-accent">
+                Heritage
+              </span>
+            </h1>
+          ) : (
+            <h2 className="text-3xl md:text-4xl font-black text-brand-primary tracking-tight font-serif">
+              History &amp;{" "}
+              <span className="text-brand-accent">
+                Heritage
+              </span>
+            </h2>
+          )}
         </div>
         <p className="max-w-sm text-sm text-brand-text-dark/70 leading-relaxed">
           From a small community school to a celebrated institution — every milestone shaped us.

@@ -30,8 +30,12 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
     try {
       const res = await axios.post(`${SERVER_URL}/api/teachers/forgot-password`, { email });
       if (res.status === 200) setStep(2);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to send OTP. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Failed to send OTP. Please try again.");
+      } else {
+        setError(err instanceof Error ? err.message : "Failed to send OTP. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -52,8 +56,12 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
       const resetPayload = { email, otp, newPassword };
       const res = await axios.post(`${SERVER_URL}/api/teachers/reset-password`, resetPayload);
       if (res.status === 200) setShowSuccessModal(true);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid OTP or request failed.");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Invalid OTP or request failed.");
+      } else {
+        setError(err instanceof Error ? err.message : "Invalid OTP or request failed.");
+      }
     } finally {
       setLoading(false);
     }
@@ -64,7 +72,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
       {!loading && (
         <button 
           type="button" 
-          onClick={() => { setError(""); step === 2 ? setStep(1) : setView("login"); }} 
+          onClick={() => { setError(""); if (step === 2) { setStep(1); } else { setView("login"); } }} 
           className="text-xs font-bold text-slate-500 hover:text-[#FA6781] flex items-center gap-1 mb-4 transition-colors bg-transparent border-0 cursor-pointer"
         >
           <ArrowLeft size={14} /> Back to {step === 2 ? "Email Step" : "Login"}
@@ -72,7 +80,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
       )}
 
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Reset Password</h2>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Reset Password</h1>
         <p className="text-xs text-slate-500 mt-1 font-medium">
           {step === 1 ? "Enter your registered email address" : "Enter OTP and set your new password"}
         </p>

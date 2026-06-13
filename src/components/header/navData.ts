@@ -15,7 +15,7 @@ export const ACCENT = "#093C5D";
 export const ACCENT2 = "#FFC94D";
 
 export interface DropdownItem {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties }>;
   label: string;
   sub: string;
   to: string;
@@ -42,7 +42,7 @@ export const navItems: NavItem[] = [
   {
     label: "Academics",
     dropdown: [
-      { icon: GraduationCap, label: "Primary (1–5)", sub: "Foundation years", to: "/academics/primary-years" },
+      { icon: GraduationCap, label: "Primary (Nursery–5)", sub: "Foundation years", to: "/academics/primary-years" },
       { icon: BookMarked, label: "High School (6–10)", sub: "Core curriculum", to: "/academics/high-school" },
       { icon: FlaskConical, label: "Senior Secondary (11–12)", sub: "Medical & Non-Medical", to: "/academics/secondary-years" },
     ],

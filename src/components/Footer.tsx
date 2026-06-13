@@ -56,15 +56,15 @@ export default function Footer() {
               <div className="flex items-center gap-3.5">
                 <img
                   src="/school_logo.png"
-                  alt="Neelgiri Public Sen. Sec. School Logo"
-                  className="w-12 h-12 rounded-full object-contain shadow-md"
+                  alt="Neelgiri Public Sr. Sec. School Logo"
+                  className="w-14 h-14 rounded-full object-contain shadow-md"
                 />
                 <div>
                   <p className="text-base font-bold text-white leading-tight">
                     Neelgiri Public School
                   </p>
                   <p className="text-[10px] text-[#FFC94D] font-medium tracking-wide uppercase mt-0.5">
-                    Sen. Sec. Lower Hatwas
+                    Sr. Sec. Lower Hatwas
                   </p>
                 </div>
               </div>

@@ -27,7 +27,7 @@ interface EventItemType {
   venue: string;
   seats: number;
   registered: number;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   color: "amber" | "teal" | "rose" | "blue" | "violet" | "pink";
   image: string | null;
   tag: string;
@@ -65,7 +65,7 @@ const events: EventItemType[] = [
     registered: 218,
     icon: Trophy,
     color: "amber",
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=75",
+    image: "/assets/academics/high/medal_ceremony.jpg",
     tag: "Competition",
     highlight: "₹50K Prize Pool",
   },
@@ -83,7 +83,7 @@ const events: EventItemType[] = [
     registered: 344,
     icon: FlaskConical,
     color: "teal",
-    image: "https://images.unsplash.com/photo-1532094349884-543559c5f185?w=800&q=75",
+    image: "/assets/academics/primary/primary_students_science.jpg",
     tag: "Exhibition",
     highlight: "Expert Judges",
   },
@@ -101,7 +101,7 @@ const events: EventItemType[] = [
     registered: 612,
     icon: Music2,
     color: "rose",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=75",
+    image: "/assets/academics/primary/primary_kids_krishna.jpg",
     tag: "Festival",
     highlight: "3-Day Event",
   },
@@ -119,7 +119,7 @@ const events: EventItemType[] = [
     registered: 410,
     icon: Dumbbell,
     color: "blue",
-    image: "https://images.unsplash.com/photo-1461897104016-0b3b00cc81ee?w=800&q=75",
+    image: "/assets/academics/high/students_bench.jpg",
     tag: "Championship",
     highlight: "Gold Shield",
   },
@@ -238,8 +238,8 @@ function useCountdown(day: string, month: string, year: string) {
 }
 
 /* ─────────────────────── FADE-IN HOOK ─────────────────────── */
-function useFadeIn(delay = 0): [React.RefObject<HTMLDivElement | null>, boolean] {
-  const ref = useRef<HTMLDivElement | null>(null);
+function useFadeIn<T extends HTMLElement = HTMLDivElement>(delay = 0): [React.RefObject<T | null>, boolean] {
+  const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -291,12 +291,12 @@ function CountdownBadge({ day, month, year }: DateType) {
 
 /* ─────────────────────── FEATURED CARD ─────────────────────── */
 function FeaturedEventCard({ event }: { event: EventItemType }) {
-  const [ref, visible] = useFadeIn(50);
+  const [ref, visible] = useFadeIn<HTMLElement>(50);
   const c = colorMap[event.color];
   const EventIcon = event.icon;
   return (
     <article
-      ref={ref as any}
+      ref={ref}
       className={`group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-slate-100 shadow-sm h-full cursor-pointer
         transition-all duration-600 ease-out hover:shadow-lg hover:-translate-y-0.5
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
@@ -362,11 +362,11 @@ function FeaturedEventCard({ event }: { event: EventItemType }) {
 
 /* ─────────────────────── LIST CARD ─────────────────────── */
 function EventListCard({ event, index }: { event: EventItemType; index: number }) {
-  const [ref, visible] = useFadeIn(80 + index * 55);
+  const [ref, visible] = useFadeIn<HTMLElement>(80 + index * 55);
   const c = colorMap[event.color];
   return (
     <article
-      ref={ref as any}
+      ref={ref}
       className={`group flex gap-3 bg-white border border-slate-100 rounded-xl p-3 cursor-pointer
         hover:border-slate-200 hover:shadow-sm
         transition-all duration-400 ease-out
@@ -412,7 +412,7 @@ function EventListCard({ event, index }: { event: EventItemType; index: number }
 /* ─────────────────────── MAIN SECTION ─────────────────────── */
 export default function EventsSection() {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [hRef, hVisible] = useFadeIn(0);
+  const [hRef, hVisible] = useFadeIn<HTMLDivElement>(0);
 
   const filtered = activeFilter === "all"
     ? events
@@ -429,7 +429,7 @@ export default function EventsSection() {
       <div className="max-w-6xl mx-auto">
 
         <div
-          ref={hRef as any}
+          ref={hRef}
           className={`flex items-center justify-between mb-4 gap-4 flex-wrap
             transition-all duration-500 ease-out
             ${hVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}

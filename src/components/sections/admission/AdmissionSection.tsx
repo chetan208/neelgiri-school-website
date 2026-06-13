@@ -7,12 +7,13 @@ import LoadingView from './LoadingView';
 import ClosedView from './ClosedView';
 import SuccessView from './SuccessView';
 
+const classes = ["Nursery", "LKG", "UKG", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"];
+const sideImages = [
+  "/assets/academics/high/admission_banner.jpg",
+  "/assets/academics/primary/primary_students_bridge.jpg"
+];
+
 export default function AdmissionSection() {
-  const classes = ["Nursery", "LKG", "UKG", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"];
-  const sideImages = [
-    "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80"
-  ];
 
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,8 +64,12 @@ export default function AdmissionSection() {
     try {
       await admissionService.submitForm(formData);
       setIsSubmitted(true);
-    } catch (err: any) {
-      setSubmitError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setSubmitError(err.message);
+      } else {
+        setSubmitError(String(err));
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -99,7 +104,7 @@ export default function AdmissionSection() {
               <img 
                 key={idx}
                 src={img} 
-                alt="School environment"
+                alt={idx === 0 ? "Neelgiri Public School student admission activities" : "Neelgiri primary school students standing together on a campus bridge"}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${idx === currentImg ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
@@ -109,7 +114,7 @@ export default function AdmissionSection() {
             <span className="bg-[#FFC94D]/30 text-[#FFC94D] text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full border border-[#FFC94D]/20">
               Session {activeYear}
             </span>
-            <h2 className="text-xl font-bold leading-tight">Shape Your Child's Future</h2>
+            <h2 className="text-xl font-bold leading-tight">Shape Your Child&apos;s Future</h2>
             <p className="text-white/80 text-[11px] leading-relaxed">
               Neelgiri Public Senior Secondary School provides an interactive pipeline to secure structural student configurations.
             </p>
@@ -151,7 +156,7 @@ export default function AdmissionSection() {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Father's Name</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5 font-sans">Father&apos;s Name</label>
                     <input 
                       type="text" 
                       name="FatherName"
@@ -166,7 +171,7 @@ export default function AdmissionSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Mother's Name</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5 font-sans">Mother&apos;s Name</label>
                     <input 
                       type="text" 
                       name="MotherName"

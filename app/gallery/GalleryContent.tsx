@@ -100,8 +100,22 @@ export default function GalleryContent() {
   }, []);
 
   useEffect(() => {
-    fetchPage(1);
+    const timer = setTimeout(() => {
+      fetchPage(1);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchPage]);
+
+  useEffect(() => {
+    if (viewerItem) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [viewerItem]);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -141,12 +155,10 @@ export default function GalleryContent() {
 
   const openViewer = (item: MediaItem) => {
     setViewerItem(item);
-    document.body.style.overflow = "hidden";
   };
 
   const closeViewer = () => {
     setViewerItem(null);
-    document.body.style.overflow = "";
   };
 
   const goNext = async () => {
@@ -186,6 +198,14 @@ export default function GalleryContent() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#06283D]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#093C5D] font-serif leading-tight">
+            School Media &amp; Events Gallery
+          </h1>
+          <p className="mt-2 text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
+            Take a visual tour of our campus, academic events, achievements, and vibrant student life.
+          </p>
+        </div>
         <div className="bg-white rounded-2xl shadow-sm border border-[#F8FAFC] px-4 py-3.5 mb-6">
           <FilterBar
             categories={categories}

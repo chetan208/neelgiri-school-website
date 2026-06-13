@@ -12,10 +12,10 @@ export default function OurCourses() {
   const [active, setActive] = useState("primary");
   const [openMobile, setOpenMobile] = useState<string | null>("primary");
 
-  const [headerRef, headerIn] = useInView();
-  const [badgeRef,  badgeIn]  = useInView();
-  const [tabsRef,   tabsIn]   = useInView();
-  const [miniRef,   miniIn]   = useInView();
+  const [headerRef, headerIn] = useInView<HTMLParagraphElement>();
+  const [badgeRef,  badgeIn]  = useInView<HTMLDivElement>();
+  const [tabsRef,   tabsIn]   = useInView<HTMLDivElement>();
+  const [miniRef,   miniIn]   = useInView<HTMLDivElement>();
 
   const level = levels.find((l) => l.id === active)!;
 
@@ -29,7 +29,7 @@ export default function OurCourses() {
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col gap-6">
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div ref={badgeRef as any}>
+          <div ref={badgeRef}>
             <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-sm text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mb-2 ${badgeIn ? "in-view-slide" : "opacity-0"}`} style={{ animationDelay: "0s" }}>
               <GraduationCap size={11} className="text-slate-400" /> Academic Programmes
             </div>
@@ -37,12 +37,12 @@ export default function OurCourses() {
               Our <span className="shimmer-text">Courses</span>
             </h2>
           </div>
-          <p ref={headerRef as any} className={`text-slate-500 text-[13px] md:text-sm leading-relaxed max-w-xs font-medium ${headerIn ? "in-view-slideL" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
-            Tailored programmes for every stage of your child's journey.
+          <p ref={headerRef} className={`text-slate-500 text-[13px] md:text-sm leading-relaxed max-w-xs font-medium ${headerIn ? "in-view-slideL" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
+            Tailored programmes for every stage of your child&apos;s journey.
           </p>
         </div>
 
-        <div ref={tabsRef as any} className="desktop-only flex gap-2">
+        <div ref={tabsRef} className="desktop-only flex gap-2">
           {levels.map((l, i) => {
             const isA = l.id === active;
             const TabIcon = l.icon;
@@ -62,7 +62,7 @@ export default function OurCourses() {
 
         <DesktopPanel key={level.id} level={level} />
 
-        <div ref={miniRef as any} className="desktop-only grid grid-cols-3 gap-3">
+        <div ref={miniRef} className="desktop-only grid grid-cols-3 gap-3">
           {levels.map((l, i) => {
             const isA = l.id === active;
             const MiniIcon = l.icon;

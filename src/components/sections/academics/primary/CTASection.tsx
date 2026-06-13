@@ -3,8 +3,11 @@
 import React from "react";
 import { ArrowRight, Users, BookOpen, Star } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function PrimaryCTASection() {
+  const router = useRouter();
+
   return (
     <section className="py-10 sm:py-16 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -54,10 +57,16 @@ export default function PrimaryCTASection() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-2.5 mt-5">
-                <button className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 shadow-md shadow-[#FA6781]/20 cursor-pointer">
+                <button 
+                  onClick={() => router.push("/admissions")}
+                  className="bg-[#FA6781] hover:bg-[#093C5D] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 shadow-md shadow-[#FA6781]/20 cursor-pointer border-0"
+                >
                   Apply For Admission
                 </button>
-                <button className="flex items-center gap-1.5 border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 cursor-pointer bg-white">
+                <button 
+                  onClick={() => router.push("/academics")}
+                  className="flex items-center gap-1.5 border border-[#093C5D]/20 hover:border-[#093C5D] hover:text-[#093C5D] text-slate-600 px-5 py-2.5 rounded-xl text-sm font-semibold transition duration-300 cursor-pointer bg-white"
+                >
                   Explore Programs
                   <ArrowRight size={14} />
                 </button>
@@ -67,8 +76,8 @@ export default function PrimaryCTASection() {
             {/* RIGHT IMAGE PANEL */}
             <div className="relative hidden lg:block min-h-full overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop"
-                alt="Primary Students"
+                src="/assets/academics/primary/primary_students_lake.jpg"
+                alt="Primary school students of Neelgiri Public School participating in outdoor learning activity near a lake"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />

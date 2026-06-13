@@ -11,17 +11,17 @@ export default function CampusNews() {
     {
       title: "Robotics Team Wins Regional Championship",
       date: "March 18, 2026",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/academics/senior/physics_lab.jpg",
     },
     {
       title: "Model UN Conference Hosted Successfully",
       date: "March 12, 2026",
-      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/academics/high/medal_ceremony.jpg",
     },
     {
       title: "Science Fair Showcases Student Innovations",
       date: "March 5, 2026",
-      image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1200&auto=format&fit=crop",
+      image: "/assets/academics/senior/chemistry_lab.jpg",
     },
   ];
 

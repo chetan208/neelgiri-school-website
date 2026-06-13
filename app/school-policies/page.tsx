@@ -3,8 +3,8 @@ import { BookOpen, Award } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "School Policies | Neelgiri Sen. Sec. Public School",
-  description: "Official policies, admission guidelines, fee structures, and code of conduct rules of Neelgiri Sen. Sec. Public School, Hatwas.",
+  title: "School Policies | Neelgiri Sr. Sec. Public School",
+  description: "Official policies, admission guidelines, fee structures, and code of conduct rules of Neelgiri Sr. Sec. Public School, Hatwas.",
 };
 
 export default function SchoolPoliciesPage() {
@@ -26,7 +26,7 @@ export default function SchoolPoliciesPage() {
             School Policies
           </h1>
           <p className="text-xs sm:text-sm text-[#06283D]/60 mt-2">
-            Last Updated: June 12, 2026 | Neelgiri Sen. Sec. Public School, Hatwas
+            Last Updated: June 12, 2026 | Neelgiri Sr. Sec. Public School, Hatwas
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function SchoolPoliciesPage() {
               1. Admission Policy
             </h2>
             <p>
-              <strong>Neelgiri Sen. Sec. Public School, Hatwas</strong> follows a transparent, merit-based, and non-discriminatory admission process. We welcome students from all backgrounds who demonstrate a desire to learn and excel.
+              <strong>Neelgiri Sr. Sec. Public School, Hatwas</strong> follows a transparent, merit-based, and non-discriminatory admission process. We welcome students from all backgrounds who demonstrate a desire to learn and excel.
             </p>
             <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm">
               <li>
@@ -81,7 +81,7 @@ export default function SchoolPoliciesPage() {
               3. Code of Conduct
             </h2>
             <p>
-              Neelgiri Sen. Sec. Public School prides itself on cultivating a safe, disciplined, and supportive environment. Every student is expected to uphold the core values of respect and diligence.
+              Neelgiri Sr. Sec. Public School prides itself on cultivating a safe, disciplined, and supportive environment. Every student is expected to uphold the core values of respect and diligence.
             </p>
             
             <h3 className="font-bold text-slate-800 text-xs sm:text-sm uppercase tracking-wider mt-3">Punctuality and Attendance</h3>

@@ -7,8 +7,8 @@ export default function Logo() {
       <Link href="/" className="flex items-center gap-2.5 no-underline shrink-0 group">
         <img
           src="/school_logo.png"
-          alt="Neelgiri Public Sen. Sec. School Logo"
-          className="w-14 h-14 rounded-full object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
+          alt="Neelgiri Public Sr. Sec. School Logo"
+          className="w-16 h-16 rounded-full object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
         />
 
         <div className="flex flex-col justify-center">
@@ -16,7 +16,7 @@ export default function Logo() {
             Neelgiri Public
           </p>
           <p className="text-[9px] uppercase tracking-[0.05em] text-[#06283D] font-bold mt-1">
-            Sen. Sec. School, Lower Hatwas
+            Sr. Sec. School, Lower Hatwas
           </p>
         </div>
       </Link>

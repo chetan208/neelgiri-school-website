@@ -45,9 +45,13 @@ export default function LoginForm({ setView }: LoginFormProps) {
           router.push("/");
         }
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Login Error:", err);
-      setError(err.response?.data?.message || "Invalid credentials. Please try again.");
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Invalid credentials. Please try again.");
+      } else {
+        setError(err instanceof Error ? err.message : "Invalid credentials. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -56,7 +60,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
   return (
     <div className="animate-in fade-in zoom-in duration-500">
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h2>
+        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h1>
         <p className="text-xs text-slate-500 mt-1">Sign in as {role === "student" ? "a Student/Parent" : "a Teacher"}</p>
       </div>
 
@@ -150,7 +154,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
 
       <div className="mt-6 text-center">
         <p className="text-xs text-slate-500">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button type="button" disabled={loading} onClick={() => setView("register")} className="text-[#FA6781] font-bold hover:underline bg-transparent border-0 cursor-pointer disabled:opacity-50">Sign up</button>
         </p>
       </div>

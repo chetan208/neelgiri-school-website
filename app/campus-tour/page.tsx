@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function CampusTourPage() {
   return (
     <div className="pt-6 bg-[#F8FAFC] min-h-screen">
-      <DocumentationSection />
+      <DocumentationSection isStandAlone={true} />
     </div>
   );
 }

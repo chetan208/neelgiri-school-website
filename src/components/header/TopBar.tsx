@@ -49,7 +49,7 @@ export default function TopBar() {
           ) : (
             <>
               <School size={12} className="text-[#FFC94D]" />
-              <span>Welcome to Neelgiri Sen. Sec. Public School</span>
+              <span>Welcome to Neelgiri Sr. Sec. Public School</span>
             </>
           )}
         </div>

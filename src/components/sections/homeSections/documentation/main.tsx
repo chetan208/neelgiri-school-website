@@ -71,8 +71,8 @@ function isYouTubeUrl(url: string) {
 /* ─────────────────────────────────────────────
    HOOK: fires once when element enters viewport
 ───────────────────────────────────────────── */
-function useInView(options: IntersectionObserverInit = {}): [React.RefObject<HTMLDivElement | null>, boolean] {
-  const ref = useRef<HTMLDivElement | null>(null);
+function useInView<T extends HTMLElement = HTMLDivElement>(options: IntersectionObserverInit = {}): [React.RefObject<T | null>, boolean] {
+  const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
   
   useEffect(() => {
@@ -148,7 +148,7 @@ function Badge({ label, isVideo }: { label: string; isVideo: boolean }) {
 function PhotoCard({ item, style, animDelay, isBig }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [cardRef, cardIn] = useInView({ threshold: 0.08 });
+  const [cardRef, cardIn] = useInView<HTMLAnchorElement>({ threshold: 0.08 });
 
   const animName = isBig ? "gBigCardIn" : "gCardIn";
   const duration = isBig ? "0.75s" : "0.6s";
@@ -157,7 +157,7 @@ function PhotoCard({ item, style, animDelay, isBig }: CardProps) {
   return (
     <Link 
       href="/gallery"
-      ref={cardRef as any}
+      ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -247,7 +247,7 @@ function PhotoCard({ item, style, animDelay, isBig }: CardProps) {
 function VideoCard({ item, style, animDelay }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [cardRef, cardIn] = useInView({ threshold: 0.08 });
+  const [cardRef, cardIn] = useInView<HTMLAnchorElement>({ threshold: 0.08 });
 
   const thumbUrl = isYouTubeUrl(item.url) ? getYoutubeThumb(item.url) : item.url;
   const formattedDate = new Date(item.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -255,7 +255,7 @@ function VideoCard({ item, style, animDelay }: CardProps) {
   return (
     <Link
       href="/gallery"
-      ref={cardRef as any}
+      ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -382,17 +382,17 @@ function CTAButton({ isMobile, inView, animDelay }: CTAButtonProps) {
 }
 
 /* ─── Main Component ─────────────────────────────────────── */
-export default function DocumentationSection() {
+export default function DocumentationSection({ isStandAlone = false }: { isStandAlone?: boolean }) {
   const [items, setItems] = useState<MediaItemType[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [loading, setLoading] = useState(true);
 
-  const [badgeRef, badgeIn] = useInView({ threshold: 0.2 });
-  const [titleRef, titleIn] = useInView({ threshold: 0.2 });
-  const [descRef,  descIn]  = useInView({ threshold: 0.2 });
-  const [gridRef,  gridIn]  = useInView({ threshold: 0.06 });
-  const [ctaRef,   ctaIn]   = useInView({ threshold: 0.3 });
+  const [badgeRef, badgeIn] = useInView<HTMLDivElement>({ threshold: 0.2 });
+  const [titleRef, titleIn] = useInView<HTMLHeadingElement>({ threshold: 0.2 });
+  const [descRef,  descIn]  = useInView<HTMLParagraphElement>({ threshold: 0.2 });
+  const [gridRef,  _gridIn]  = useInView<HTMLDivElement>({ threshold: 0.06 });
+  const [ctaRef,   ctaIn]   = useInView<HTMLDivElement>({ threshold: 0.3 });
 
   useEffect(() => {
     async function loadLivePreview() {
@@ -413,10 +413,15 @@ export default function DocumentationSection() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
+      const timer = setTimeout(() => {
+        setWindowWidth(window.innerWidth);
+      }, 0);
       const onResize = () => setWindowWidth(window.innerWidth);
       window.addEventListener("resize", onResize);
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("resize", onResize);
+      };
     }
   }, []);
 
@@ -477,7 +482,7 @@ export default function DocumentationSection() {
       <div style={{ position: "relative", maxWidth: 1050, margin: "0 auto" }}>
 
         <div style={{ textAlign: "center", marginBottom: isMobile ? 20 : 32 }}>
-          <div ref={badgeRef as any} style={{
+          <div ref={badgeRef} style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             padding: "4px 12px", borderRadius: 99,
             background: "#59B292", border: "2px solid #06283D",
@@ -490,31 +495,57 @@ export default function DocumentationSection() {
             Media &amp; Documentation
           </div>
 
-          <h2 ref={titleRef as any} id="gallery-heading" style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontSize: isMobile ? 22 : isTablet ? 28 : 32,
-            fontWeight: 800, color: "#093C5D", lineHeight: 1.2,
-            maxWidth: 500, margin: "0 auto 10px", letterSpacing: "-0.01em",
-            opacity: titleIn ? 1 : 0,
-            animation: titleIn ? "gFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.1s both" : "none",
-          }}>
-            Life at{" "}
-            <span style={{ position: "relative", display: "inline-block", color: "#FA6781" }}>
-              Neelgiri
-              <span style={{
-                position: "absolute", bottom: -2, left: 0, right: 0,
-                height: 3, borderRadius: 2,
-                background: "#FA6781",
-                transformOrigin: "left",
-                transform: titleIn ? "scaleX(1)" : "scaleX(0)",
-                transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.55s",
-                display: "block",
-              }} />
-            </span>
-            {" "}— Memories
-          </h2>
+          {isStandAlone ? (
+            <h1 ref={titleRef} id="gallery-heading" style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontSize: isMobile ? 22 : isTablet ? 28 : 32,
+              fontWeight: 800, color: "#093C5D", lineHeight: 1.2,
+              maxWidth: 500, margin: "0 auto 10px", letterSpacing: "-0.01em",
+              opacity: titleIn ? 1 : 0,
+              animation: titleIn ? "gFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.1s both" : "none",
+            }}>
+              Life at{" "}
+              <span style={{ position: "relative", display: "inline-block", color: "#FA6781" }}>
+                Neelgiri
+                <span style={{
+                  position: "absolute", bottom: -2, left: 0, right: 0,
+                  height: 3, borderRadius: 2,
+                  background: "#FA6781",
+                  transformOrigin: "left",
+                  transform: titleIn ? "scaleX(1)" : "scaleX(0)",
+                  transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.55s",
+                  display: "block",
+                }} />
+              </span>
+              {" "}— Memories
+            </h1>
+          ) : (
+            <h2 ref={titleRef} id="gallery-heading" style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontSize: isMobile ? 22 : isTablet ? 28 : 32,
+              fontWeight: 800, color: "#093C5D", lineHeight: 1.2,
+              maxWidth: 500, margin: "0 auto 10px", letterSpacing: "-0.01em",
+              opacity: titleIn ? 1 : 0,
+              animation: titleIn ? "gFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.1s both" : "none",
+            }}>
+              Life at{" "}
+              <span style={{ position: "relative", display: "inline-block", color: "#FA6781" }}>
+                Neelgiri
+                <span style={{
+                  position: "absolute", bottom: -2, left: 0, right: 0,
+                  height: 3, borderRadius: 2,
+                  background: "#FA6781",
+                  transformOrigin: "left",
+                  transform: titleIn ? "scaleX(1)" : "scaleX(0)",
+                  transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.55s",
+                  display: "block",
+                }} />
+              </span>
+              {" "}— Memories
+            </h2>
+          )}
 
-          <p ref={descRef as any} style={{
+          <p ref={descRef} style={{
             color: "#06283D", fontSize: isMobile ? 12 : 13,
             lineHeight: 1.6, maxWidth: 460, margin: "0 auto",
             opacity: descIn ? 1 : 0,
@@ -524,7 +555,7 @@ export default function DocumentationSection() {
           </p>
         </div>
 
-        <div ref={gridRef as any} style={gridStyle}>
+        <div ref={gridRef} style={gridStyle}>
           {visibleItems.map((item, i) => {
             const cardStyle = buildCardStyle(item, i);
             const delay = getDelay(i);
@@ -536,7 +567,7 @@ export default function DocumentationSection() {
           })}
         </div>
 
-        <div ref={ctaRef as any} style={{
+        <div ref={ctaRef} style={{
           display: "flex", flexDirection: "column",
           alignItems: "center", gap: 8,
           marginTop: isMobile ? 20 : 28,

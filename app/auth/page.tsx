@@ -45,7 +45,7 @@ export default function AuthPage() {
               {view === "register" && (
                 <div className="animate-in fade-in zoom-in duration-500">
                   <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-[#093C5D]">Create Account</h2>
+                    <h1 className="text-2xl font-bold text-[#093C5D]">Create Account</h1>
                     
                     {/* Role Toggle Switch */}
                     <div className="flex bg-[#F8FAFC] p-1 rounded-xl mt-4">

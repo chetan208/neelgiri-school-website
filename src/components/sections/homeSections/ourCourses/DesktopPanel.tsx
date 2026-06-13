@@ -16,7 +16,7 @@ export default function DesktopPanel({ level }: { level: LevelItem }) {
   const [statRef, statIn]   = useInView();
   const [btnRef, btnIn]     = useInView();
 
-  const LevelIcon = level.icon;
+  const LevelIcon = level.icon as React.ComponentType<{ size?: number; style?: React.CSSProperties; strokeWidth?: number }>;
 
   return (
     <div

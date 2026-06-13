@@ -64,7 +64,7 @@ export default function AdminDashboard() {
         ${isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full lg:translate-x-0"}
       `}>
         <div className="p-5 hidden lg:block border-b border-[#093C5D]/20">
-          <h1 className="text-sm font-black font-serif tracking-tight text-[#093C5D]">Neelgiri School</h1>
+          <h2 className="text-sm font-black font-serif tracking-tight text-[#093C5D]">Neelgiri School</h2>
           <p className="text-[9px] font-black uppercase tracking-widest text-[#59B292] mt-0.5">Control Panel</p>
         </div>
 
