@@ -3,7 +3,7 @@ import { ArrowRight, GraduationCap, BookOpen, Sparkles, Trophy, FlaskConical, Us
 
 export default function HighSchoolCTA() {
   return (
-    <section className="py-10 sm:py-16 bg-[#F8FAFC]">
+    <section className="py-10 sm:py-16 bg-[#F8FAFC] hidden md:block">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="bg-white border border-[#093C5D]/20 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2">

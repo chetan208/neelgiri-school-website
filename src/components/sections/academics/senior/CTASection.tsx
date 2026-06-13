@@ -8,7 +8,7 @@ export default function SeniorSecondaryCTA() {
   const router = useRouter();
 
   return (
-    <section className="w-full bg-[#F8FAFC] py-6 px-4">
+    <section className="w-full bg-[#F8FAFC] py-6 px-4 hidden md:block">
       <div className="max-w-6xl mx-auto bg-white border border-[#093C5D]/15 rounded-2xl overflow-hidden shadow-md grid lg:grid-cols-2">
         {/* LEFT CONTENT */}
         <div className="p-5 sm:p-7 lg:p-8 flex flex-col justify-center">

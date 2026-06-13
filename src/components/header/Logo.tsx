@@ -8,7 +8,7 @@ export default function Logo() {
         <img
           src="/school_logo.png"
           alt="Neelgiri Public Sr. Sec. School Logo"
-          className="w-16 h-16 rounded-full object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
+          className="w-11 h-11 rounded-full object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
         />
 
         <div className="flex flex-col justify-center">

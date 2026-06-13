@@ -1,13 +1,12 @@
 'use client';
 
 import React from "react";
-import { Baby, Pencil, BookOpen, Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 interface ClassModuleType {
   title: string;
-  icon: React.ReactNode;
   image: string;
   description: string;
   skills: string[];
@@ -19,21 +18,18 @@ export default function LearningSpaces() {
   const classes: ClassModuleType[] = [
     {
       title: "Nursery & LKG",
-      icon: <Baby size={22} />,
       image: "/assets/academics/primary/primary_kids_krishna.jpg",
       description: "Fun-based learning with storytelling, phonics, rhymes, drawing, play activities, and social interaction.",
       skills: ["Alphabet & Numbers", "Rhymes & Storytelling", "Creative Play"],
     },
     {
       title: "UKG & Grade 1",
-      icon: <Pencil size={22} />,
       image: "/assets/academics/primary/primary_students_statue.jpg",
       description: "Developing reading, writing, communication, and basic mathematics through engaging classroom activities.",
       skills: ["Reading & Writing", "Basic Mathematics", "Communication Skills"],
     },
     {
       title: "Grades 2 – 5",
-      icon: <BookOpen size={22} />,
       image: "/assets/academics/primary/primary_students_science.jpg",
       description: "Strengthening academic foundations with science, mathematics, language learning, creativity, and teamwork.",
       skills: ["Science & EVS", "Problem Solving", "Creative Learning"],
@@ -85,15 +81,6 @@ export default function LearningSpaces() {
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
-
-                  {/* Animated Icon */}
-                  <motion.div
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ repeat: Infinity, duration: 3 }}
-                    className="absolute top-4 left-4 w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-xl border border-white/20 text-white flex items-center justify-center"
-                  >
-                    {item.icon}
-                  </motion.div>
 
                   {/* Title */}
                   <div className="absolute bottom-5 left-5 right-5">

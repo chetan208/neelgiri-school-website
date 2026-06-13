@@ -1,15 +1,10 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
-import { GraduationCap, TrendingUp, Trophy, Users } from "lucide-react";
 
-const iconMap: Record<string, React.ComponentType<any>> = {
-  GraduationCap: GraduationCap,
-  TrendingUp: TrendingUp,
-  Users: Users,
-  Trophy: Trophy,
-};
+// Fixed accent colors keyed by position (0-3) — never change regardless of API data
+const ACCENT_COLORS = ["#093C5D", "#FA6781", "#59B292", "#FFC94D"];
 
 interface StatItem {
   iconName: string;
@@ -17,68 +12,146 @@ interface StatItem {
   statLabel: string;
 }
 
-export default function HeroStatsBar() {
-  const [stats, setStats] = useState<StatItem[]>([]);
+function parseStatValue(val: string): { num: number; suffix: string } {
+  const match = val.match(/^([\d,]+)(.*)/);
+  if (!match) return { num: 0, suffix: val };
+  return {
+    num: parseInt(match[1].replace(/,/g, ""), 10),
+    suffix: match[2] || "",
+  };
+}
+
+function useAnimatedCounter(target: number, duration: number, start: boolean): number {
+  const [count, setCount] = useState(0);
+  const rafRef   = useRef<number | null>(null);
+  const startRef = useRef<number | null>(null);
+
+  const animate = useCallback((ts: number) => {
+    if (!startRef.current) startRef.current = ts;
+    const p = Math.min((ts - startRef.current) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+    setCount(Math.round(eased * target));
+    if (p < 1) rafRef.current = requestAnimationFrame(animate);
+  }, [target, duration]);
 
   useEffect(() => {
+    if (!start || target === 0) return;
+    startRef.current = null;
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [start, target, animate]);
+
+  return count;
+}
+
+function StatCard({
+  stat,
+  index,
+  isVisible,
+}: {
+  stat: StatItem;
+  index: number;
+  isVisible: boolean;
+}) {
+  const { num, suffix } = parseStatValue(stat.statValue);
+  const animated = useAnimatedCounter(num, 1800, isVisible);
+  // Color is fixed by position — never affected by iconName from API
+  const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
+
+  const isRightEdge = index % 2 === 1; // right column on mobile
+
+  return (
+    <div
+      className={[
+        "flex flex-col justify-center py-5 px-5 sm:px-7",
+        // vertical divider: right border on all except last column per row
+        !isRightEdge ? "border-r border-slate-100" : "",
+        // top border for second row on mobile only
+        index >= 2 ? "border-t border-slate-100" : "",
+        // on md+ always show right divider except last item
+        "md:border-t-0",
+        index < 3 ? "md:border-r md:border-slate-100" : "md:border-r-0",
+      ].join(" ")}
+      style={{
+        opacity:         isVisible ? 1 : 0,
+        transform:       isVisible ? "translateY(0)" : "translateY(14px)",
+        transition:      "opacity 0.5s ease, transform 0.5s ease",
+        transitionDelay: `${index * 110}ms`,
+      }}
+    >
+      {/* Number */}
+      <p
+        className="font-black leading-none tracking-tight text-[1.5rem] sm:text-[1.75rem]"
+        style={{ color: accent }}
+      >
+        {animated.toLocaleString()}
+        <span className="text-[0.6em] font-extrabold">{suffix}</span>
+      </p>
+
+      {/* Label */}
+      <p className="mt-1.5 text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-400 leading-tight">
+        {stat.statLabel}
+      </p>
+
+      {/* Thin accent underline */}
+      <div
+        className="mt-2.5 h-[3px] w-7 rounded-full"
+        style={{ background: accent, opacity: 0.35 }}
+      />
+    </div>
+  );
+}
+
+const fallbackStats: StatItem[] = [
+  { iconName: "TrendingUp",    statValue: "38+",   statLabel: "Years of Excellence" },
+  { iconName: "Users",         statValue: "5000+", statLabel: "Students Enrolled"   },
+  { iconName: "GraduationCap", statValue: "200+",  statLabel: "Expert Faculty"      },
+  { iconName: "Trophy",        statValue: "98%",   statLabel: "Success Rate"        },
+];
+
+export default function HeroStatsBar() {
+  const [stats,     setStats]     = useState<StatItem[]>(fallbackStats);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Fetch from API — fall back silently on error
+  useEffect(() => {
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "";
-    const fetchStats = async () => {
-      try {
-        const response = await axios.get(`${SERVER_URL}/api/school-stats`);
-        if (response.data && response.data.length > 0) {
-          setStats(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching stats:", error);
-      }
-    };
-    fetchStats();
+    axios
+      .get(`${SERVER_URL}/api/school-stats`)
+      .then((r) => { if (r.data?.length > 0) setStats(r.data); })
+      .catch(() => {});
+  }, []);
+
+  // Scroll-triggered animation
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); obs.disconnect(); } },
+      { threshold: 0.2 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   return (
-    <div className="w-full px-4 sm:px-5">
-      <div
-        className="max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-4 rounded-2xl overflow-hidden border border-white/10"
-        style={{
-          background: "rgba(255,255,255,0.06)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-        }}
-      >
-        {stats.map((stat, i) => {
-          const Icon = iconMap[stat.iconName] || GraduationCap;
-
-          return (
-            <div
+    <section
+      ref={sectionRef}
+      className="w-full bg-white border-b border-slate-100"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4">
+          {stats.map((stat, i) => (
+            <StatCard
               key={i}
-              className={`flex items-center gap-3 px-4 sm:px-5 py-4 sm:py-5 transition-all duration-300 hover:bg-white/[0.05] ${
-                i !== stats.length - 1 ? "border-white/10" : ""
-              } ${i % 2 === 0 ? "border-r md:border-r" : ""} ${i < 2 ? "border-b md:border-b-0" : ""} md:border-b-0`}
-            >
-              <div
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shrink-0 flex items-center justify-center"
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "#ffffff",
-                }}
-              >
-                <Icon size={18} />
-              </div>
-
-              <div className="min-w-0">
-                <p className="text-white font-black text-[15px] sm:text-[18px] lg:text-[22px] leading-none">
-                  {stat.statValue}
-                </p>
-                <p className="text-white/60 uppercase tracking-[0.08em] font-semibold mt-1 text-[9px] sm:text-[10px] lg:text-[11px] whitespace-nowrap">
-                  {stat.statLabel}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+              stat={stat}
+              index={i}
+              isVisible={isVisible}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

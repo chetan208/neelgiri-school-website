@@ -57,7 +57,7 @@ export default function Footer() {
                 <img
                   src="/school_logo.png"
                   alt="Neelgiri Public Sr. Sec. School Logo"
-                  className="w-14 h-14 rounded-full object-contain shadow-md"
+                  className="w-10 h-10 rounded-full object-contain shadow-md"
                 />
                 <div>
                   <p className="text-base font-bold text-white leading-tight">

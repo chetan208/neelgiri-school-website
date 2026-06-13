@@ -9,7 +9,7 @@ export default function PrimaryCTASection() {
   const router = useRouter();
 
   return (
-    <section className="py-10 sm:py-16 bg-[#F8FAFC]">
+    <section className="py-10 sm:py-16 bg-[#F8FAFC] hidden md:block">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 35 }}

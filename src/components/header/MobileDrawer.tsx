@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, X, ShieldCheck, LogOut, LogIn, Loader2, Search } from 'lucide-react';
+import { X, ShieldCheck, LogOut, LogIn, Loader2, Search } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import MobileNavItem from './MobileNavItem';
-import { ACCENT, NavItem } from './navData';
+import { NavItem } from './navData';
 
 interface MobileDrawerProps {
   mobileOpen: boolean;
@@ -51,13 +51,19 @@ export default function MobileDrawer({ mobileOpen, setMobileOpen, navItems }: Mo
       <div className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setMobileOpen(false)} />
       <div className="hdr-drawer fixed top-0 right-0 bottom-0 z-[70] w-[88vw] max-w-sm bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#093C5D]/15">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm" style={{ background: ACCENT }}>
-              <BookOpen size={17} color="white" />
-            </div>
-            <div>
-              <p className="hdr-serif text-[18px] font-bold text-[#093C5D] leading-none">Neelgiri <span style={{ color: ACCENT }}>Public</span></p>
-              <p className="text-[9px] uppercase tracking-widest text-[#06283D] mt-1">School</p>
+          <div className="flex items-center gap-2.5">
+            <img
+              src="/school_logo.png"
+              alt="Neelgiri Public Sr. Sec. School Logo"
+              className="w-11 h-11 rounded-full object-contain shadow-md"
+            />
+            <div className="flex flex-col justify-center">
+              <p className="hdr-serif text-[18px] font-extrabold text-[#093C5D] leading-none tracking-tight">
+                Neelgiri Public
+              </p>
+              <p className="text-[9px] uppercase tracking-[0.05em] text-[#06283D] font-bold mt-1">
+                Sr. Sec. School, Lower Hatwas
+              </p>
             </div>
           </div>
           <button className="w-9 h-9 rounded-xl border border-[#093C5D]/25 flex items-center justify-center hover:bg-[#093C5D]/10" onClick={() => setMobileOpen(false)}>

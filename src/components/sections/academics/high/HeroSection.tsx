@@ -75,7 +75,7 @@ export default function HighSchoolHero() {
               className="text-[#06283D] font-black leading-[1.1] text-[2.1rem] xs:text-[2.4rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.5rem]"
             >
               Future Ready<br />
-              <span className="text-[#FA6781]">Classes 9 &amp; 10</span>
+              <span className="text-[#FA6781]">Classes 6 &ndash; 10</span>
             </motion.h1>
 
             {/* LINE */}
