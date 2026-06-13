@@ -81,13 +81,7 @@ export default function GalleryCard({ item, onClick }: GalleryCardProps) {
         <p className="text-white/70 text-[10px] mt-0.5 capitalize">{item.category?.name ?? "General"}</p>
       </div>
 
-      <div className="absolute top-2 left-2">
-        <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm text-white ${
-          item.mediaType === "video" ? "bg-[#FFC94D]" : "bg-[#093C5D]"
-        }`}>
-          {item.mediaType}
-        </span>
-      </div>
+      
     </div>
   );
 }
