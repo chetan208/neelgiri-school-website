@@ -26,6 +26,29 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 export default function NoticeCard({ selectedNotice, setSelectedNotice }: NoticeCardProps) {
+  const handleViewOrDownloadDocument = async (e: React.MouseEvent, fileUrl: string, title: string) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const ext = fileUrl.split("?")[0].split(".").pop()?.toLowerCase() || "pdf";
+      if (ext === "pdf" || ext === "jpg" || ext === "jpeg" || ext === "png") {
+        window.open(blobUrl, "_blank");
+      } else {
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.setAttribute("download", `${title.replace(/[^a-zA-Z0-9]/g, "_")}.${ext}`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      window.open(fileUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   const isAdmissionOpenNotice = (selectedNotice.link === "custom:admissions" || 
                                  selectedNotice.title.toLowerCase().includes("admission")) &&
                                 !selectedNotice.title.toLowerCase().includes("close") &&
@@ -102,16 +125,14 @@ export default function NoticeCard({ selectedNotice, setSelectedNotice }: Notice
               <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ml-1" />
             </a>
           ) : selectedNotice.link && selectedNotice.link !== "#" ? (
-            <a
-              href={selectedNotice.link}
-              target="_blank"
-              rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group no-underline cursor-pointer"
+            <button
+              onClick={(e) => handleViewOrDownloadDocument(e, selectedNotice.link || "", selectedNotice.title)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#093C5D] text-white hover:bg-[#FA6781] text-xs font-bold shadow-md transition-all group border-0 cursor-pointer"
             >
               <FileText size={14} />
-              Download Official Document
+              View / Download Document
               <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ml-1" />
-            </a>
+            </button>
           ) : null}
         </div>
 

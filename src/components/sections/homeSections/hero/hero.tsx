@@ -62,7 +62,7 @@ export default function HeroSection() {
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[#093C5D] text-[10px] sm:text-[11px] font-bold tracking-[0.14em] uppercase border border-[#093C5D]/15 bg-[#093C5D]/5 backdrop-blur-xs"
             >
               <Award size={12} className="text-[#FA6781]" />
-              Est. 1988 &middot; HPBOSE Affiliated
+              Est. 2007 &middot; HPBOSE Affiliated
             </motion.span>
 
             {/* HEADING */}
@@ -107,7 +107,7 @@ export default function HeroSection() {
               </div>
               <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
                 <Trophy size={14} className="text-[#FFC94D]" />
-                <span className="text-slate-700 text-xs font-semibold">38+ Years</span>
+                <span className="text-slate-700 text-xs font-semibold">19+ Years</span>
               </div>
               <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
                 <BookOpen size={14} className="text-[#59B292]" />

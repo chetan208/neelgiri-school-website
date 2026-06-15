@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   MapPin,
   Phone,
@@ -18,6 +19,11 @@ import {
 import { motion } from "framer-motion";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide completely on ERP and sub-routes
+  if (pathname?.startsWith('/erp')) return null;
+
   const quickLinks = [
     { label: "About School", href: "/about/our-story" },
     { label: "Admissions", href: "/admissions" },

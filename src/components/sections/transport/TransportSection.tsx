@@ -2,15 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 
 export default function TransportSection() {
-  const stations = [
-    "Ghorab", "Ocha", "Nichla Ocha", "Bhadrer", "Guglahad", 
-    "Massal", "Bhangali", "Jharet", "Rajhoon", "Jamula", 
-    "Chambi", "Lower Hatwas", "Nagrota Bagwan", "Tharu", 
-    "Thanpuri", "Mumta Bandi", "Baldhar", "Kawari", 
-    "Upper Hatwas", "Malan", "61 Miles"
-  ];
 
   const busImages = [
     "/assets/transport/bus_parked.png",
@@ -22,6 +16,22 @@ export default function TransportSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [stations, setStations] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      try {
+        const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
+        const res = await axios.get(`${SERVER_URL}/api/public/transport/stations`);
+        if (res.data.success) {
+          setStations(res.data.stations.map((s: any) => s.station));
+        }
+      } catch (error) {
+        console.error("Error fetching stations:", error);
+      }
+    };
+    fetchStations();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

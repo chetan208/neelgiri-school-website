@@ -102,24 +102,17 @@ function StatCard({
   );
 }
 
-const fallbackStats: StatItem[] = [
-  { iconName: "TrendingUp",    statValue: "38+",   statLabel: "Years of Excellence" },
-  { iconName: "Users",         statValue: "5000+", statLabel: "Students Enrolled"   },
-  { iconName: "GraduationCap", statValue: "200+",  statLabel: "Expert Faculty"      },
-  { iconName: "Trophy",        statValue: "98%",   statLabel: "Success Rate"        },
-];
-
 export default function HeroStatsBar() {
-  const [stats,     setStats]     = useState<StatItem[]>(fallbackStats);
+  const [stats,     setStats]     = useState<StatItem[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Fetch from API — fall back silently on error
+  // Fetch from API
   useEffect(() => {
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "";
     axios
       .get(`${SERVER_URL}/api/school-stats`)
-      .then((r) => { if (r.data?.length > 0) setStats(r.data); })
+      .then((r) => { if (r.data && Array.isArray(r.data)) setStats(r.data); })
       .catch(() => {});
   }, []);
 
@@ -133,7 +126,9 @@ export default function HeroStatsBar() {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [stats.length]);
+
+  if (stats.length === 0) return null;
 
   return (
     <section

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import SchoolHeader from "@/components/header/Header"; // Import custom header
-import SchoolFooter from "@/components/Footer";
+import WebsiteLayout from "@/components/layout/WebsiteLayout";
+
 export const metadata: Metadata = {
   title: "Neelgiri School",
   description: "Welcome to Neelgiri School Website",
@@ -17,9 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="antialiased">
         <AuthProvider>
-          <SchoolHeader /> {/* pure website par automatically load ho jayega */}
-          <main>{children}</main>
-          <SchoolFooter/>
+          <WebsiteLayout>{children}</WebsiteLayout>
         </AuthProvider>
       </body>
     </html>

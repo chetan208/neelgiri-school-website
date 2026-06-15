@@ -11,12 +11,14 @@ import { navItems, ACCENT, ACCENT2 } from "./navData";
 import CSS from "./headerStyles";
 
 export default function SchoolHeader() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [activeDD, setActiveDD] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Hide on ERP and any sub-routes
+  if (pathname?.startsWith('/erp')) return null;
   
-  // 💡 Hook current URL route properties monitor karne ke liye
-  const pathname = usePathname();
   const router = useRouter();
   const ddTimer = useRef<NodeJS.Timeout | null>(null);
 

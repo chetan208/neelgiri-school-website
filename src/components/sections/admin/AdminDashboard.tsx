@@ -1,19 +1,18 @@
 'use client';
 
 import React, { useState } from "react";
-import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap, Users, Mail, Calendar, Trophy } from "lucide-react";
+import { BarChart3, FileText, BookOpen, Image, Menu, X, GraduationCap, Users, Mail, Calendar, Trophy, ExternalLink, School } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import StatsManager from "./StatsManager";
 import NoticeManager from "./NoticeManager";
 import PaperManager from "./PaperManager";
 import MediaManager from "./gallery/MediaManager";
 import AdmissionsControlPanel from "./Admissions/AdmissionsControlPanel"; // Placeholder import path mapping
-import StaffManager from "./StaffManager";
 import ContactManager from "./ContactManager";
 import CalendarManager from "./CalendarManager";
 import ResultsManager from "./ResultsManager";
 
-type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions" | "staff" | "contact" | "calendar" | "results";
+type TabIdType = "stats" | "notices" | "papers" | "media" | "admissions" | "contact" | "calendar" | "results";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabIdType>("stats");
@@ -28,7 +27,6 @@ export default function AdminDashboard() {
     papers: <PaperManager />,
     media: <MediaManager />,
     admissions: <AdmissionsControlPanel />,
-    staff: <StaffManager />,
     contact: <ContactManager />,
     calendar: <CalendarManager />,
     results: <ResultsManager />
@@ -36,7 +34,6 @@ export default function AdminDashboard() {
 
   const menuItems = [
     { id: "stats", label: "School Stats", icon: <BarChart3 size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
-    { id: "staff", label: "Manage Staff", icon: <Users size={15} />, isVisible: user.role === "Owner" },
     { id: "contact", label: "Contact Inquiries", icon: <Mail size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "calendar", label: "Manage Calendar", icon: <Calendar size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
     { id: "results", label: "Top Results", icon: <Trophy size={15} />, isVisible: user.role === "Owner" || user.role === "Admin" },
@@ -92,6 +89,25 @@ export default function AdminDashboard() {
             );
           })}
         </nav>
+
+        {/* ERP Button — Owner only */}
+        {user.role === "Owner" && (
+          <div className="px-3.5 pb-4 mt-2">
+            <div className="border-t border-[#093C5D]/10 pt-3 mb-2">
+              <p className="text-[9px] font-black uppercase tracking-widest text-[#06283D]/30 px-0.5 mb-2">System</p>
+            </div>
+            <a
+              href="/erp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all border cursor-pointer bg-[#093C5D]/5 border-[#093C5D]/20 text-[#093C5D] hover:bg-[#093C5D] hover:text-white group"
+            >
+              <School size={15} className="shrink-0" />
+              <span className="flex-1">School ERP</span>
+              <ExternalLink size={11} className="opacity-50 group-hover:opacity-100" />
+            </a>
+          </div>
+        )}
       </aside>
 
       {/* Mobile background responsive drawer shade overlay */}
@@ -102,11 +118,7 @@ export default function AdminDashboard() {
       {/* Operational Active Target Form Viewport Grid */}
       <main className="flex-1 min-w-0 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          {activeTab === "staff" && user.role !== "Owner" ? (
-            <div className="text-center py-20 text-slate-500 font-semibold font-serif text-lg">
-              Access Denied. Owner permissions required to manage staff.
-            </div>
-          ) : activeTab === "contact" && user.role !== "Owner" && user.role !== "Admin" ? (
+          {activeTab === "contact" && user.role !== "Owner" && user.role !== "Admin" ? (
             <div className="text-center py-20 text-slate-500 font-semibold font-serif text-lg">
               Access Denied. Admin permissions required to view contact messages.
             </div>

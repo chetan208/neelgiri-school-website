@@ -16,7 +16,7 @@ export default function RightActionButtons({ setMobileOpen }: RightActionButtons
   const pathname = usePathname();
 
   const isAdminOrSuperAdmin = user && (user.role === "Admin" || user.role === "Owner");
-  const isCurrentlyOnAdminPage = pathname.startsWith('/admin');
+  const isCurrentlyOnAdminPage = pathname?.startsWith('/admin') ?? false;
 
   if (authLoading) {
     return (
