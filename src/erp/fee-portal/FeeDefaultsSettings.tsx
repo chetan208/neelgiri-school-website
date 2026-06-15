@@ -43,7 +43,7 @@ const MONTHS = [
 
 const inputCls = "w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all";
 
-export default function FeeDefaultsSettings() {
+export default function FeeDefaultsSettings({ selectedSession }: { selectedSession?: string }) {
   const { user } = useAuth();
   const isOwner = user?.role === "Owner";
 
