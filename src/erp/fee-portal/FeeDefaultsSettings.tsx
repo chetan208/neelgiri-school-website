@@ -102,6 +102,26 @@ export default function FeeDefaultsSettings({ selectedSession }: { selectedSessi
     }
   };
 
+  const [dbClasses, setDbClasses] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await axios.get(`${SERVER_URL}/api/erp/classes`, { withCredentials: true });
+        if (res.data.success && res.data.classes.length > 0) {
+          setDbClasses(res.data.classes);
+          // Set first class as default if currently using hardcoded default
+          if (selectedClass === "Class 1" && !res.data.classes.find((c:any) => c.className === "Class 1")) {
+            setSelectedClass(res.data.classes[0].className);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch classes", err);
+      }
+    };
+    fetchClasses();
+  }, []);
+
   useEffect(() => {
     fetchDefaults(selectedClass, configMode, selectedMonth);
   }, [selectedClass, configMode, selectedMonth]);
@@ -183,8 +203,8 @@ export default function FeeDefaultsSettings({ selectedSession }: { selectedSessi
               onChange={e => setSelectedClass(e.target.value)}
               className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all cursor-pointer text-slate-700"
             >
-              {CLASSES.map(cls => (
-                <option key={cls} value={cls}>{cls}</option>
+              {dbClasses.map(cls => (
+                <option key={cls.id} value={cls.className}>{cls.className}</option>
               ))}
             </select>
           </div>

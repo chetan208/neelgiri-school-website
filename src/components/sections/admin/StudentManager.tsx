@@ -86,17 +86,23 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     fetchStudents(searchQuery, 1, selectedClass, selectedSession);
   }, [searchQuery, selectedClass, selectedSession]);
 
+  const [dbClasses, setDbClasses] = useState<any[]>([]);
+
   useEffect(() => {
-    const fetchStations = async () => {
+    const fetchDropdowns = async () => {
       try {
         const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
-        const res = await axios.get(`${SERVER_URL}/api/erp/stations`, { withCredentials: true });
-        if (res.data.success) setStations(res.data.stations);
+        const [stationsRes, classesRes] = await Promise.all([
+          axios.get(`${SERVER_URL}/api/erp/stations`, { withCredentials: true }),
+          axios.get(`${SERVER_URL}/api/erp/classes`, { withCredentials: true })
+        ]);
+        if (stationsRes.data.success) setStations(stationsRes.data.stations);
+        if (classesRes.data.success) setDbClasses(classesRes.data.classes);
       } catch (err) {
-        console.error("Error fetching stations:", err);
+        console.error("Error fetching dropdowns:", err);
       }
     };
-    fetchStations();
+    fetchDropdowns();
   }, []);
 
   const handlePageChange = (page: number) => {
@@ -202,8 +208,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 >
                   <option value="" disabled>Select Class</option>
-                  {CLASSES_LIST.map(c => (
-                    <option key={c} value={c}>{c}</option>
+                  {dbClasses.map(c => (
+                    <option key={c.id} value={c.className}>{c.className}</option>
                   ))}
                 </select>
               </div>
@@ -341,8 +347,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                 className="bg-transparent border-0 text-xs font-bold text-slate-700 focus:outline-none cursor-pointer"
               >
                 <option value="All">All Classes</option>
-                {CLASSES_LIST.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                {dbClasses.map((c) => (
+                  <option key={c.id} value={c.className}>{c.className}</option>
                 ))}
               </select>
             </div>

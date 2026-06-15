@@ -38,11 +38,9 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   let activePreviousBalance = 0;
   for (const f of sortedAllFees) {
     if (parseMonthStr(f.month) < currentMonthDate) {
-      const fPaid = f.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
-      const fRemaining = parseFloat(f.total) - fPaid;
-      if (fRemaining > 0) {
-        activePreviousBalance += fRemaining;
-      }
+      const fPaid = f.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
+      const fRemaining = Math.round((Number(f.total || f.totalDemand || 0) - fPaid) * 100) / 100;
+      activePreviousBalance = Math.round((activePreviousBalance + fRemaining) * 100) / 100;
     }
   }
 
@@ -52,8 +50,8 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   const invoiceNo = `NPS-${student.cardNo}-${fee.month.replace("-", "")}`;
   const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
-  const activeTotal = parseFloat(fee.total ?? fee.totalDemand ?? 0);
-  const grossTotal = activeTotal + activePreviousBalance;
+  const activeTotal = Number(fee.total || fee.totalDemand || 0);
+  const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
 
   // Current month breakdown rows (non-zero heads only)
   const headRows = [
@@ -74,9 +72,9 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
 
   // History rows (up to 6 months)
   const histRows = history.map(h => {
-    const paid = h.payments?.reduce((s: number, p: any) => s + Number(p.amountPaid), 0) ?? 0;
-    const totalVal = h.total ?? h.totalDemand ?? 0;
-    const bal  = h.payments?.length ? Number(h.payments[0].balanceLeft) : Number(totalVal);
+    const totalVal = Number(h.total || h.totalDemand || 0);
+    const paid = h.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
+    const bal  = Math.round((totalVal - paid) * 100) / 100;
     const bg   = h.status === "PAID" ? "#dcfce7" : h.status === "PARTIALLY_PAID" ? "#fef3c7" : "#fee2e2";
     const fg   = h.status === "PAID" ? "#15803d" : h.status === "PARTIALLY_PAID" ? "#b45309" : "#b91c1c";
     const label = h.status === "PAID" ? "Settled" : h.status === "PARTIALLY_PAID" ? "Partial" : "Pending";
@@ -88,6 +86,12 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
       <td class="c"><span style="background:${bg};color:${fg};padding:2px 8px;border-radius:4px;font-size:9px;font-weight:800">${label}</span></td>
     </tr>`;
   }).join("");
+
+  const totalOverallRemaining = Math.round(sortedAllFees.reduce((sum, h) => {
+    const totalVal = Number(h.total || h.totalDemand || 0);
+    const paid = h.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
+    return sum + (totalVal - paid);
+  }, 0) * 100) / 100;
 
   win.document.write(`<!DOCTYPE html><html><head>
 <meta charset="utf-8">
@@ -193,7 +197,14 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
       <th class="c">Status</th>
     </tr>
   </thead>
-  <tbody>${histRows}</tbody>
+  <tbody>
+    ${histRows}
+    <tr>
+      <td colspan="3" class="r" style="border-bottom: none; padding-top: 10px; font-weight: 900; color: #093C5D; font-size: 11px;">Total Overall Remaining Balance</td>
+      <td class="r" style="border-bottom: none; border-top: 2px solid #093C5D; padding-top: 10px; font-weight: 900; font-size: 11.5px; color: ${totalOverallRemaining > 0 ? '#b91c1c' : '#15803d'};">Rs. ${fmt(totalOverallRemaining)}</td>
+      <td style="border-bottom: none; border-top: 2px solid #093C5D; padding-top: 10px;"></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- FOOTER -->

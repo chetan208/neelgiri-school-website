@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Save, Loader2, CalendarClock, Activity } from "lucide-react";
+import { Save, Loader2, CalendarClock, Activity, FileText, CheckCircle2, XCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
@@ -14,6 +14,7 @@ export default function FeeAutomationSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [logs, setLogs] = useState<any[]>([]);
 
   useEffect(() => {
     fetchSettings();
@@ -27,6 +28,11 @@ export default function FeeAutomationSettings() {
         setIsEnabled(res.data.settings.isEnabled || false);
         setStartDay(res.data.settings.startDay || 1);
         setWindowDays(res.data.settings.windowDays || 3);
+      }
+      
+      const logsRes = await axios.get(`${SERVER_URL}/api/erp/fee-automation/logs`, { withCredentials: true });
+      if (logsRes.data.success && logsRes.data.logs) {
+        setLogs(logsRes.data.logs);
       }
     } catch (error) {
       console.error("Failed to load automation settings", error);
@@ -139,6 +145,80 @@ export default function FeeAutomationSettings() {
             {saving ? "Saving Configuration..." : "Save Settings"}
           </button>
         </div>
+      </div>
+
+      {/* Logs Section */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+              <FileText className="text-slate-500" size={20} />
+            </div>
+            <div>
+              <h2 className="text-lg font-black text-[#093C5D]">Automation Logs</h2>
+              <p className="text-xs text-slate-500 mt-0.5">Track which students have been processed (Last 200).</p>
+            </div>
+          </div>
+          <div className="text-xs font-bold bg-[#093C5D]/5 text-[#093C5D] px-3 py-1.5 rounded-lg border border-[#093C5D]/10">
+            {logs.length} Entries
+          </div>
+        </div>
+
+        {logs.length === 0 ? (
+          <div className="p-12 text-center">
+            <Activity className="mx-auto text-slate-300 mb-3" size={32} />
+            <p className="text-sm font-bold text-slate-500">No automation logs found yet.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-100">
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500">Date & Time</th>
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500">Student</th>
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500">Roll No</th>
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500">Class</th>
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500">Billing Month</th>
+                  <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-slate-500 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {logs.map((log) => (
+                  <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="px-6 py-4 text-xs font-semibold text-slate-600">
+                      {new Date(log.createdAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-bold text-slate-800">
+                      {log.student?.name || "Unknown"}
+                    </td>
+                    <td className="px-6 py-4 text-xs font-mono font-bold text-[#093C5D]">
+                      {log.student?.cardNo || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-xs font-semibold text-slate-600">
+                      {log.student?.studentclass?.className || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-xs font-bold text-slate-700">
+                      {log.monthStr}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      {log.status === "PROCESSED" ? (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 size={12} className="text-emerald-500" />
+                          <span className="text-[10px] font-black tracking-wide uppercase">Processed</span>
+                        </div>
+                      ) : (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-50 text-red-700 border border-red-200">
+                          <XCircle size={12} className="text-red-500" />
+                          <span className="text-[10px] font-black tracking-wide uppercase">Failed</span>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </motion.div>
   );

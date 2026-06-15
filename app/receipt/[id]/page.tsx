@@ -69,7 +69,19 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
     );
   }
 
-  const { student, fee, allFees } = data;
+  const { student, fee: rawFee, allFees: rawAllFees } = data;
+  
+  // Recalculate remaining to ignore DB's potentially stale remaining field
+  const allFees = rawAllFees.map((f: any) => {
+    const total = parseFloat(f.total || f.totalDemand || "0");
+    const paid = f.payments?.reduce((sum: number, p: any) => sum + (parseFloat(p.amountPaid) || 0), 0) || 0;
+    return { ...f, remaining: String(Math.round((total - paid) * 100) / 100) };
+  });
+  
+  const fee = allFees.find((f: any) => f.id === rawFee.id) || {
+    ...rawFee,
+    remaining: String(Math.round((parseFloat(rawFee.total || rawFee.totalDemand || "0") - (rawFee.payments?.reduce((sum: number, p: any) => sum + (parseFloat(p.amountPaid) || 0), 0) || 0)) * 100) / 100)
+  };
   const today = new Date(fee.updatedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   const invoiceNo = `NPS-${student.cardNo}-${fee.month.replace("-", "")}`;
 
@@ -89,11 +101,11 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
 
   if (allPayments.length > 0) {
     const latestDate = new Date(allPayments[0].date).getTime();
-    // Group payments within 2 seconds of the latest payment (created in the same transaction)
+    // Group payments within 5 seconds of the latest payment (created in the same transaction)
     latestTransactionPayments = allPayments.filter(p => {
-      return Math.abs(new Date(p.date).getTime() - latestDate) < 2000;
+      return Math.abs(new Date(p.date).getTime() - latestDate) < 5000;
     });
-    transactionAmountPaid = latestTransactionPayments.reduce((sum, p) => sum + parseFloat(p.amountPaid || "0"), 0);
+    transactionAmountPaid = Math.round(latestTransactionPayments.reduce((sum, p) => sum + (parseFloat(p.amountPaid) || 0), 0) * 100) / 100;
   }
 
   // Calculate Arrears (Previous months' balance BEFORE latest transaction)
@@ -114,27 +126,27 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
       // Find if there was a payment for this month in the latest transaction
       const paymentInThisTx = latestTransactionPayments
         .filter(p => p.feeStructureId === f.id)
-        .reduce((sum, p) => sum + parseFloat(p.amountPaid || "0"), 0);
+        .reduce((sum, p) => sum + (parseFloat(p.amountPaid) || 0), 0);
       
-      const fRemainingBefore = parseFloat(f.remaining || "0") + paymentInThisTx;
-      activePreviousBalance += fRemainingBefore;
+      const fRemainingBefore = Math.round((parseFloat(f.remaining || "0") + paymentInThisTx) * 100) / 100;
+      activePreviousBalance = Math.round((activePreviousBalance + fRemainingBefore) * 100) / 100;
     }
   }
 
   // Current month outstanding BEFORE latest transaction
   const currentMonthPaymentInThisTx = latestTransactionPayments
     .filter(p => p.feeStructureId === fee.id)
-    .reduce((sum, p) => sum + parseFloat(p.amountPaid || "0"), 0);
+    .reduce((sum, p) => sum + (parseFloat(p.amountPaid) || 0), 0);
 
-  const currentMonthOutstandingBefore = parseFloat(fee.remaining || "0") + currentMonthPaymentInThisTx;
+  const currentMonthOutstandingBefore = Math.round((parseFloat(fee.remaining || "0") + currentMonthPaymentInThisTx) * 100) / 100;
 
-  const totalAmountDueBefore = currentMonthOutstandingBefore + activePreviousBalance;
+  const totalAmountDueBefore = Math.round((currentMonthOutstandingBefore + activePreviousBalance) * 100) / 100;
   
   // Total overall remaining balance AFTER this transaction across ALL months
-  const remainingBalanceAfter = sortedAllFees.reduce((sum, f) => sum + parseFloat(f.remaining || "0"), 0);
+  const remainingBalanceAfter = Math.round(sortedAllFees.reduce((sum, f) => sum + parseFloat(f.remaining || "0"), 0) * 100) / 100;
 
-  const activeTotal = parseFloat(fee.total || "0");
-  const grossTotal = activeTotal + activePreviousBalance;
+  const activeTotal = parseFloat(fee.total || fee.totalDemand || "0");
+  const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
 
   // Filter history to 4 most-recent months to keep it concise on A4 size
   const history = sortedAllFees.slice(-4);

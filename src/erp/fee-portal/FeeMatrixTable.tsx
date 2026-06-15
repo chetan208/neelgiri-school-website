@@ -39,8 +39,9 @@ function sortFees(fees: FeeStructureType[]) {
 }
 
 function fmt(v: number | string) {
-  const n = Number(v);
-  return n > 0 ? `₹${n.toLocaleString("en-IN")}` : "—";
+  const n = Number(v) || 0;
+  if (n === 0) return "—";
+  return n > 0 ? `₹${n.toLocaleString("en-IN")}` : `-₹${Math.abs(n).toLocaleString("en-IN")}`;
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -59,9 +60,9 @@ export default function FeeMatrixTable({
   const sorted = sortFees(feeStructures);
   const latestId = sorted[sorted.length - 1]?.id;
 
-  const totalDemand  = sorted.reduce((s, f) => s + Number(f.totalDemand), 0);
-  const totalPaid    = sorted.reduce((s, f) => s + (f.payments?.reduce((ps, p) => ps + Number(p.amountPaid), 0) ?? 0), 0);
-  const totalBalance = totalDemand - totalPaid;
+  const totalDemand  = sorted.reduce((s, f) => s + Number(f.total || f.totalDemand || 0), 0);
+  const totalPaid    = sorted.reduce((s, f) => s + (f.payments?.reduce((ps, p) => ps + (Number(p.amountPaid) || 0), 0) ?? 0), 0);
+  const totalBalance = Math.round((totalDemand - totalPaid) * 100) / 100;
 
   return (
     <motion.div
@@ -123,9 +124,9 @@ export default function FeeMatrixTable({
 
             <tbody>
               {sorted.map((fee, i) => {
-                const amountPaid  = fee.payments?.reduce((s, p) => s + Number(p.amountPaid), 0) ?? 0;
-                const balance     = Number(fee.totalDemand) - amountPaid;
-                const itemized    = FEE_HEADS.reduce((s, h) => s + Number((fee as any)[h.key]), 0);
+                const amountPaid  = fee.payments?.reduce((s, p) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
+                const balance     = Math.round((Number(fee.total || fee.totalDemand || 0) - amountPaid) * 100) / 100;
+                const itemized    = FEE_HEADS.reduce((s, h) => s + (Number((fee as any)[h.key]) || 0), 0);
                 const isLatest    = fee.id === latestId;
                 const isExpanded  = expandedRow === fee.id;
                 const isEven      = i % 2 === 0;
@@ -172,7 +173,7 @@ export default function FeeMatrixTable({
                       {/* Net Demand */}
                       <td className="px-5 py-4 text-right">
                         <span className="inline-block font-mono text-[11px] font-black text-white bg-[#093C5D] px-3 py-1.5 rounded-lg">
-                          {fmt(fee.totalDemand)}
+                          {fmt(fee.total || fee.totalDemand || 0)}
                         </span>
                       </td>
 
@@ -183,7 +184,7 @@ export default function FeeMatrixTable({
 
                       {/* Balance */}
                       <td className="px-5 py-4 text-right">
-                        <span className={`font-mono text-[11px] font-bold ${balance > 0 ? "text-rose-600" : "text-slate-400"}`}>
+                        <span className={`font-mono text-[11px] font-bold ${balance < 0 ? "text-emerald-600" : balance > 0 ? "text-rose-600" : "text-slate-400"}`}>
                           {fmt(balance)}
                         </span>
                       </td>

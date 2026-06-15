@@ -13,7 +13,6 @@ export interface StudentType {
 export interface PaymentType {
   id: string;
   amountPaid: string | number;
-  balanceLeft: string | number;
   paymentMode: "CASH" | "UPI";
   date: string;
 }
@@ -32,6 +31,7 @@ export interface FeeStructureType {
   annualCharges: string | number;
   previousBalance: string | number;
   totalDemand: string | number;
+  total: string | number;
   status: "PENDING" | "PARTIALLY_PAID" | "PAID";
   payments?: PaymentType[];
   createdAt: string;

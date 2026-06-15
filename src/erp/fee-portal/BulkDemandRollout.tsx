@@ -47,6 +47,24 @@ export default function BulkDemandRollout({
 }: BulkDemandRolloutProps) {
   const rolloutMonths = selectedSession ? getMonthsForSession(selectedSession) : getAcademicYearMonths();
 
+  const [dbClasses, setDbClasses] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
+        const res = await fetch(`${SERVER_URL}/api/erp/classes`);
+        const data = await res.json();
+        if (data.success && data.classes.length > 0) {
+          setDbClasses(data.classes);
+        }
+      } catch (err) {
+        console.error("Failed to fetch classes", err);
+      }
+    };
+    fetchClasses();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -94,9 +112,10 @@ export default function BulkDemandRollout({
               onChange={(e) => setBulkForm({ ...bulkForm, studentClass: e.target.value })}
               className={inputCls}
             >
-              {CLASSES.map((c) => (
-                <option key={c} value={c}>
-                  {c === "All" ? "All Classes" : c}
+              <option value="All">All Classes</option>
+              {dbClasses.map((c) => (
+                <option key={c.id} value={c.className}>
+                  {c.className}
                 </option>
               ))}
             </select>

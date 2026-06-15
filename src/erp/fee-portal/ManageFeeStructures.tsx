@@ -58,7 +58,23 @@ export default function ManageFeeStructures({ selectedSession, onRefreshStats }:
         setTargetMonth(months[0]);
       }
     }
-  }, [selectedSession]);
+  }, [months, selectedSession]);
+
+  const [dbClasses, setDbClasses] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await axios.get(`${SERVER_URL}/api/erp/classes`, { withCredentials: true });
+        if (res.data.success && res.data.classes.length > 0) {
+          setDbClasses(res.data.classes);
+        }
+      } catch (err) {
+        console.error("Failed to fetch classes", err);
+      }
+    };
+    fetchClasses();
+  }, []);
 
   const loadFeeStructures = async () => {
     if (!targetMonth) return;
@@ -142,9 +158,10 @@ export default function ManageFeeStructures({ selectedSession, onRefreshStats }:
             onChange={(e) => setTargetClass(e.target.value)}
             className="flex-1 bg-transparent border-0 text-xs font-bold text-slate-700 focus:outline-none cursor-pointer"
           >
-            {CLASSES.map((cls) => (
-              <option key={cls} value={cls}>
-                {cls === "All" ? "All Classes" : cls}
+            <option value="All">All Classes</option>
+            {dbClasses.map((cls) => (
+              <option key={cls.id} value={cls.className}>
+                {cls.className}
               </option>
             ))}
           </select>
