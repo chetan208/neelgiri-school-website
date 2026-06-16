@@ -23,6 +23,20 @@ export default function SettingsPortal() {
   const [whatsappLoading, setWhatsappLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
+  const prevQrCode = React.useRef<string | null>(null);
+
+  useEffect(() => {
+    if (whatsappStatus) {
+      if (prevQrCode.current && !whatsappStatus.qrCode && !whatsappStatus.connected) {
+        setIsScanning(true);
+      }
+      if (whatsappStatus.connected) {
+        setIsScanning(false);
+      }
+      prevQrCode.current = whatsappStatus.qrCode;
+    }
+  }, [whatsappStatus]);
 
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
 
@@ -189,16 +203,39 @@ export default function SettingsPortal() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center justify-center p-5 bg-white border border-slate-250/55 rounded-2xl shadow-xs">
-                    {whatsappStatus.qrCode ? (
-                      <>
+                  <div className="flex flex-col items-center justify-center p-5 bg-white border border-slate-250/55 rounded-2xl shadow-xs min-h-[240px]">
+                    {isScanning ? (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="w-48 h-48 flex flex-col items-center justify-center text-center space-y-5"
+                      >
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-20"></div>
+                          <div className="relative bg-emerald-100 text-emerald-600 p-4 rounded-full">
+                            <CheckCircle2 size={32} />
+                          </div>
+                        </div>
+                        <div className="space-y-1.5">
+                          <h4 className="text-sm font-black text-[#093C5D]">QR Code Scanned!</h4>
+                          <p className="text-[10px] text-slate-500 font-bold animate-pulse leading-relaxed">
+                            Securely connecting and syncing with your WhatsApp account...
+                          </p>
+                        </div>
+                      </motion.div>
+                    ) : whatsappStatus.qrCode ? (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex flex-col items-center"
+                      >
                         <img 
                           src={whatsappStatus.qrCode} 
                           alt="WhatsApp QR Code" 
                           className="w-48 h-48 border border-slate-100 rounded-xl"
                         />
                         <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider mt-3 animate-pulse">Waiting for device scan...</span>
-                      </>
+                      </motion.div>
                     ) : (
                       <div className="w-48 h-48 flex flex-col items-center justify-center text-center text-slate-400 font-bold text-[10px] space-y-2 bg-slate-50 rounded-xl border border-dashed border-slate-200">
                         <Loader2 className="animate-spin text-[#093C5D]" size={16} />
