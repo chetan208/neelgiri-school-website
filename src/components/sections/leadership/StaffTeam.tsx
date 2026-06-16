@@ -35,7 +35,7 @@ export default function StaffTeam() {
   }
 
   const principal = staff.find((s) => s.isPrincipal === true);
-  const teachers = staff.filter((s) => !s.isPrincipal);
+  const teachers = staff.filter((s) => !s.isPrincipal && s.role !== 'Owner');
 
   return (
     <section className="py-14 sm:py-20 bg-gradient-to-b from-slate-50 via-white to-slate-100">

@@ -47,7 +47,9 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     dateOfAdmission: "",
     cardNo: "",
     contactNo: "",
-    station: ""
+    station: "",
+    initialAmountPaid: "",
+    paymentMode: "CASH"
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,7 +120,9 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
       dateOfAdmission: "",
       cardNo: "",
       contactNo: "",
-      station: ""
+      station: "",
+      initialAmountPaid: "",
+      paymentMode: "CASH"
     });
     setError(null);
     setSuccess(null);
@@ -143,8 +147,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
         contactNo: formData.contactNo,
         station: formData.station,
         sessionYear: selectedSession,
-        initialAmountPaid: 0,
-        paymentMode: "CASH"
+        initialAmountPaid: formData.initialAmountPaid ? parseFloat(formData.initialAmountPaid) : 0,
+        paymentMode: formData.paymentMode
       };
       await axios.post(`${SERVER_URL}/api/erp/student`, payload, { withCredentials: true });
       setSuccess(`${formData.name} registered successfully!`);
@@ -195,7 +199,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   placeholder="E.g., Chetan Sharma"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>
 
@@ -205,7 +209,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   required
                   value={formData.studentClass}
                   onChange={(e) => setFormData({ ...formData, studentClass: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 >
                   <option value="" disabled>Select Class</option>
                   {dbClasses.map(c => (
@@ -222,7 +226,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   placeholder="E.g., Mr. Rajesh Sharma"
                   value={formData.fatherName}
                   onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>
 
@@ -234,7 +238,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   placeholder="E.g., Mrs. Sunita Sharma"
                   value={formData.motherName}
                   onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>
 
@@ -245,7 +249,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   required
                   value={formData.dateOfAdmission}
                   onChange={(e) => setFormData({ ...formData, dateOfAdmission: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>
 
@@ -257,7 +261,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   placeholder="E.g., NPS-2026-0045"
                   value={formData.cardNo}
                   onChange={(e) => setFormData({ ...formData, cardNo: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>
 
@@ -270,7 +274,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                     placeholder="E.g., 9876543210"
                     value={formData.contactNo}
                     onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                   />
                 </div>
                 <div>
@@ -278,12 +282,37 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   <select
                     value={formData.station}
                     onChange={(e) => setFormData({ ...formData, station: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                   >
                     <option value="">None / Day Scholar</option>
                     {stations.map(s => (
                       <option key={s.station} value={s.station}>{s.station}</option>
                     ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Initial Amount Collected (Upfront Deposit)</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 5000 (0 if none)"
+                    value={formData.initialAmountPaid}
+                    onChange={(e) => setFormData(prev => ({ ...prev, initialAmountPaid: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Payment Mode</label>
+                  <select
+                    value={formData.paymentMode}
+                    onChange={(e) => setFormData(prev => ({ ...prev, paymentMode: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                  >
+                    <option value="CASH">CASH</option>
+                    <option value="UPI">UPI</option>
+                    <option value="BANK_TRANSFER">BANK TRANSFER</option>
                   </select>
                 </div>
               </div>

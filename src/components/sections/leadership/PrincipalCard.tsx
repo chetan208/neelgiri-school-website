@@ -3,6 +3,7 @@ import { GraduationCap, Quote, User } from "lucide-react";
 
 // TypeScript specifications define ki
 export interface FacultyType {
+  role: string;
   name: string;
   email: string;
   subject: string;
