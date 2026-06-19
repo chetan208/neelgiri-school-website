@@ -5,11 +5,10 @@ import { createPortal } from "react-dom";
 import { Mail, KeyRound, Lock, ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import axios from "axios";
 
-interface ForgotPasswordFormProps {
-  setView: (view: "login" | "forgot" | "register") => void;
-}
+import { useRouter } from "next/navigation";
 
-export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps) {
+export default function ForgotPasswordForm() {
+  const router = useRouter();
   const [step, setStep] = useState(1); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -72,7 +71,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
       {!loading && (
         <button 
           type="button" 
-          onClick={() => { setError(""); if (step === 2) { setStep(1); } else { setView("login"); } }} 
+          onClick={() => { setError(""); if (step === 2) { setStep(1); } else { router.push("/auth/login"); } }} 
           className="text-xs font-bold text-slate-500 hover:text-[#FA6781] flex items-center gap-1 mb-4 transition-colors bg-transparent border-0 cursor-pointer"
         >
           <ArrowLeft size={14} /> Back to {step === 2 ? "Email Step" : "Login"}
@@ -154,7 +153,7 @@ export default function ForgotPasswordForm({ setView }: ForgotPasswordFormProps)
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-1">Success!</h3>
             <p className="text-xs text-slate-500 leading-relaxed mb-6">Your password has been reset successfully. You can now log in with your new password.</p>
-            <button type="button" onClick={() => { setShowSuccessModal(false); setView("login"); }} className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold border-0 cursor-pointer shadow-xs">Continue to Sign In</button>
+            <button type="button" onClick={() => { setShowSuccessModal(false); router.push("/auth/login"); }} className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold border-0 cursor-pointer shadow-xs">Continue to Sign In</button>
           </div>
         </div>,
         document.body

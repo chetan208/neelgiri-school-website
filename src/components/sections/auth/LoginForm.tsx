@@ -5,12 +5,9 @@ import { Mail, Lock, Eye, EyeOff, User, GraduationCap, AlertCircle, Loader2 } fr
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
-interface LoginFormProps {
-  setView: (view: "login" | "forgot" | "register") => void;
-}
-
-export default function LoginForm({ setView }: LoginFormProps) {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -82,7 +79,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
         <div>
           <div className="flex justify-between items-center mb-1.5">
             <label className="block text-xs font-bold text-slate-700">Password</label>
-            <button type="button" disabled={loading} onClick={() => setView("forgot")} className="text-xs font-bold text-[#FA6781] hover:text-[#093C5D] bg-transparent border-0 cursor-pointer disabled:opacity-50">Forgot?</button>
+            <Link href="/auth/forgot-password" className="text-xs font-bold text-[#FA6781] hover:text-[#093C5D] bg-transparent border-0 cursor-pointer">Forgot?</Link>
           </div>
           <div className="relative group">
             <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
@@ -125,7 +122,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
       <div className="mt-6 text-center">
         <p className="text-xs text-slate-500">
           Don&apos;t have an account?{" "}
-          <button type="button" disabled={loading} onClick={() => setView("register")} className="text-[#FA6781] font-bold hover:underline bg-transparent border-0 cursor-pointer disabled:opacity-50">Sign up</button>
+          <Link href="/auth/register" className="text-[#FA6781] font-bold hover:underline bg-transparent border-0 cursor-pointer">Sign up</Link>
         </p>
       </div>
     </div>

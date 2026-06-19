@@ -7,11 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-interface RegisterTeacherFormProps {
-  setView: (view: "login" | "forgot" | "register") => void;
-}
-
-export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProps) {
+export default function RegisterTeacherForm() {
   const [step, setStep] = useState(1); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
