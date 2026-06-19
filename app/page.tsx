@@ -1,4 +1,4 @@
-import React from 'react';
+
 import HeroSection from '@/components/sections/homeSections/hero/hero';
 import HeroStatsBar from '@/components/sections/homeSections/hero/HeroStatsBar';
 import NoticeSection from '@/components/sections/homeSections/news/NoticeSection';
@@ -28,4 +28,4 @@ export default function HomePage() {
     </>
   );
 }
-
+

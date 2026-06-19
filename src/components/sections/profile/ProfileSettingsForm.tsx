@@ -90,11 +90,11 @@ export default function ProfileSettingsForm() {
             disabled={loading}
             className="w-full bg-[#093C5D] hover:bg-[#FA6781] text-white font-bold text-xs py-3.5 rounded-xl border-0 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 size={14} className="animate-spin"/> : "Request Password Modification"}
+            {loading ? <Loader2 size={14} className="animate-spin"/> : "Change Password"}
           </button>
         </div>
       ) : (
-        <form onSubmit={handleResultPassword} className="space-y-4" Skinner-layout>
+        <form onSubmit={handleResultPassword} className="space-y-4">
           <div>
             <label className="block text-xs font-bold text-[#06283D] mb-1.5">Enter Token OTP</label>
             <input 

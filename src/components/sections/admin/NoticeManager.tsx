@@ -74,10 +74,10 @@ export default function NoticeManager() {
 
     try {
       if (editingId) {
-        await axios.put(`${SERVER_URL}/api/notices/${editingId}`, data);
+        await axios.put(`${SERVER_URL}/api/notices/${editingId}`, data,{withCredentials: true});
         triggerSuccessPopup("Notice Updated", "The selected notice has been updated successfully.");
       } else {
-        await axios.post(`${SERVER_URL}/api/notices/create-notice`, data);
+        await axios.post(`${SERVER_URL}/api/notices/create-notice`, data,{withCredentials: true});
         triggerSuccessPopup("Notice Published", "A new official notice has been registered and broadcasted.");
       }
       resetForm();

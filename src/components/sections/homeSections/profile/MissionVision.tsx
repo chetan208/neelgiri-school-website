@@ -4,14 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import { Target, Eye, CheckCircle2 } from "lucide-react";
 
 const missionPoints = [
-  "Innovative, future-ready curriculum",
-  "Dedicated and passionate educators",
-  "Inclusive learning for every student",
+    "Strong foundation from early childhood (Nursery)",
+      "Holistic development and regular career guidance",
+      "Disciplined, value-based learning environment"
 ];
 const visionPoints = [
-  "Globally recognised academic standards",
-  "Purpose-driven student development",
-  "Leaders who shape tomorrow's world",
+  "Top-tier academic results in Higher Secondary boards",
+      "Character building and rooted cultural values",
+      "Preparing multi-talented leaders for tomorrow"
 ];
 
 function useInView(threshold = 0.15): [React.RefObject<HTMLDivElement | null>, boolean] {
@@ -174,7 +174,7 @@ export default function MissionVision() {
               transition: "opacity 0.6s ease 200ms, transform 0.6s ease 200ms",
             }}
           >
-            Guided by purpose, driven by excellence — the compass that directs every decision at Neelgiri School.
+            Guided by purpose, driven by excellence — the compass that directs every decision at Neelgiri Public School, Hatwas.
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export default function MissionVision() {
             iconBg="bg-brand-bg-light" iconColor="text-brand-primary"
             tagBg="bg-brand-bg-light" tagText="text-brand-primary"
             title="What We Do Every Day"
-            body="To empower every student with knowledge, critical thinking, and character needed to thrive through an innovative curriculum and passionate educators."
+            body="To provide a nurturing environment from Nursery to Class 12, empowering students with academic excellence, strong moral values, and life skills to make them responsible citizens."
             points={missionPoints}
             visible={cardsVisible} delay={0}
           />
@@ -195,7 +195,7 @@ export default function MissionVision() {
             iconBg="bg-brand-bg-light" iconColor="text-brand-primary"
             tagBg="bg-brand-bg-light" tagText="text-brand-primary"
             title="Where We Are Headed"
-            body="To be a globally recognised institution where curiosity meets excellence — students discover purpose, lead with integrity, and shape a brighter future worldwide."
+            body="To be a leading educational institution in the region that shapes students into confident, compassionate, and self-reliant individuals ready to excel in board examinations and future careers."
             points={visionPoints}
             visible={cardsVisible} delay={150}
           />

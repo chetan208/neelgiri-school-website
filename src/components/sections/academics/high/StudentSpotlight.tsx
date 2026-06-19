@@ -27,19 +27,22 @@ const medalColors: Record<number, { bg: string; text: string; label: string }> =
 
 function ResultCard({ result, idx }: { result: TopResult; idx: number }) {
   const medal = medalColors[idx];
-  const rankColor = medal?.bg ?? "#093C5D";
-  const rankText  = medal?.text ?? "#fff";
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: (idx % 4) * 0.08 }}
+      transition={{ 
+        duration: 0.4, 
+        delay: (idx % 4) * 0.06,
+        type: "spring",
+        stiffness: 100 
+      }}
       viewport={{ once: true }}
-      className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-row sm:flex-col"
+      className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-[0_4px_20px_-4px_rgba(9,60,93,0.06)] flex flex-row sm:flex-col"
     >
-      {/* Photo — left strip on mobile, top block on sm+ */}
-      <div className="relative shrink-0 w-[90px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#093C5D]/5 to-slate-200">
+      {/* Photo Block */}
+      <div className="relative shrink-0 w-[100px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#093C5D]/5 to-slate-100">
         {result.imageUrl ? (
           <img
             src={result.imageUrl}
@@ -47,46 +50,41 @@ function ResultCard({ result, idx }: { result: TopResult; idx: number }) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center gap-1">
-            <Trophy size={28} className="text-[#FFC94D]/60" />
-            <span className="text-[9px] font-black uppercase tracking-widest text-[#093C5D]/30">Topper</span>
+          <div className="w-full h-full flex flex-col items-center justify-center gap-1.5 bg-slate-50">
+            <Trophy size={32} className="text-[#FFC94D] opacity-80" />
+            <span className="text-[9px] font-black uppercase tracking-wider text-[#093C5D]/40">Topper</span>
           </div>
         )}
 
-        {/* Rank badge */}
-        <div
-          className="absolute top-2 left-2 w-7 h-7 rounded-full flex items-center justify-center shadow-sm text-[10px] font-black"
-          style={{ background: rankColor, color: rankText }}
-        >
-          #{idx + 1}
-        </div>
-
-        {/* Score badge */}
-        <div className="absolute bottom-2 right-2 bg-[#FA6781] text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm">
+        {/* Score badge — Pill style */}
+        <div className="absolute bottom-2.5 right-2.5 bg-[#FA6781] text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm tracking-wide">
           {result.marks}
         </div>
       </div>
 
-      {/* Details */}
-      <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
-        <div>
-          <h3 className="text-[13px] sm:text-sm font-black text-[#093C5D] leading-tight truncate">
+      {/* Details Block */}
+      <div className="flex-1 p-4 flex flex-col justify-between min-w-0 bg-gradient-to-b from-white to-slate-50/30">
+        <div className="space-y-1">
+          <h3 className="text-sm sm:text-[15px] font-black text-[#093C5D] tracking-tight truncate">
             {result.studentName}
           </h3>
-          <p className="text-[11px] text-slate-400 font-semibold mt-0.5 flex items-center gap-1">
-            <Star size={9} className="text-[#FFC94D] fill-[#FFC94D] shrink-0" />
-            {result.className}
-          </p>
+          <div className="inline-flex items-center gap-1.5 bg-[#FFC94D]/10 px-2 py-0.5 rounded-md">
+            <Star size={10} className="text-[#FFC94D] fill-[#FFC94D] shrink-0" />
+            <span className="text-[11px] font-bold text-[#093C5D]/80">{result.className}</span>
+          </div>
         </div>
-        <div className="mt-2 pt-2 border-t border-slate-100">
-          <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-300 block">Parent</span>
-          <span className="text-[11px] font-semibold text-[#06283D]/70 truncate block mt-0.5">{result.parentsName}</span>
+
+        {/* Parent Details */}
+        <div className="mt-3 pt-3 border-t border-dashed border-slate-100">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block">Parent</span>
+          <span className="text-xs font-semibold text-[#06283D]/80 truncate block mt-0.5">
+            {result.parentsName}
+          </span>
         </div>
       </div>
     </motion.div>
   );
 }
-
 export default function StudentSpotlight() {
   const [results, setResults] = useState<TopResult[]>([]);
   const [loading, setLoading] = useState(true);

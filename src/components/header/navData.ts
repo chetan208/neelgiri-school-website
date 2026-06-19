@@ -35,7 +35,7 @@ export const navItems: NavItem[] = [
     href: "#",
     dropdown: [
       { icon: BookOpen, label: "Our Story", sub: "30 years of excellence", to: "/about/our-story" },
-      { icon: Users, label: "Leadership Team", sub: "Meet our principal & staff", to: "/about/leadership" },
+      { icon: Users, label: "Our Teachers", sub: "Meet our principal & staff", to: "/about/leadership" },
       { icon: MapPin, label: "Campus Tour", sub: "Explore our campus", to: "/campus-tour" },
     ],
   },
@@ -53,8 +53,7 @@ export const navItems: NavItem[] = [
     dropdown: [
       { icon: FileText, label: "Academic Calendar", sub: "Term dates & holidays", to: "/academic-calendar" },
       { icon: ClipboardList, label: "Previous Question Papers", sub: "Download past papers", to: "/prevous-years-papers" },
-      { icon: Newspaper, label: "School News", sub: "Latest announcements", to: "#" },
-      { icon: Award, label: "Achievements", sub: "Student accomplishments", to: "#" },
+      
     ],
   },
   { label: "Gallery", to: "/gallery" },

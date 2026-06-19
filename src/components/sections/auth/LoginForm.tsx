@@ -12,12 +12,10 @@ interface LoginFormProps {
 
 export default function LoginForm({ setView }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<"student" | "teacher">("student");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [studentIdentifier, setStudentIdentifier] = useState(""); 
-  const [teacherIdentifier, setTeacherIdentifier] = useState(""); 
+  const [identifier, setIdentifier] = useState(""); 
   const [password, setPassword] = useState("");
   const { refreshUser } = useAuth();
   const router = useRouter();
@@ -30,20 +28,11 @@ export default function LoginForm({ setView }: LoginFormProps) {
     const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "";
 
     try {
-      if (role === "student") {
-        const studentData = { role: "student", identifier: studentIdentifier, password };
-        const res = await axios.post(`${SERVER_URL}/api/students/login`, studentData, { withCredentials: true });
-        if (res.status === 200) {
-          await refreshUser();
-          router.push("/");
-        }
-      } else {
-        const teacherData = { role: "teacher", email: teacherIdentifier, password };
-        const res = await axios.post(`${SERVER_URL}/api/teachers/login`, teacherData, { withCredentials: true });
-        if (res.status === 200) {
-          await refreshUser();
-          router.push("/");
-        }
+      const teacherData = { role: "teacher", email: identifier, password };
+      const res = await axios.post(`${SERVER_URL}/api/teachers/login`, teacherData, { withCredentials: true });
+      if (res.status === 200) {
+        await refreshUser();
+        router.push("/");
       }
     } catch (err) {
       console.error("Login Error:", err);
@@ -61,26 +50,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
     <div className="animate-in fade-in zoom-in duration-500">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h1>
-        <p className="text-xs text-slate-500 mt-1">Sign in as {role === "student" ? "a Student/Parent" : "a Teacher"}</p>
-      </div>
-
-      <div className="flex bg-slate-100 p-1 rounded-xl mb-6">
-        <button 
-          type="button"
-          disabled={loading}
-          onClick={() => { setRole("student"); setPassword(""); setError(""); }} 
-          className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2 border-0 cursor-pointer ${role === "student" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 bg-transparent disabled:opacity-50"}`}
-        >
-          <User size={14} /> Student
-        </button>
-        <button 
-          type="button"
-          disabled={loading}
-          onClick={() => { setRole("teacher"); setPassword(""); setError(""); }} 
-          className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2 border-0 cursor-pointer ${role === "teacher" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 bg-transparent disabled:opacity-50"}`}
-        >
-          <GraduationCap size={14} /> Teacher
-        </button>
+        <p className="text-xs text-slate-500 mt-1">Sign in as a Teacher or Administrator</p>
       </div>
 
       {error && (
@@ -93,16 +63,16 @@ export default function LoginForm({ setView }: LoginFormProps) {
       <form className="space-y-4" onSubmit={handleLoginSubmit}>
         <div>
           <label className="block text-xs font-bold text-slate-700 mb-1.5">
-            {role === "student" ? "Student Email / Phone" : "Teacher Employee ID / Email"}
+            Employee ID / Email
           </label>
           <div className="relative group">
             <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#59B292] transition-colors" />
             <input 
               type="text" 
               disabled={loading}
-              value={role === "student" ? studentIdentifier : teacherIdentifier}
-              onChange={(e) => role === "student" ? setStudentIdentifier(e.target.value) : setTeacherIdentifier(e.target.value)}
-              placeholder={role === "student" ? "Enter student email or phone" : "Enter employee ID or email"}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="Enter employee ID or email"
               required
               className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#59B292] focus:ring-4 focus:ring-[#59B292]/10 outline-none text-xs transition-all bg-slate-50/50 disabled:opacity-60"
             />
@@ -147,7 +117,7 @@ export default function LoginForm({ setView }: LoginFormProps) {
               <span>Signing In...</span>
             </>
           ) : (
-            <span>Sign In as {role === "student" ? "Student" : "Teacher"}</span>
+            <span>Sign In</span>
           )}
         </button>
       </form>

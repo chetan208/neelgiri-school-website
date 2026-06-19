@@ -5,12 +5,10 @@ import { GraduationCap } from "lucide-react";
 import { AuthProtected } from "@/components/Protected";
 import LoginForm from "@/components/sections/auth/LoginForm";
 import ForgotPasswordForm from "@/components/sections/auth/ForgotPasswordForm";
-import RegisterStudentForm from "@/components/sections/auth/RegisterStudentForm";
 import RegisterTeacherForm from "@/components/sections/auth/RegisterTeacherForm";
 
 export default function AuthPage() {
   const [view, setView] = useState<"login" | "forgot" | "register">("login");
-  const [role, setRole] = useState<"student" | "teacher">("student");
 
   return (
     <AuthProtected>
@@ -45,30 +43,10 @@ export default function AuthPage() {
               {view === "register" && (
                 <div className="animate-in fade-in zoom-in duration-500">
                   <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-[#093C5D]">Create Account</h1>
-                    
-                    {/* Role Toggle Switch */}
-                    <div className="flex bg-[#F8FAFC] p-1 rounded-xl mt-4">
-                      <button 
-                        onClick={() => setRole("student")} 
-                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "student" ? "bg-white shadow-sm text-[#093C5D]" : "text-[#06283D] bg-transparent"}`}
-                      >
-                        Student
-                      </button>
-                      <button 
-                        onClick={() => setRole("teacher")} 
-                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all border-0 cursor-pointer ${role === "teacher" ? "bg-white shadow-sm text-[#093C5D]" : "text-[#06283D] bg-transparent"}`}
-                      >
-                        Teacher
-                      </button>
-                    </div>
+                    <h1 className="text-2xl font-bold text-[#093C5D]">Create Teacher Account</h1>
                   </div>
 
-                  {role === "student" ? (
-                    <RegisterStudentForm setView={setView} />
-                  ) : (
-                    <RegisterTeacherForm setView={setView} />
-                  )}
+                  <RegisterTeacherForm setView={setView} />
 
                   <div className="mt-6 text-center">
                     <p className="text-xs text-[#06283D]">

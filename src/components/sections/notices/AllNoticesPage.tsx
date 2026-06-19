@@ -71,7 +71,11 @@ export default function AllNoticesPage() {
         }));
 
         if (res.data.length < 10) setHasMore(false);
-        setAllNoticesData((prev) => [...prev, ...formattedNotices]);
+        setAllNoticesData(prev => {
+        const existingIds = new Set(prev.map(n => n.id));
+        const uniqueNew = formattedNotices.filter(n => !existingIds.has(n.id));
+        return [...prev, ...uniqueNew];
+});
       } catch (error) {
         console.error("Error in fetching notices:", error);
       } finally {

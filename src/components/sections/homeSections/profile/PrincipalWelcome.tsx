@@ -43,25 +43,21 @@ export default function PrincipalWelcome() {
         <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-brand-accent opacity-20 blur-[50px] pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-56 h-56 rounded-full bg-brand-bg-light opacity-80 blur-[50px] pointer-events-none" />
 
-        <div className="relative z-10 grid md:grid-cols-[260px_1fr]">
+        <div className="relative z-10 grid md:grid-cols-[300px_1fr]">
           <div className="flex flex-col items-center justify-center p-7 bg-brand-bg-light border-b md:border-b-0 md:border-r border-white/70">
             <div
-              className="relative w-40 aspect-[3/4] rounded-xl border border-dashed border-brand-accent bg-white flex flex-col items-center justify-center gap-2 p-3 overflow-hidden"
+              className="relative w-52 aspect-[3/4] rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm"
               style={{
                 transform: hovered ? "scale(1.02)" : "scale(1)",
                 transition: "transform 0.5s ease",
                 boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
               }}
             >
-              <div className="w-12 h-12 rounded-xl bg-brand-bg-light flex items-center justify-center">
-                <Users className="w-6 h-6 text-brand-primary" />
-              </div>
-              <p className="text-[11px] text-brand-text-dark font-semibold tracking-wide text-center">
-                Principal's Photo
-              </p>
-              <p className="text-[9px] text-brand-text-dark/55 text-center leading-tight">
-                Upload image to replace
-              </p>
+              <img
+                src="/principal-portrait.png"
+                alt="Principal"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
 
             <div
@@ -72,13 +68,13 @@ export default function PrincipalWelcome() {
                 transition: "opacity 0.5s ease 300ms, transform 0.5s ease 300ms",
               }}
             >
-              Dr. Sarah M. Johnson
+              Mohinder Singh
             </div>
             <p
               className="mt-1.5 text-[9px] text-brand-text-dark/60 tracking-wider uppercase font-bold"
               style={{ opacity: cardVisible ? 1 : 0, transition: "opacity 0.5s ease 400ms" }}
             >
-              Head of School
+              Principal
             </p>
           </div>
 
@@ -114,7 +110,7 @@ export default function PrincipalWelcome() {
             >
               <Quote className="absolute -top-1.5 -left-1 w-3 h-3 text-brand-accent -rotate-180" />
               <p className="text-sm sm:text-base text-brand-text-dark font-serif italic leading-relaxed">
-                "Education is not the filling of a pail, but the lighting of a fire — and at Neelgiri, we ignite that fire every single day."
+                "Education is not the filling of a pail, but the lighting of a fire — and at Neelgiri Public School, we ignite that spark of curiosity and discipline in every student, every single day."
               </p>
             </blockquote>
 
@@ -127,10 +123,14 @@ export default function PrincipalWelcome() {
               }}
             >
               <p>
-                Welcome to Neelgiri — a place where every student is seen, every voice matters, and every dream is worth pursuing. We have built a family united by the belief that education is the most powerful force for positive change.
+                "Welcome to Neelgiri Public School, Hatwas. Our school is not just an academic institution, but a vibrant family where every child from Nursery to Class 12 is nurtured to discover their full potential. We firmly believe that with the right guidance, strong moral values, and a disciplined environment, every student can achieve excellence in life."
               </p>
-              <p className="hidden sm:block">
-                Whether you are a prospective student or a returning family, I invite you to explore what makes our school truly special: our people, our values, and our commitment to excellence.
+              <p className="sm:block">
+                "Our core focus lies in balancing top-tier academic results—especially in Higher Secondary board examinations—with holistic development. From a child's very first steps in our foundational classes to their final years preparing for future careers, we ensure they grow into confident, responsible, and self-reliant individuals."
+              </p>
+
+              <p>
+                "I warmly invite prospective students and families to visit our campus and experience firsthand what makes our school community so special: our dedicated faculty, our rooted cultural values, and our unwavering commitment to shaping the leaders of tomorrow."
               </p>
             </div>
 
@@ -148,10 +148,10 @@ export default function PrincipalWelcome() {
               />
               <div>
                 <p className="font-bold text-brand-primary font-serif text-sm leading-none">
-                  Dr. Sarah M. Johnson
+                  Mohinder Singh
                 </p>
                 <p className="text-[9px] text-brand-text-dark/60 tracking-wider uppercase font-bold mt-1">
-                  Head of School · Neelgiri Public School
+                  Principal — Neelgiri Public School
                 </p>
               </div>
             </div>

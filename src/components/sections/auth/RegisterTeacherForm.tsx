@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { User, Mail, ShieldCheck, Book, UploadCloud, GraduationCap, FileText, ArrowLeft, Loader2, AlertCircle, X, Maximize2 } from "lucide-react";
+import { User, Mail, ShieldCheck, Book, UploadCloud, GraduationCap, FileText, ArrowLeft, Loader2, AlertCircle, X, Maximize2, Eye, EyeOff, Lock } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -20,6 +20,9 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); 
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [otp, setOtp] = useState("");
   
   const [qualification, setQualification] = useState("");
@@ -71,7 +74,7 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
     setError("");
 
     try {
-      const signupData = { name, email, password: password || "1234" };
+      const signupData = { name, email };
       const res = await axios.post(`${SERVER_URL}/api/teachers`, signupData);
       if (res.status === 200 || res.status === 201) setStep(2);
     } catch (err: any) {
@@ -99,6 +102,12 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
 
   const handleCompleteProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match. Please enter again.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -107,6 +116,7 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
       formData.append("qualification", qualification);
       formData.append("subject", subject);
       formData.append("bio", bio);
+      formData.append("password", password);
       if (imageFile) formData.append("image", imageFile);
 
       const res = await axios.post(`${SERVER_URL}/api/teachers/complete-profile`, formData, {
@@ -214,6 +224,28 @@ export default function RegisterTeacherForm({ setView }: RegisterTeacherFormProp
             <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5"><FileText size={12} className="inline mr-1"/>Short Bio</label>
             <textarea value={bio} onChange={e => setBio(e.target.value)} required placeholder="Experience details..." rows={2} className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292] resize-none" />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5 flex items-center gap-1"><Lock size={12}/>Set Password</label>
+              <div className="relative group">
+                <input type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} required placeholder="********" className="w-full pl-3 pr-10 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292]" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 bg-transparent border-0 cursor-pointer">
+                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5 flex items-center gap-1"><Lock size={12}/>Confirm Password</label>
+              <div className="relative group">
+                <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required placeholder="********" className="w-full pl-3 pr-10 py-2 rounded-xl border border-slate-200 text-xs outline-none focus:border-[#59B292]" />
+                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 bg-transparent border-0 cursor-pointer">
+                  {showConfirmPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                </button>
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-slate-500 font-medium italic mt-[-8px]">Remember this password for the future login.</p>
 
           <div>
             <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1.5">Profile Image</label>
