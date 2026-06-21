@@ -39,8 +39,15 @@ export default function Footer() {
     { label: "Middle School (6–8)", href: "/academics/high-school" },
     { label: "Secondary (9–10)", href: "/academics/high-school" },
     { label: "Senior Secondary (11–12)", href: "/academics/secondary-years" },
-    { label: "Science & Computer Labs", href: "/campus-tour" },
+
   ];
+
+  const openInGoogleMaps = () => {
+  const placeName = encodeURIComponent("Neelgiri Public High School");
+  const url = `https://www.google.com/maps/search/?api=1&query=Neelgiri Public High School`;
+  
+  window.open(url, '_blank');
+};
 
   return (
     <footer className="relative bg-[#041622] overflow-hidden border-t border-[#093C5D]/15">
@@ -81,7 +88,7 @@ export default function Footer() {
               </p>
 
               {/* Socials */}
-              <div className="flex items-center gap-3 mt-6">
+              {/* <div className="flex items-center gap-3 mt-6">
                 {[
                   <FaFacebookF key="fb" size={15} />,
                   <FaInstagram key="ig" size={17} />,
@@ -95,7 +102,7 @@ export default function Footer() {
                     {icon}
                   </motion.div>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Quick Links */}
@@ -144,32 +151,35 @@ export default function Footer() {
                 Contact Us
               </h3>
               <div className="mt-5 space-y-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
+                <div 
+                  className="flex items-start gap-3 group cursor-pointer"
+                  onClick={openInGoogleMaps}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0 group-hover:bg-[#FFC94D] group-hover:text-[#093C5D] transition duration-300">
                     <MapPin size={17} />
                   </div>
-                  <p className="text-slate-400 text-sm leading-relaxed">
-                    Neelgiri Public School, Himachal Pradesh, India
+                  <p className="text-slate-400 text-sm leading-relaxed group-hover:text-[#FFC94D] transition duration-300">
+                    Neelgiri Public School, Hatwas, Nagrota Bagwan, Himachal Pradesh, 176047
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
+                <a href="tel:+919816073096" className="flex items-center gap-3 group cursor-pointer no-underline">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0 group-hover:bg-[#FFC94D] group-hover:text-[#093C5D] transition duration-300">
                     <Phone size={17} />
                   </div>
-                  <p className="text-slate-400 text-sm">
-                    +91 98765 43210
+                  <p className="text-slate-400 text-sm group-hover:text-[#FFC94D] transition duration-300 m-0">
+                    +91 98160 73096
                   </p>
-                </div>
+                </a>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0">
+                <a href="mailto:info@neelgiripublicschool.in" className="flex items-center gap-3 group cursor-pointer no-underline">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[#FFC94D] flex items-center justify-center flex-shrink-0 group-hover:bg-[#FFC94D] group-hover:text-[#093C5D] transition duration-300">
                     <Mail size={17} />
                   </div>
-                  <p className="text-slate-400 text-sm">
-                    info@neelgirischool.edu
+                  <p className="text-slate-400 text-sm group-hover:text-[#FFC94D] transition duration-300 m-0">
+                    info@neelgiripublicschool.in
                   </p>
-                </div>
+                </a>
               </div>
             </div>
 
@@ -178,7 +188,7 @@ export default function Footer() {
           {/* Bottom Copyright Block */}
           <div className="mt-10 pt-5 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-sm text-center md:text-left">
-              © 2026 Neelgiri Public School. All Rights Reserved.
+              © {new Date().getFullYear()} Neelgiri Public School. All Rights Reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-slate-500">
               <Link href="/privacy-policy" className="no-underline text-slate-500 hover:text-[#FFC94D] transition">

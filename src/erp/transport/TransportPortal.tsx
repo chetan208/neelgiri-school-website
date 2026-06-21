@@ -168,8 +168,8 @@ export default function TransportPortal() {
           
           {isOwner && (
             <div className="p-5 border-b border-slate-100 bg-slate-50/30">
-              <form onSubmit={handleAddStation} className="flex items-end gap-3">
-                <div className="flex-1">
+              <form onSubmit={handleAddStation} className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
+                <div className="flex-1 w-full">
                   <label className="block text-xs font-black uppercase tracking-wider text-slate-400 mb-1.5">New Station Name</label>
                   <input
                     type="text"
@@ -180,7 +180,7 @@ export default function TransportPortal() {
                     className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all"
                   />
                 </div>
-                <div className="w-40">
+                <div className="w-full sm:w-40">
                   <label className="block text-xs font-black uppercase tracking-wider text-slate-400 mb-1.5">Default Amount</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-bold">Rs.</span>
@@ -198,7 +198,7 @@ export default function TransportPortal() {
                 <button
                   type="submit"
                   disabled={savingStation === "new" || !newStationName.trim()}
-                  className="h-[42px] px-5 bg-[#093C5D] hover:bg-[#0b4870] disabled:bg-slate-300 text-white rounded-xl text-sm font-bold shadow-sm transition active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto h-[42px] px-5 bg-[#093C5D] hover:bg-[#0b4870] disabled:bg-slate-300 text-white rounded-xl text-sm font-bold shadow-sm transition active:scale-95 flex items-center justify-center gap-2"
                 >
                   {savingStation === "new" ? <Loader2 size={16} className="animate-spin" /> : <><Plus size={16} /> Add</>}
                 </button>
@@ -206,67 +206,71 @@ export default function TransportPortal() {
             </div>
           )}
 
-          <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/60">
-            <div className="grid grid-cols-12 text-xs font-black uppercase tracking-widest text-slate-400">
-              <span className="col-span-1">#</span>
-              <span className="col-span-5">Station Name</span>
-              <span className="col-span-3 text-right">Students</span>
-              <span className="col-span-3 text-right">Monthly Rate (Rs.)</span>
+          <div className="overflow-x-auto">
+            <div className="min-w-[600px]">
+              <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/60">
+                <div className="grid grid-cols-12 text-xs font-black uppercase tracking-widest text-slate-400">
+                  <span className="col-span-1">#</span>
+                  <span className="col-span-5">Station Name</span>
+                  <span className="col-span-3 text-right">Students</span>
+                  <span className="col-span-3 text-right">Monthly Rate (Rs.)</span>
+                </div>
+              </div>
+
+              {loading ? (
+                <div className="flex items-center justify-center py-16">
+                  <Loader2 className="animate-spin text-[#093C5D]" size={22} />
+                </div>
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {stationFees.map((fee, i) => {
+                    const station = fee.station;
+                    const studentCount = grouped[station]?.length ?? 0;
+                    return (
+                      <div key={station} className="grid grid-cols-12 items-center px-5 py-4 hover:bg-slate-50/50 transition">
+                        <span className="col-span-1 text-xs font-bold text-slate-350">{i + 1}</span>
+                        <div className="col-span-5">
+                          <p className="text-sm font-black text-slate-700">{station}</p>
+                        </div>
+                        <div className="col-span-3 text-right">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+                            <Users size={11} className="text-slate-400" /> {studentCount}
+                          </span>
+                        </div>
+                        <div className="col-span-3 flex items-center justify-end gap-1.5">
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">Rs.</span>
+                            <input
+                              type="number"
+                              min="0"
+                              disabled={!isOwner}
+                              value={editAmounts[station] ?? ""}
+                              onChange={e => setEditAmounts(prev => ({ ...prev, [station]: e.target.value }))}
+                              placeholder="0"
+                              className={`w-28 pl-8 pr-2 py-1.5 text-xs font-mono font-bold border rounded-lg text-right focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all ${
+                                isOwner ? "bg-slate-50 border-slate-200 text-slate-800" : "bg-slate-50/40 border-slate-100 text-slate-400 cursor-not-allowed"
+                              }`}
+                            />
+                          </div>
+                          {isOwner && (
+                            <button
+                              onClick={() => saveStationFee(station)}
+                              disabled={savingStation === station}
+                              className="w-7 h-7 flex items-center justify-center bg-[#093C5D] hover:bg-[#0b4870] text-white rounded-lg border-0 cursor-pointer transition active:scale-95 shrink-0"
+                            >
+                              {savingStation === station
+                                ? <Loader2 size={11} className="animate-spin" />
+                                : <Save size={11} />}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="animate-spin text-[#093C5D]" size={22} />
-            </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              {stationFees.map((fee, i) => {
-                const station = fee.station;
-                const studentCount = grouped[station]?.length ?? 0;
-                return (
-                  <div key={station} className="grid grid-cols-12 items-center px-5 py-4 hover:bg-slate-50/50 transition">
-                    <span className="col-span-1 text-xs font-bold text-slate-350">{i + 1}</span>
-                    <div className="col-span-5">
-                      <p className="text-sm font-black text-slate-700">{station}</p>
-                    </div>
-                    <div className="col-span-3 text-right">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
-                        <Users size={11} className="text-slate-400" /> {studentCount}
-                      </span>
-                    </div>
-                    <div className="col-span-3 flex items-center justify-end gap-1.5">
-                      <div className="relative">
-                        <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">Rs.</span>
-                        <input
-                          type="number"
-                          min="0"
-                          disabled={!isOwner}
-                          value={editAmounts[station] ?? ""}
-                          onChange={e => setEditAmounts(prev => ({ ...prev, [station]: e.target.value }))}
-                          placeholder="0"
-                          className={`w-28 pl-8 pr-2 py-1.5 text-xs font-mono font-bold border rounded-lg text-right focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all ${
-                            isOwner ? "bg-slate-50 border-slate-200 text-slate-800" : "bg-slate-50/40 border-slate-100 text-slate-400 cursor-not-allowed"
-                          }`}
-                        />
-                      </div>
-                      {isOwner && (
-                        <button
-                          onClick={() => saveStationFee(station)}
-                          disabled={savingStation === station}
-                          className="w-7 h-7 flex items-center justify-center bg-[#093C5D] hover:bg-[#0b4870] text-white rounded-lg border-0 cursor-pointer transition active:scale-95 shrink-0"
-                        >
-                          {savingStation === station
-                            ? <Loader2 size={11} className="animate-spin" />
-                            : <Save size={11} />}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       )}
 

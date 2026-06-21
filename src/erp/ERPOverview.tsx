@@ -68,8 +68,7 @@ export default function ERPOverview({
       setStats([
         { label: "Total Students", value: studentsCount.toString(), color: "#093C5D", icon: initialStats[0].icon },
         { label: "Teaching Staff", value: teachersCount.toString(), color: "#59B292", icon: initialStats[1].icon },
-        { label: "Pending Fees (Students)", value: pendingCount.toString(), color: "#FA6781", icon: initialStats[2].icon },
-        { label: "Today's Absent", value: "0", color: "#FFC94D", icon: initialStats[3].icon }
+        { label: "Pending Fees (Students)", value: pendingCount.toString(), color: "#FA6781", icon: initialStats[2].icon }
       ]);
     } catch (error) {
       console.error("Error loading dashboard stats:", error);
@@ -162,7 +161,7 @@ export default function ERPOverview({
       </div>
 
       {/* Summary Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         {stats.map(({ label, value, color, icon: Icon }, idx) => (
           <motion.div
             key={label}

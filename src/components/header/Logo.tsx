@@ -16,7 +16,7 @@ export default function Logo() {
           <p className="hdr-serif text-[20px] sm:text-[22px] font-extrabold text-[#093C5D] leading-none tracking-tight">
             Neelgiri Public
           </p>
-          <p className="text-[9px] uppercase tracking-[0.05em] text-[#06283D] font-bold mt-1">
+          <p className="hidden sm:block text-[9px] uppercase tracking-[0.05em] text-[#06283D] font-bold mt-1">
             Sr. Sec. School, Lower Hatwas
           </p>
         </div>

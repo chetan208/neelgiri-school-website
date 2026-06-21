@@ -31,10 +31,10 @@ export default function TopBar() {
       <div className="w-full z-50 max-w-screen-2xl mx-auto px-4 sm:px-5 lg:px-7 xl:px-8 h-9 flex items-center justify-between">
         <div className="hidden sm:flex items-center gap-4">
           <span className="flex items-center gap-1.5 text-white/80 text-[11px]">
-            <Phone size={11} /> +91 98765 43210
+            <Phone size={11} /> +91 98160 73096
           </span>
           <span className="flex items-center gap-1.5 text-white/80 text-[11px]">
-            <Mail size={11} /> info@neelgirischool.edu
+            <Mail size={11} /> info@neelgiripublicschool.in
           </span>
         </div>
 
