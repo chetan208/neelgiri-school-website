@@ -258,6 +258,18 @@ export default function StaffManager() {
     }
 
     return matchesSearch;
+  }).sort((a, b) => {
+    const isASelf = a.email === user?.email;
+    const isBSelf = b.email === user?.email;
+    if (isASelf && !isBSelf) return -1;
+    if (!isASelf && isBSelf) return 1;
+
+    const isAAdmin = a.role === "Admin" || a.role === "Owner";
+    const isBAdmin = b.role === "Admin" || b.role === "Owner";
+    if (isAAdmin && !isBAdmin) return -1;
+    if (!isAAdmin && isBAdmin) return 1;
+
+    return a.name.localeCompare(b.name);
   });
 
   return (
