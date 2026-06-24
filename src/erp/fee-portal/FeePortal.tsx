@@ -91,6 +91,7 @@ export default function FeePortal({
     name: "",
     className: "",
     admissionDate: "",
+    dob: "",
     fatherName: "",
     motherName: "",
     cardNo: "",
@@ -339,6 +340,7 @@ export default function FeePortal({
           name: "",
           className: "",
           admissionDate: "",
+          dob: "",
           fatherName: "",
           motherName: "",
           cardNo: "",
@@ -924,6 +926,17 @@ export default function FeePortal({
                   required
                   value={studentForm.admissionDate}
                   onChange={(e) => setStudentForm(prev => ({ ...prev, admissionDate: e.target.value }))}
+                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Date of Birth</label>
+                <input
+                  type="date"
+                  required
+                  value={studentForm.dob}
+                  onChange={(e) => setStudentForm(prev => ({ ...prev, dob: e.target.value }))}
                   className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
                 />
               </div>

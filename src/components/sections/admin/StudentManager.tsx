@@ -11,6 +11,7 @@ interface StudentType {
   fatherName: string;
   motherName: string;
   dateOfAdmission: string;
+  dob?: string;
   cardNo: string;
   contactNo: string;
   station?: string | null;
@@ -45,6 +46,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     fatherName: "",
     motherName: "",
     dateOfAdmission: "",
+    dob: "",
     cardNo: "",
     contactNo: "",
     station: "",
@@ -118,6 +120,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
       fatherName: "",
       motherName: "",
       dateOfAdmission: "",
+      dob: "",
       cardNo: "",
       contactNo: "",
       station: "",
@@ -249,6 +252,17 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   required
                   value={formData.dateOfAdmission}
                   onChange={(e) => setFormData({ ...formData, dateOfAdmission: e.target.value })}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Date of Birth</label>
+                <input
+                  type="date"
+                  required
+                  value={formData.dob || ""}
+                  onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                 />
               </div>

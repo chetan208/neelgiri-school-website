@@ -56,7 +56,7 @@ export default function ERPOverview({
       const teachersRes = await axios.get(`${SERVER_URL}/api/teachers`, {
         withCredentials: true
       });
-      const teachersCount = teachersRes.data?.length ?? 0;
+      const teachersCount = teachersRes.data?.teachers?.length ?? 0;
 
       // Fetch pending fees count filtered by session
       const feesRes = await axios.get(`${SERVER_URL}/api/erp/fees/stats`, {

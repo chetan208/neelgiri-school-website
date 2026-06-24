@@ -87,7 +87,7 @@ export default function StaffManager() {
       }
     } catch (error) {
       console.error("Error fetching teachers:", error);
-    } finaly: {
+    } finally {
       setLoading(false);
     }
   };
