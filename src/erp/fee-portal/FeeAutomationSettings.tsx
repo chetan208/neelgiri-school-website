@@ -15,10 +15,50 @@ export default function FeeAutomationSettings() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [logs, setLogs] = useState<any[]>([]);
+  const [isRunning, setIsRunning] = useState(false);
+  const [isTriggering, setIsTriggering] = useState(false);
 
   useEffect(() => {
     fetchSettings();
   }, []);
+
+  // Poll status when isRunning is true
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const interval = setInterval(async () => {
+      const active = await checkAutomationStatus();
+      if (!active) {
+        setIsRunning(false);
+        // Refresh logs when finished
+        try {
+          const logsRes = await axios.get(`${SERVER_URL}/api/erp/fee-automation/logs`, { withCredentials: true });
+          if (logsRes.data.success && logsRes.data.logs) {
+            setLogs(logsRes.data.logs);
+          }
+        } catch (err) {
+          console.error("Failed to reload logs", err);
+        }
+        setMessage({ type: "success", text: "Fee automation completed successfully!" });
+        setTimeout(() => setMessage(null), 5000);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const checkAutomationStatus = async () => {
+    try {
+      const res = await axios.get(`${SERVER_URL}/api/erp/fee-automation/status`, { withCredentials: true });
+      if (res.data.success) {
+        setIsRunning(res.data.isRunning);
+        return res.data.isRunning;
+      }
+    } catch (error) {
+      console.error("Failed to check automation status", error);
+    }
+    return false;
+  };
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -33,6 +73,12 @@ export default function FeeAutomationSettings() {
       const logsRes = await axios.get(`${SERVER_URL}/api/erp/fee-automation/logs`, { withCredentials: true });
       if (logsRes.data.success && logsRes.data.logs) {
         setLogs(logsRes.data.logs);
+      }
+
+      // Check current status
+      const statusRes = await axios.get(`${SERVER_URL}/api/erp/fee-automation/status`, { withCredentials: true });
+      if (statusRes.data.success) {
+        setIsRunning(statusRes.data.isRunning);
       }
     } catch (error) {
       console.error("Failed to load automation settings", error);
@@ -57,6 +103,26 @@ export default function FeeAutomationSettings() {
     } finally {
       setSaving(false);
       setTimeout(() => setMessage(null), 3000);
+    }
+  };
+
+  const handleTriggerNow = async () => {
+    setIsTriggering(true);
+    setMessage(null);
+    try {
+      const res = await axios.post(`${SERVER_URL}/api/erp/fee-automation/trigger`, {}, { withCredentials: true });
+      if (res.data.success) {
+        setIsRunning(true);
+        setMessage({ type: "success", text: "Manual fee automation triggered! Processing remaining students in background..." });
+      }
+    } catch (error: any) {
+      console.error("Failed to trigger manual automation", error);
+      setMessage({ 
+        type: "error", 
+        text: error.response?.data?.message || "Failed to trigger automation." 
+      });
+    } finally {
+      setIsTriggering(false);
     }
   };
 
@@ -136,14 +202,33 @@ export default function FeeAutomationSettings() {
             </div>
           </div>
 
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="w-full sm:w-auto px-8 py-3 bg-[#093C5D] hover:bg-[#0b4870] text-white rounded-xl text-sm font-bold shadow-md transition-all disabled:bg-slate-300 flex items-center justify-center gap-2"
-          >
-            {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-            {saving ? "Saving Configuration..." : "Save Settings"}
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-4 border-t border-slate-100 pt-6 mt-6">
+            <button
+              onClick={handleSave}
+              disabled={saving || isRunning}
+              className="w-full sm:w-auto px-8 py-3 bg-[#093C5D] hover:bg-[#0b4870] text-white rounded-xl text-sm font-bold shadow-md transition-all disabled:bg-slate-300 flex items-center justify-center gap-2 border-0 cursor-pointer"
+            >
+              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+              {saving ? "Saving Configuration..." : "Save Settings"}
+            </button>
+
+            <button
+              onClick={handleTriggerNow}
+              disabled={isTriggering || isRunning}
+              className={`w-full sm:w-auto px-8 py-3 rounded-xl text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 border cursor-pointer ${
+                isRunning 
+                  ? "bg-amber-50 text-amber-700 border-amber-200 cursor-not-allowed" 
+                  : "bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200"
+              }`}
+            >
+              {isTriggering || isRunning ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <Activity size={16} />
+              )}
+              {isRunning ? "Automation Job Running..." : "Start Cron Job Now"}
+            </button>
+          </div>
         </div>
       </div>
 

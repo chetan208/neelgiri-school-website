@@ -142,8 +142,8 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     <img class="logo" src="${origin}/school_logo.png" alt="NPS Logo">
     <div>
       <div class="school-name">Neelgiri Public School</div>
-      <div class="school-sub">Kalyanpur, Kanpur, Uttar Pradesh – 208017</div>
-      <div class="school-contact">billing@neelgirischool.com &nbsp;|&nbsp; +91 98765 43210 &nbsp;|&nbsp; www.neelgirischool.com</div>
+      <div class="school-sub">Hatwas, Nagrota Bagwan, Himachal Pradesh – 176047</div>
+      <div class="school-contact">info@neelgiripublicschool.in &nbsp;|&nbsp; +91 98160 73096 &nbsp;|&nbsp; www.neelgiripublicschool.in</div>
     </div>
   </div>
   <div class="receipt-block">
@@ -211,7 +211,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
 <div class="footer">
   <div class="terms">
     <strong>Terms & Conditions:</strong><br>
-    1. This is an official receipt of Neelgiri Public School, Kanpur.<br>
+    1. This is an official receipt of Neelgiri Public School, Lower Hatwas.<br>
     2. Unpaid balances carry forward automatically to the next billing month.<br>
     3. For disputes, contact the accounts office within 7 days of receipt.
   </div>

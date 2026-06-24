@@ -45,7 +45,9 @@ export default function SettingsPortal() {
     try {
       const res = await axios.get(`${SERVER_URL}/api/erp/whatsapp/status`, { withCredentials: true });
       if (res.data.success) {
+        const isConnected = res.data.status?.connected || false;
         setWhatsappStatus(res.data.status);
+        localStorage.setItem("whatsapp_connected", isConnected ? "true" : "false");
       }
     } catch (err) {
       console.error("Error fetching WhatsApp status:", err);
@@ -62,6 +64,7 @@ export default function SettingsPortal() {
       const res = await axios.post(`${SERVER_URL}/api/erp/whatsapp/logout`, {}, { withCredentials: true });
       if (res.data.success) {
         setSuccess("WhatsApp disconnected successfully. New QR code generating...");
+        localStorage.setItem("whatsapp_connected", "false");
         fetchWhatsappStatus();
       }
     } catch (err: any) {

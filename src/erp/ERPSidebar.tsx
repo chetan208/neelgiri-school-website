@@ -9,6 +9,7 @@ interface ERPSidebarProps {
   setActiveModule: (module: string | null) => void;
   modules: ModuleType[];
   user: any;
+  whatsappConnected?: boolean;
 }
 
 export default function ERPSidebar({
@@ -17,7 +18,8 @@ export default function ERPSidebar({
   activeModule,
   setActiveModule,
   modules,
-  user
+  user,
+  whatsappConnected = true
 }: ERPSidebarProps) {
   return (
     <aside className={`
@@ -60,6 +62,9 @@ export default function ERPSidebar({
             >
               <Icon size={14} className="shrink-0" />
               <span className="flex-1 truncate">{mod.label}</span>
+              {mod.id === "settings" && !whatsappConnected && (
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shrink-0 ml-2 shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
+              )}
               <ChevronRight size={11} className="opacity-40 shrink-0" />
             </button>
           );

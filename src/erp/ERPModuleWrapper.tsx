@@ -62,6 +62,7 @@ export default function ERPModuleWrapper({
             preselectedStudent={preselectedStudent} 
             clearPreselected={() => setPreselectedStudent(null)} 
             selectedSession={selectedSession}
+            setActiveModule={setActiveModule}
           />
         </div>
       ) : activeModule === "transport" ? (

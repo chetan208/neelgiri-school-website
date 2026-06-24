@@ -247,8 +247,8 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
             <img src="/school_logo.png" className="logo w-14 h-14 object-contain border border-slate-200 rounded-full" alt="Neelgiri Public School Logo" />
             <div>
               <h1 className="text-base font-black text-[#093C5D] uppercase tracking-wide">Neelgiri Public School</h1>
-              <p className="text-[9px] text-slate-500 font-semibold uppercase mt-0.5">Kalyanpur, Kanpur, Uttar Pradesh – 208017</p>
-              <p className="text-[9px] text-slate-400 mt-0.5">billing@neelgirischool.com &nbsp;|&nbsp; +91 98765 43210</p>
+              <p className="text-[9px] text-slate-500 font-semibold uppercase mt-0.5">Hatwas, Nagrota Bagwan, Himachal Pradesh – 176047</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">info@neelgiripublicschool.in &nbsp;|&nbsp; +91 98160 73096 &nbsp;|&nbsp; www.neelgiripublicschool.in</p>
             </div>
           </div>
           <div className="text-left sm:text-right">
@@ -373,7 +373,7 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
         <div className="footer-section flex justify-between items-end border-t border-dashed border-slate-300 pt-4 mt-6">
           <div className="terms text-[9px] text-slate-500 max-w-sm leading-relaxed">
             <strong>Terms & Conditions:</strong><br />
-            1. This is an official receipt of Neelgiri Public School, Kanpur.<br />
+            1. This is an official receipt of Neelgiri Public School, Lower Hatwas.<br />
             2. Unpaid balances carry forward automatically to the next billing month.<br />
             3. For disputes, contact the accounts office within 7 days of receipt.
           </div>

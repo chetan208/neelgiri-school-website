@@ -11,6 +11,7 @@ import {
   Calendar,
   Phone,
   ArrowRight,
+  ArrowLeft,
   Loader2,
   Info,
   DollarSign,
@@ -31,11 +32,13 @@ import FeeAutomationSettings from "./FeeAutomationSettings";
 export default function FeePortal({ 
   preselectedStudent, 
   clearPreselected, 
-  selectedSession 
+  selectedSession,
+  setActiveModule
 }: { 
   preselectedStudent?: any; 
   clearPreselected?: () => void; 
   selectedSession: string;
+  setActiveModule?: (id: string | null) => void;
 }) {
   const [activeTab, setActiveTab] = useState<"dashboard" | "add-student" | "class-config" | "automation">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
@@ -704,12 +707,30 @@ export default function FeePortal({
                       )}
                     </div>
 
-                    <button
-                      onClick={() => { setSelectedStudent(null); setSearchQuery(""); }}
-                      className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl border-0 cursor-pointer transition active:scale-95"
-                    >
-                      Back to Pending List
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => { setSelectedStudent(null); setSearchQuery(""); }}
+                        className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl border-0 cursor-pointer transition active:scale-95"
+                      >
+                        Back to Pending List
+                      </button>
+
+                      {setActiveModule && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedStudent(null);
+                            setSearchQuery("");
+                            setActiveModule("students");
+                          }}
+                          className="px-4 py-2 bg-[#FA6781] hover:bg-[#fa5370] text-white text-xs font-bold rounded-xl border-0 cursor-pointer transition active:scale-95 flex items-center gap-1.5 shadow-sm shadow-[#FA6781]/15"
+                        >
+                          <ArrowLeft size={13} />
+                          Back to Student Management
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Student Info Card */}
