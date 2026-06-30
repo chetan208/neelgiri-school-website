@@ -30,6 +30,7 @@ export interface FeeStructureType {
   buildingFund: string | number;
   annualCharges: string | number;
   previousBalance: string | number;
+  previousSessionDues?: string | number;
   totalDemand: string | number;
   total: string | number;
   status: "PENDING" | "PARTIALLY_PAID" | "PAID";

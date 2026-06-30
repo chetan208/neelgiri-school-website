@@ -86,7 +86,8 @@ export default function FeePortal({
     ptmFine: "",
     tieBeltBooks: "",
     buildingFund: "",
-    annualCharges: ""
+    annualCharges: "",
+    previousSessionDues: ""
   });
 
   // Add Student Form State
@@ -414,7 +415,8 @@ export default function FeePortal({
       ptmFine: fee.ptmFine.toString(),
       tieBeltBooks: fee.tieBeltBooks.toString(),
       buildingFund: fee.buildingFund.toString(),
-      annualCharges: fee.annualCharges.toString()
+      annualCharges: fee.annualCharges.toString(),
+      previousSessionDues: (fee.previousSessionDues || 0).toString()
     });
   };
 
@@ -435,7 +437,8 @@ export default function FeePortal({
         ptmFine: parseFloat(editFeeForm.ptmFine || "0"),
         tieBeltBooks: parseFloat(editFeeForm.tieBeltBooks || "0"),
         buildingFund: parseFloat(editFeeForm.buildingFund || "0"),
-        annualCharges: parseFloat(editFeeForm.annualCharges || "0")
+        annualCharges: parseFloat(editFeeForm.annualCharges || "0"),
+        previousSessionDues: parseFloat(editFeeForm.previousSessionDues || "0")
       }, { withCredentials: true });
 
       if (res.data.success) {
@@ -785,6 +788,7 @@ export default function FeePortal({
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Tie & Belt</th>}
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Building</th>}
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Annual</th>}
+                            {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Prev Dues</th>}
                             {!showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Other</th>}
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider font-serif">Total</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Paid</th>
@@ -796,11 +800,11 @@ export default function FeePortal({
                         <tbody className="divide-y divide-slate-100 text-slate-600">
                           {feesLoading ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 15 : 9} className="text-center py-10 text-slate-400">Loading ledger data...</td>
+                              <td colSpan={showDetailedFees ? 16 : 9} className="text-center py-10 text-slate-400">Loading ledger data...</td>
                             </tr>
                           ) : studentFees.length === 0 ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 15 : 9} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
+                              <td colSpan={showDetailedFees ? 16 : 9} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
                             </tr>
                           ) : studentFees.map((fee) => {
                             const paid = fee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
@@ -812,7 +816,8 @@ export default function FeePortal({
                               parseFloat(fee.ptmFine || "0") + 
                               parseFloat(fee.tieBeltBooks || "0") + 
                               parseFloat(fee.buildingFund || "0") + 
-                              parseFloat(fee.annualCharges || "0");
+                              parseFloat(fee.annualCharges || "0") +
+                              parseFloat(fee.previousSessionDues || "0");
                             return (
                               <tr key={fee.id} className="hover:bg-slate-50/50 transition">
                                 <td className="p-3 font-bold text-[#093C5D]">{fee.month}</td>
@@ -825,6 +830,7 @@ export default function FeePortal({
                                 {showDetailedFees && <td className="p-3">₹{fee.tieBeltBooks}</td>}
                                 {showDetailedFees && <td className="p-3">₹{fee.buildingFund}</td>}
                                 {showDetailedFees && <td className="p-3">₹{fee.annualCharges}</td>}
+                                {showDetailedFees && <td className="p-3">₹{fee.previousSessionDues || 0}</td>}
                                 {!showDetailedFees && <td className="p-3">₹{other.toFixed(2)}</td>}
                                 <td className="p-3 font-bold text-slate-700">₹{fee.total}</td>
                                 <td className="p-3 text-emerald-600 font-bold">₹{paid.toFixed(2)}</td>
@@ -1240,6 +1246,17 @@ export default function FeePortal({
                     step="any"
                     value={editFeeForm.annualCharges}
                     onChange={(e) => setEditFeeForm(prev => ({ ...prev, annualCharges: e.target.value }))}
+                    className="w-full px-3 py-1.5 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">Previous Dues (₹)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    value={editFeeForm.previousSessionDues}
+                    onChange={(e) => setEditFeeForm(prev => ({ ...prev, previousSessionDues: e.target.value }))}
                     className="w-full px-3 py-1.5 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
                   />
                 </div>

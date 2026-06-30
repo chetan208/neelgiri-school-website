@@ -17,15 +17,16 @@ interface FeeMatrixTableProps {
 const MONTH_ORDER = ["April","May","June","July","August","September","October","November","December","January","February","March"];
 
 const FEE_HEADS = [
-  { key: "admissionFee",     label: "Admission" },
-  { key: "tuitionFee",       label: "Tuition" },
-  { key: "schoolBusCharges", label: "Bus" },
-  { key: "examFee",          label: "Exam" },
-  { key: "computerFee",      label: "Computer" },
-  { key: "ptmFine",          label: "PTM Fine" },
-  { key: "tieBeltBooks",     label: "Tie/Belt/Books" },
-  { key: "buildingFund",     label: "Building Fund" },
-  { key: "annualCharges",    label: "Annual" },
+  { key: "admissionFee",        label: "Admission" },
+  { key: "tuitionFee",          label: "Tuition" },
+  { key: "schoolBusCharges",    label: "Bus" },
+  { key: "examFee",             label: "Exam" },
+  { key: "computerFee",         label: "Computer" },
+  { key: "ptmFine",             label: "PTM Fine" },
+  { key: "tieBeltBooks",        label: "Tie/Belt/Books" },
+  { key: "buildingFund",        label: "Building Fund" },
+  { key: "annualCharges",       label: "Annual" },
+  { key: "previousSessionDues", label: "Prev Dues" },
 ] as const;
 
 function sortFees(fees: FeeStructureType[]) {

@@ -19,6 +19,9 @@ interface StudentType {
   studentclass?: {
     className: string;
   };
+  session?: {
+    year: string;
+  };
 }
 
 interface StudentManagerProps {
@@ -65,6 +68,79 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showPromoteModal, setShowPromoteModal] = useState(false);
+  const [promoteLoading, setPromoteLoading] = useState(false);
+  const [promoteStudentData, setPromoteStudentData] = useState<StudentType | null>(null);
+
+  const getNextClass = (currentClass: string) => {
+    const CLASS_PROGRESSION: Record<string, string> = {
+      "Nursery": "LKG",
+      "LKG": "UKG",
+      "UKG": "1st",
+      "1st": "2nd",
+      "2nd": "3rd",
+      "3rd": "4th",
+      "4th": "5th",
+      "5th": "6th",
+      "6th": "7th",
+      "7th": "8th",
+      "8th": "9th",
+      "9th": "10th",
+      "10th": "11th",
+      "11th": "12th"
+    };
+    return CLASS_PROGRESSION[currentClass] || null;
+  };
+
+  const getNextSession = (currentSession: string) => {
+    const parts = currentSession.split("-");
+    if (parts.length === 2) {
+      const startYear = parseInt(parts[0]);
+      const endYearShort = parseInt(parts[1]);
+      const nextStartYear = startYear + 1;
+      const nextEndYearShort = endYearShort + 1;
+      const nextEndYearShortStr = String(nextEndYearShort).padStart(2, '0').slice(-2);
+      return `${nextStartYear}-${nextEndYearShortStr}`;
+    }
+    const yearNum = parseInt(currentSession);
+    if (!isNaN(yearNum)) {
+      return `${yearNum + 1}`;
+    }
+    return currentSession;
+  };
+
+  const handleOpenPromote = (student: StudentType) => {
+    setPromoteStudentData(student);
+    setShowPromoteModal(true);
+    setError(null);
+    setSuccess(null);
+  };
+
+  const handlePromote = async () => {
+    if (!promoteStudentData) return;
+    setPromoteLoading(true);
+    setError(null);
+    setSuccess(null);
+    const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
+    try {
+      const currentClass = promoteStudentData.studentclass?.className || promoteStudentData.studentClass || "";
+      const currentSession = promoteStudentData.session?.year || selectedSession || "";
+      
+      const res = await axios.post(`${SERVER_URL}/api/erp/students/${promoteStudentData.id}/promote`, {}, { withCredentials: true });
+      if (res.data.success) {
+        setSuccess(res.data.message || `Student promoted successfully to class ${getNextClass(currentClass)} for session ${getNextSession(currentSession)}.`);
+        setShowPromoteModal(false);
+        setSelectedStudentForDetail(null);
+        fetchStudents(searchQuery, currentPage, selectedClass, selectedSession);
+      }
+    } catch (err: any) {
+      console.error("Error promoting student:", err);
+      setError(err.response?.data?.message || "Failed to promote student.");
+    } finally {
+      setPromoteLoading(false);
+    }
+  };
+
   const [editFormData, setEditFormData] = useState({
     name: "",
     studentClass: "",
@@ -404,6 +480,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                 </button>
                 <button
                   type="button"
+                  onClick={() => handleOpenPromote(selectedStudentForDetail)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-250 rounded-xl text-xs font-bold transition duration-200 cursor-pointer active:scale-95"
+                >
+                  Promote Student
+                </button>
+                <button
+                  type="button"
                   onClick={() => setShowDeleteConfirm(true)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-bold transition duration-200 cursor-pointer active:scale-95"
                 >
@@ -511,25 +594,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                     />
                   </div>
 
-                  <div>
+                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Date of Birth</label>
                     <input
                       type="date"
                       required
                       value={formData.dob || ""}
                       onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Admission / Card No (Unique)</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="E.g., NPS-2026-0045"
-                      value={formData.cardNo}
-                      onChange={(e) => setFormData({ ...formData, cardNo: e.target.value })}
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                     />
                   </div>
@@ -975,6 +1046,115 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
               >
                 {submitLoading ? <Loader2 size={13} className="animate-spin" /> : null}
                 Yes, Delete Permanently
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Promote Student Modal */}
+      {showPromoteModal && promoteStudentData && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl border border-slate-200/60 max-w-md w-full p-6 shadow-2xl relative my-8 animate-in zoom-in-95 duration-200 text-slate-800 space-y-4">
+            <button
+              onClick={() => {
+                setShowPromoteModal(false);
+                setError(null);
+                setSuccess(null);
+              }}
+              className="absolute right-4 top-4 text-slate-400 hover:text-slate-650 border-0 bg-transparent cursor-pointer p-1"
+            >
+              <X size={16} />
+            </button>
+
+            <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+              <div className="w-12 h-12 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 shrink-0">
+                <Users size={24} />
+              </div>
+              <div>
+                <h3 className="text-sm font-black text-[#093C5D]">Promote Student</h3>
+                <p className="text-[10px] font-bold text-slate-400 mt-0.5">Move Student to Next Academic Session</p>
+              </div>
+            </div>
+
+            <div className="space-y-3 leading-relaxed text-xs">
+              <p className="font-semibold text-slate-600">
+                You are promoting <strong className="text-[#093C5D] font-black">{promoteStudentData.name}</strong> to the next academic session.
+              </p>
+
+              <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Current State</p>
+                  <p className="text-xs font-black text-slate-700 mt-1">
+                    Class: {promoteStudentData.studentclass?.className || promoteStudentData.studentClass}
+                  </p>
+                  <p className="text-[10px] font-semibold text-slate-500 mt-0.5">
+                    Session: {promoteStudentData.session?.year || selectedSession}
+                  </p>
+                  <p className="text-[10px] font-semibold text-slate-500">
+                    Roll No: {promoteStudentData.cardNo}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-wider text-emerald-600">Target State</p>
+                  {getNextClass(promoteStudentData.studentclass?.className || promoteStudentData.studentClass || "") ? (
+                    <>
+                      <p className="text-xs font-black text-emerald-700 mt-1">
+                        Class: {getNextClass(promoteStudentData.studentclass?.className || promoteStudentData.studentClass || "")}
+                      </p>
+                      <p className="text-[10px] font-semibold text-emerald-600 mt-0.5">
+                        Session: {getNextSession(promoteStudentData.session?.year || selectedSession || "")}
+                      </p>
+                      <p className="text-[10px] font-semibold text-emerald-500 italic mt-0.5">
+                        Roll No: Auto-generated
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-xs font-black text-rose-600 mt-1">
+                      Highest class (12th) reached.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {getNextClass(promoteStudentData.studentclass?.className || promoteStudentData.studentClass || "") ? (
+                <div className="bg-emerald-50/50 border border-emerald-100 text-emerald-800 p-3.5 rounded-2xl text-[10px] font-semibold leading-normal font-sans">
+                  <strong>Note:</strong> Promoting this student will automatically create the next academic session if it does not already exist, assign the student to that session in the promoted class, auto-generate a new roll number, and set up their monthly fees. The student's current session record will remain untouched.
+                </div>
+              ) : (
+                <div className="bg-rose-50 border border-rose-100 text-rose-800 p-3.5 rounded-2xl text-[10px] font-semibold leading-normal font-sans">
+                  <strong>Warning:</strong> Student is currently in the highest class (12th). They cannot be promoted further. If they are leaving the school, you can archive or delete them.
+                </div>
+              )}
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-2">
+                <AlertTriangle size={15} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPromoteModal(false);
+                  setError(null);
+                  setSuccess(null);
+                }}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-xl text-xs font-bold transition cursor-pointer border-0"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handlePromote}
+                disabled={promoteLoading || !getNextClass(promoteStudentData.studentclass?.className || promoteStudentData.studentClass || "")}
+                className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition disabled:bg-slate-300 disabled:cursor-not-allowed cursor-pointer border-0 flex items-center gap-1.5 shadow-md shadow-emerald-600/10"
+              >
+                {promoteLoading ? <Loader2 size={13} className="animate-spin" /> : null}
+                Confirm Promotion
               </button>
             </div>
           </div>

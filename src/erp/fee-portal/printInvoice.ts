@@ -64,6 +64,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     ["Tie, Belt & Books",   fee.tieBeltBooks],
     ["Building Fund",       fee.buildingFund],
     ["Annual Charges",      fee.annualCharges],
+    ["Previous Session Dues", fee.previousSessionDues],
     ["Previous Balance",    activePreviousBalance],
   ]
     .filter(([, v]) => Number(v) > 0)
