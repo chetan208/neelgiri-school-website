@@ -59,6 +59,7 @@ export default function FeePortal({
 
   // Modals & Feedback
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentTargetFee, setPaymentTargetFee] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -296,6 +297,22 @@ export default function FeePortal({
     }
   };
 
+  const handleOpenCollectPayment = (fee?: any) => {
+    if (fee) {
+      setPaymentTargetFee(fee);
+      const paid = fee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
+      const remaining = parseFloat(fee.total) - paid;
+      setPaymentForm({
+        amountPaid: remaining > 0 ? remaining.toFixed(2) : "",
+        paymentMode: "CASH"
+      });
+    } else {
+      setPaymentTargetFee(null);
+      setPaymentForm({ amountPaid: "", paymentMode: "CASH" });
+    }
+    setShowPaymentModal(true);
+  };
+
   const handleCollectPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedStudent || !paymentForm.amountPaid) return;
@@ -308,12 +325,14 @@ export default function FeePortal({
       const res = await axios.post(`${SERVER_URL}/api/erp/make-payment`, {
         studentId: selectedStudent.id,
         amountPaid: parseFloat(paymentForm.amountPaid),
-        paymentMode: paymentForm.paymentMode
+        paymentMode: paymentForm.paymentMode,
+        feeStructureId: paymentTargetFee?.id || undefined
       }, { withCredentials: true });
 
       if (res.data.success) {
         setSuccess(`Payment of ₹${paymentForm.amountPaid} collected successfully.`);
         setShowPaymentModal(false);
+        setPaymentTargetFee(null);
         setPaymentForm({ amountPaid: "", paymentMode: "CASH" });
         // Reload student data & stats
         handleSelectStudent(selectedStudent);
@@ -763,7 +782,7 @@ export default function FeePortal({
                         </button>
                         <button
                           type="button"
-                          onClick={() => setShowPaymentModal(true)}
+                          onClick={() => handleOpenCollectPayment()}
                           className="bg-[#59B292] hover:bg-[#439678] text-white font-black text-[10px] uppercase tracking-wider px-4 py-2 rounded-xl transition border-0 cursor-pointer active:scale-95"
                         >
                           Collect Fees
@@ -792,7 +811,10 @@ export default function FeePortal({
                             {!showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Other</th>}
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider font-serif">Total</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Paid</th>
+                            <th className="p-3 text-[10px] font-black uppercase tracking-wider">Date</th>
+                            <th className="p-3 text-[10px] font-black uppercase tracking-wider">Prev Balance</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Remaining</th>
+                            <th className="p-3 text-[10px] font-black uppercase tracking-wider">Total Balance</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Status</th>
                             <th className="p-3 text-right text-[10px] font-black uppercase tracking-wider">Action</th>
                           </tr>
@@ -800,74 +822,124 @@ export default function FeePortal({
                         <tbody className="divide-y divide-slate-100 text-slate-600">
                           {feesLoading ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 16 : 9} className="text-center py-10 text-slate-400">Loading ledger data...</td>
+                              <td colSpan={showDetailedFees ? 19 : 12} className="text-center py-10 text-slate-400">Loading ledger data...</td>
                             </tr>
                           ) : studentFees.length === 0 ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 16 : 9} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
+                              <td colSpan={showDetailedFees ? 19 : 12} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
                             </tr>
-                          ) : studentFees.map((fee) => {
-                            const paid = fee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
-                            const remaining = parseFloat(fee.total) - paid;
-                            const other = 
-                              parseFloat(fee.admissionFee || "0") + 
-                              parseFloat(fee.examFee || "0") + 
-                              parseFloat(fee.computerFee || "0") + 
-                              parseFloat(fee.ptmFine || "0") + 
-                              parseFloat(fee.tieBeltBooks || "0") + 
-                              parseFloat(fee.buildingFund || "0") + 
-                              parseFloat(fee.annualCharges || "0") +
-                              parseFloat(fee.previousSessionDues || "0");
-                            return (
-                              <tr key={fee.id} className="hover:bg-slate-50/50 transition">
-                                <td className="p-3 font-bold text-[#093C5D]">{fee.month}</td>
-                                {showDetailedFees && <td className="p-3">₹{fee.admissionFee}</td>}
-                                <td className="p-3">₹{fee.tuitionFee}</td>
-                                {showDetailedFees && <td className="p-3">₹{fee.examFee}</td>}
-                                {showDetailedFees && <td className="p-3">₹{fee.computerFee}</td>}
-                                <td className="p-3">₹{fee.schoolBusCharges}</td>
-                                {showDetailedFees && <td className="p-3">₹{fee.ptmFine}</td>}
-                                {showDetailedFees && <td className="p-3">₹{fee.tieBeltBooks}</td>}
-                                {showDetailedFees && <td className="p-3">₹{fee.buildingFund}</td>}
-                                {showDetailedFees && <td className="p-3">₹{fee.annualCharges}</td>}
-                                {showDetailedFees && <td className="p-3">₹{fee.previousSessionDues || 0}</td>}
-                                {!showDetailedFees && <td className="p-3">₹{other.toFixed(2)}</td>}
-                                <td className="p-3 font-bold text-slate-700">₹{fee.total}</td>
-                                <td className="p-3 text-emerald-600 font-bold">₹{paid.toFixed(2)}</td>
-                                <td className="p-3 text-rose-600 font-bold">₹{remaining.toFixed(2)}</td>
-                                <td className="p-3">
-                                  <span className={`inline-flex px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${
-                                    fee.status === "PAID" 
-                                      ? "bg-emerald-50 border-emerald-200 text-emerald-700" 
-                                      : fee.status === "PARTIALLY_PAID"
-                                      ? "bg-amber-50 border-amber-200 text-amber-700"
-                                      : "bg-rose-50 border-rose-200 text-rose-700"
-                                  }`}>
-                                    {fee.status}
-                                  </span>
-                                </td>
-                                <td className="p-3 text-right">
-                                  <div className="flex items-center justify-end gap-1.5">
-                                    <button
-                                      type="button"
-                                      onClick={() => handleOpenEditFee(fee)}
-                                      title="Edit Fee"
-                                      className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#093C5D] hover:bg-slate-100 transition cursor-pointer bg-white"
-                                    >
-                                      <Edit2 size={13} />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => printInvoice(selectedStudent, fee, studentFees)}
-                                      className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#093C5D] hover:bg-slate-100 transition cursor-pointer bg-white"
-                                    >
-                                      <Printer size={13} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
+                          ) : (() => {
+                            // Sort fees chronologically
+                            const parseMonthStr = (str: string) => {
+                              if (!str) return new Date(0);
+                              const [mName, year] = str.split("-");
+                              return new Date(`${mName} 1, ${year}`);
+                            };
+
+                            const sortedFees = [...studentFees].sort((a: any, b: any) => {
+                              return parseMonthStr(a.month).getTime() - parseMonthStr(b.month).getTime();
+                            });
+
+                            // Calculate running balances
+                            let runningDues = 0;
+                            const feesWithBalances = sortedFees.map((fee: any) => {
+                              const paid = fee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
+                              const currentRemaining = parseFloat(fee.total) - paid;
+                              const prevRemaining = runningDues;
+                              runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+                              
+                              return {
+                                ...fee,
+                                paid,
+                                currentRemaining,
+                                prevRemaining,
+                                totalBalance: runningDues
+                              };
+                            });
+
+                            return feesWithBalances.map((fee) => {
+                              const payments = fee.payments || [];
+                              const latestPay = payments.length > 0
+                                ? new Date(Math.max(...payments.map((p: any) => new Date(p.date || p.createdAt).getTime())))
+                                : null;
+                              const latestPayStr = latestPay
+                                ? latestPay.toLocaleDateString("en-IN", { day: "2-digit", month: "2-digit", year: "numeric" })
+                                : "—";
+
+                              const other = 
+                                parseFloat(fee.admissionFee || "0") + 
+                                parseFloat(fee.examFee || "0") + 
+                                parseFloat(fee.computerFee || "0") + 
+                                parseFloat(fee.ptmFine || "0") + 
+                                parseFloat(fee.tieBeltBooks || "0") + 
+                                parseFloat(fee.buildingFund || "0") + 
+                                parseFloat(fee.annualCharges || "0") +
+                                parseFloat(fee.previousSessionDues || "0");
+
+                              return (
+                                <tr key={fee.id} className="hover:bg-slate-50/50 transition">
+                                  <td className="p-3 font-bold text-[#093C5D]">{fee.month}</td>
+                                  {showDetailedFees && <td className="p-3">₹{fee.admissionFee}</td>}
+                                  <td className="p-3">₹{fee.tuitionFee}</td>
+                                  {showDetailedFees && <td className="p-3">₹{fee.examFee}</td>}
+                                  {showDetailedFees && <td className="p-3">₹{fee.computerFee}</td>}
+                                  <td className="p-3">₹{fee.schoolBusCharges}</td>
+                                  {showDetailedFees && <td className="p-3">₹{fee.ptmFine}</td>}
+                                  {showDetailedFees && <td className="p-3">₹{fee.tieBeltBooks}</td>}
+                                  {showDetailedFees && <td className="p-3">₹{fee.buildingFund}</td>}
+                                  {showDetailedFees && <td className="p-3">₹{fee.annualCharges}</td>}
+                                  {showDetailedFees && <td className="p-3">₹{fee.previousSessionDues || 0}</td>}
+                                  {!showDetailedFees && <td className="p-3">₹{other.toFixed(2)}</td>}
+                                  <td className="p-3 font-bold text-slate-700">₹{fee.total}</td>
+                                  <td className="p-3 text-emerald-600 font-bold">₹{fee.paid.toFixed(2)}</td>
+                                  <td className="p-3 font-medium text-slate-500">{latestPayStr}</td>
+                                  <td className="p-3 text-amber-600 font-bold">₹{fee.prevRemaining.toFixed(2)}</td>
+                                  <td className="p-3 text-rose-500 font-bold">₹{fee.currentRemaining.toFixed(2)}</td>
+                                  <td className="p-3 text-rose-700 font-black">₹{fee.totalBalance.toFixed(2)}</td>
+                                  <td className="p-3">
+                                    <span className={`inline-flex px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${
+                                      fee.status === "PAID" 
+                                        ? "bg-emerald-50 border-emerald-200 text-emerald-700" 
+                                        : fee.status === "PARTIALLY_PAID"
+                                        ? "bg-amber-50 border-amber-200 text-amber-700"
+                                        : "bg-rose-50 border-rose-200 text-rose-700"
+                                    }`}>
+                                      {fee.status}
+                                    </span>
+                                  </td>
+                                  <td className="p-3 text-right">
+                                    <div className="flex items-center justify-end gap-1.5">
+                                      {fee.currentRemaining > 0 && (
+                                        <button
+                                          type="button"
+                                          onClick={() => handleOpenCollectPayment(fee)}
+                                          title="Collect Monthly Fee"
+                                          className="p-1.5 rounded-lg border border-emerald-200 text-emerald-600 hover:text-white hover:bg-emerald-500 transition cursor-pointer bg-emerald-50"
+                                        >
+                                          <DollarSign size={13} />
+                                        </button>
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEditFee(fee)}
+                                        title="Edit Fee"
+                                        className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#093C5D] hover:bg-slate-100 transition cursor-pointer bg-white"
+                                      >
+                                        <Edit2 size={13} />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => printInvoice(selectedStudent, fee, studentFees)}
+                                        className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#093C5D] hover:bg-slate-100 transition cursor-pointer bg-white"
+                                      >
+                                        <Printer size={13} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            });
+                          })()}
                         </tbody>
                       </table>
                     </div>
@@ -1087,8 +1159,14 @@ export default function FeePortal({
             </button>
 
             <div>
-              <h3 className="text-sm font-black text-[#093C5D] leading-none">Collect Payments</h3>
-              <p className="text-[10px] text-slate-400 font-semibold mt-1">Allocate payment sequentially for {selectedStudent.name}</p>
+              <h3 className="text-sm font-black text-[#093C5D] leading-none">
+                {paymentTargetFee ? `Collect Fee - ${paymentTargetFee.month}` : "Collect Payments"}
+              </h3>
+              <p className="text-[10px] text-slate-400 font-semibold mt-1">
+                {paymentTargetFee 
+                  ? `Clear specific monthly fee for ${selectedStudent.name}`
+                  : `Allocate payment sequentially for ${selectedStudent.name}`}
+              </p>
             </div>
 
             <form onSubmit={handleCollectPayment} className="space-y-4">
@@ -1097,11 +1175,18 @@ export default function FeePortal({
                 <input
                   type="number"
                   required
+                  step="any"
+                  max={paymentTargetFee ? (parseFloat(paymentTargetFee.total) - (paymentTargetFee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0)) : undefined}
                   placeholder="e.g. 1500"
                   value={paymentForm.amountPaid}
                   onChange={(e) => setPaymentForm(prev => ({ ...prev, amountPaid: e.target.value }))}
                   className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
                 />
+                {paymentTargetFee && (
+                  <span className="text-[9px] text-slate-400 font-bold block mt-0.5">
+                    Maximum collectable: ₹{(parseFloat(paymentTargetFee.total) - (paymentTargetFee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0)).toFixed(2)}
+                  </span>
+                )}
               </div>
 
               <div className="space-y-1">

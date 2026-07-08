@@ -148,8 +148,26 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
   const activeTotal = parseFloat(fee.total || fee.totalDemand || "0");
   const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
 
+  // Calculate running balances for all history fees
+  let runningDues = 0;
+  const historyWithBalances = sortedAllFees.map((h: any) => {
+    const total = parseFloat(h.total || h.totalDemand || "0");
+    const paid = h.payments?.reduce((s: number, p: any) => s + (parseFloat(p.amountPaid) || 0), 0) ?? 0;
+    const currentRemaining = Math.round((total - paid) * 100) / 100;
+    const prevRemaining = runningDues;
+    runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+    
+    return {
+      ...h,
+      paid,
+      currentRemaining,
+      prevRemaining,
+      totalBalance: runningDues
+    };
+  });
+
   // Filter history to 4 most-recent months to keep it concise on A4 size
-  const history = sortedAllFees.slice(-4);
+  const history = historyWithBalances.slice(-4);
 
   // Breakdown heads
   const feeHeads = [
@@ -334,24 +352,25 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
                 <th className="p-2 text-left font-bold text-[9px] uppercase">Month</th>
                 <th className="p-2 text-right font-bold text-[9px] uppercase">Total</th>
                 <th className="p-2 text-right font-bold text-[9px] uppercase">Paid</th>
-                <th className="p-2 text-right font-bold text-[9px] uppercase">Balance</th>
+                <th className="p-2 text-right font-bold text-[9px] uppercase">Prev Bal</th>
+                <th className="p-2 text-right font-bold text-[9px] uppercase">Remaining</th>
+                <th className="p-2 text-right font-bold text-[9px] uppercase">Total Bal</th>
                 <th className="p-2 text-center font-bold text-[9px] uppercase">Status</th>
               </tr>
             </thead>
             <tbody>
               {history.map(h => {
-                const paid = Number(h.total || 0) - Number(h.remaining || 0);
-                const totalVal = Number(h.total || 0);
-                const bal = Number(h.remaining || 0);
                 const bg = h.status === "PAID" ? "#dcfce7" : h.status === "PARTIALLY_PAID" ? "#fef3c7" : "#fee2e2";
                 const fg = h.status === "PAID" ? "#15803d" : h.status === "PARTIALLY_PAID" ? "#b45309" : "#b91c1c";
                 const label = h.status === "PAID" ? "Settled" : h.status === "PARTIALLY_PAID" ? "Partial" : "Pending";
                 return (
                   <tr key={h.id} className="border-b border-slate-200 text-[10.5px]">
                     <td className="p-2 text-slate-700 font-medium">{h.month}</td>
-                    <td className="p-2 text-right text-slate-900">Rs. {fmt(totalVal)}</td>
-                    <td className="p-2 text-right text-slate-900">Rs. {fmt(paid)}</td>
-                    <td className="p-2 text-right font-bold" style={{ color: bal > 0 ? "#b91c1c" : "#15803d" }}>Rs. {fmt(bal)}</td>
+                    <td className="p-2 text-right text-slate-900">Rs. {fmt(h.total)}</td>
+                    <td className="p-2 text-right text-slate-900">Rs. {fmt(h.paid)}</td>
+                    <td className="p-2 text-right text-slate-900">Rs. {fmt(h.prevRemaining)}</td>
+                    <td className="p-2 text-right font-bold" style={{ color: h.currentRemaining > 0 ? "#b91c1c" : "#15803d" }}>Rs. {fmt(h.currentRemaining)}</td>
+                    <td className="p-2 text-right font-black" style={{ color: h.totalBalance > 0 ? "#b91c1c" : "#15803d" }}>Rs. {fmt(h.totalBalance)}</td>
                     <td className="p-2 text-center">
                       <span style={{ backgroundColor: bg, color: fg, padding: "2px 8px", borderRadius: "4px", fontSize: "9px", fontWeight: "800" }}>
                         {label}
@@ -361,7 +380,7 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
                 );
               })}
               <tr className="bg-slate-100 font-black border-t-2 border-[#093C5D]">
-                <td colSpan={3} className="p-2 text-right text-slate-800">Total Overall Remaining Balance</td>
+                <td colSpan={5} className="p-2 text-right text-slate-800">Total Overall Remaining Balance</td>
                 <td className="p-2 text-right text-rose-600 text-[11px]">Rs. {fmt(remainingBalanceAfter)}</td>
                 <td></td>
               </tr>

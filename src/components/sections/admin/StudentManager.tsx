@@ -59,7 +59,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     contactNo: "",
     station: "",
     initialAmountPaid: "",
-    paymentMode: "CASH"
+    paymentMode: "CASH",
+    previousSessionDues: ""
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -220,7 +221,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
       contactNo: "",
       station: "",
       initialAmountPaid: "",
-      paymentMode: "CASH"
+      paymentMode: "CASH",
+      previousSessionDues: ""
     });
     setError(null);
     setSuccess(null);
@@ -247,7 +249,8 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
         station: formData.station,
         sessionYear: selectedSession,
         initialAmountPaid: formData.initialAmountPaid ? parseFloat(formData.initialAmountPaid) : 0,
-        paymentMode: formData.paymentMode
+        paymentMode: formData.paymentMode,
+        previousSessionDues: formData.previousSessionDues ? parseFloat(formData.previousSessionDues) : 0
       };
       await axios.post(`${SERVER_URL}/api/erp/student`, payload, { withCredentials: true });
       setSuccess(`${formData.name} registered successfully!`);
@@ -632,9 +635,19 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                     </div>
                   </div>
 
-                  <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Initial Amount Collected (Upfront Deposit)</label>
+                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Previous Balance (Dues)</label>
+                      <input
+                        type="number"
+                        placeholder="e.g. 1500 (0 if none)"
+                        value={formData.previousSessionDues}
+                        onChange={(e) => setFormData(prev => ({ ...prev, previousSessionDues: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Initial Amount Collected</label>
                       <input
                         type="number"
                         placeholder="e.g. 5000 (0 if none)"

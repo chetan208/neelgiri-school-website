@@ -44,14 +44,14 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     }
   }
 
-  // Sort history and limit to 6 most-recent months
-  const history = sortedAllFees.slice(-6);
-
   const invoiceNo = `NPS-${student.cardNo}-${fee.month.replace("-", "")}`;
   const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
   const activeTotal = Number(fee.total || fee.totalDemand || 0);
   const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
+
+  const feePaid = fee.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
+  const netRemaining = Math.round((grossTotal - feePaid) * 100) / 100;
 
   // Current month breakdown rows (non-zero heads only)
   const headRows = [
@@ -71,28 +71,42 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     .map(([n, v]) => `<tr><td>${n}</td><td class="r">Rs. ${fmt(v as string)}</td></tr>`)
     .join("");
 
-  // History rows (up to 6 months)
-  const histRows = history.map(h => {
-    const totalVal = Number(h.total || h.totalDemand || 0);
+  // Calculate running balances for all history fees
+  let runningDues = 0;
+  const historyWithBalances = sortedAllFees.map((h: any) => {
     const paid = h.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
-    const bal  = Math.round((totalVal - paid) * 100) / 100;
+    const currentRemaining = Math.round((Number(h.total || h.totalDemand || 0) - paid) * 100) / 100;
+    const prevRemaining = runningDues;
+    runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+    
+    return {
+      ...h,
+      paid,
+      currentRemaining,
+      prevRemaining,
+      totalBalance: runningDues
+    };
+  });
+
+  const historyToRender = historyWithBalances.slice(-6);
+
+  // History rows (up to 6 months)
+  const histRows = historyToRender.map(h => {
     const bg   = h.status === "PAID" ? "#dcfce7" : h.status === "PARTIALLY_PAID" ? "#fef3c7" : "#fee2e2";
     const fg   = h.status === "PAID" ? "#15803d" : h.status === "PARTIALLY_PAID" ? "#b45309" : "#b91c1c";
     const label = h.status === "PAID" ? "Settled" : h.status === "PARTIALLY_PAID" ? "Partial" : "Pending";
     return `<tr>
       <td>${h.month}</td>
-      <td class="r">Rs. ${fmt(totalVal)}</td>
-      <td class="r">Rs. ${fmt(paid)}</td>
-      <td class="r" style="color:${bal > 0 ? "#b91c1c" : "#15803d"}">Rs. ${fmt(bal)}</td>
+      <td class="r">Rs. ${fmt(h.total)}</td>
+      <td class="r">Rs. ${fmt(h.paid)}</td>
+      <td class="r">Rs. ${fmt(h.prevRemaining)}</td>
+      <td class="r" style="color:${h.currentRemaining > 0 ? "#b91c1c" : "#15803d"}">Rs. ${fmt(h.currentRemaining)}</td>
+      <td class="r" style="font-weight:bold;color:${h.totalBalance > 0 ? "#b91c1c" : "#15803d"}">Rs. ${fmt(h.totalBalance)}</td>
       <td class="c"><span style="background:${bg};color:${fg};padding:2px 8px;border-radius:4px;font-size:9px;font-weight:800">${label}</span></td>
     </tr>`;
   }).join("");
 
-  const totalOverallRemaining = Math.round(sortedAllFees.reduce((sum, h) => {
-    const totalVal = Number(h.total || h.totalDemand || 0);
-    const paid = h.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
-    return sum + (totalVal - paid);
-  }, 0) * 100) / 100;
+  const totalOverallRemaining = runningDues;
 
   win.document.write(`<!DOCTYPE html><html><head>
 <meta charset="utf-8">
@@ -171,8 +185,9 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     <div class="info-row"><span class="info-label">Contact</span><span class="info-val">${student.contactNo || "N/A"}</span></div>
     <div class="info-row"><span class="info-label">Current Dues</span><span class="info-val">Rs. ${fmt(activeTotal)}</span></div>
     <div class="info-row"><span class="info-label">Previous Arrears</span><span class="info-val">Rs. ${fmt(activePreviousBalance)}</span></div>
-    <div class="info-row"><span class="info-label">Total Amount Due</span><span class="info-val" style="color:#093C5D;font-weight:900">Rs. ${fmt(grossTotal)}</span></div>
-    <div class="info-row"><span class="info-label">Status</span><span class="info-val" style="color:${fee.status === "PAID" ? "#15803d" : "#b91c1c"}">${fee.status.replace("_", " ")}</span></div>
+    <div class="info-row"><span class="info-label">Total Amount Due</span><span class="info-val" style="color:#093C5D;font-weight:700">Rs. ${fmt(grossTotal)}</span></div>
+    <div class="info-row"><span class="info-label">Amount Paid</span><span class="info-val" style="color:#15803d;font-weight:700">Rs. ${fmt(feePaid)}</span></div>
+    <div class="info-row"><span class="info-label">Net Balance Remaining</span><span class="info-val" style="color:#b91c1c;font-weight:900">Rs. ${fmt(netRemaining)}</span></div>
   </div>
 </div>
 
@@ -187,21 +202,23 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
 </table>
 
 <!-- FEE HISTORY (up to 6 months) -->
-<div class="sec">Academic Year Statement (Last ${history.length} Months)</div>
+<div class="sec">Academic Year Statement (Last ${historyToRender.length} Months)</div>
 <table>
   <thead>
     <tr>
       <th>Month</th>
       <th class="r">Total</th>
       <th class="r">Paid</th>
-      <th class="r">Balance</th>
+      <th class="r">Prev Bal</th>
+      <th class="r">Remaining</th>
+      <th class="r">Total Bal</th>
       <th class="c">Status</th>
     </tr>
   </thead>
   <tbody>
     ${histRows}
     <tr>
-      <td colspan="3" class="r" style="border-bottom: none; padding-top: 10px; font-weight: 900; color: #093C5D; font-size: 11px;">Total Overall Remaining Balance</td>
+      <td colspan="5" class="r" style="border-bottom: none; padding-top: 10px; font-weight: 900; color: #093C5D; font-size: 11px;">Total Overall Remaining Balance</td>
       <td class="r" style="border-bottom: none; border-top: 2px solid #093C5D; padding-top: 10px; font-weight: 900; font-size: 11.5px; color: ${totalOverallRemaining > 0 ? '#b91c1c' : '#15803d'};">Rs. ${fmt(totalOverallRemaining)}</td>
       <td style="border-bottom: none; border-top: 2px solid #093C5D; padding-top: 10px;"></td>
     </tr>
