@@ -39,15 +39,18 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   for (const f of sortedAllFees) {
     if (parseMonthStr(f.month) < currentMonthDate) {
       const fPaid = f.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
-      const fRemaining = Math.round((Number(f.total || f.totalDemand || 0) - fPaid) * 100) / 100;
-      activePreviousBalance = Math.round((activePreviousBalance + fRemaining) * 100) / 100;
+      const prevSessionDues = Number(f.previousSessionDues || 0);
+      const fRemaining = Math.round((Number(f.total || f.totalDemand || 0) - prevSessionDues - fPaid) * 100) / 100;
+      activePreviousBalance = Math.round((activePreviousBalance + prevSessionDues + fRemaining) * 100) / 100;
     }
   }
+  const currentPrevSessionDues = Number(fee.previousSessionDues || 0);
+  activePreviousBalance = Math.round((activePreviousBalance + currentPrevSessionDues) * 100) / 100;
 
-  const invoiceNo = `NPS-${student.cardNo}-${fee.month.replace("-", "")}`;
+ 
   const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
-  const activeTotal = Number(fee.total || fee.totalDemand || 0);
+  const activeTotal = Number(fee.total || fee.totalDemand || 0) - currentPrevSessionDues;
   const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
 
   const feePaid = fee.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
@@ -64,7 +67,6 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     ["Tie, Belt & Books",   fee.tieBeltBooks],
     ["Building Fund",       fee.buildingFund],
     ["Annual Charges",      fee.annualCharges],
-    ["Previous Session Dues", fee.previousSessionDues],
     ["Previous Balance",    activePreviousBalance],
   ]
     .filter(([, v]) => Number(v) > 0)
@@ -75,13 +77,16 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   let runningDues = 0;
   const historyWithBalances = sortedAllFees.map((h: any) => {
     const paid = h.payments?.reduce((s: number, p: any) => s + (Number(p.amountPaid) || 0), 0) ?? 0;
-    const currentRemaining = Math.round((Number(h.total || h.totalDemand || 0) - paid) * 100) / 100;
-    const prevRemaining = runningDues;
-    runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+    const prevSessionDues = Number(h.previousSessionDues || 0);
+    const actualTotal = Number(h.total || h.totalDemand || 0) - prevSessionDues;
+    const currentRemaining = Math.round((actualTotal - paid) * 100) / 100;
+    const prevRemaining = runningDues + prevSessionDues;
+    runningDues = Math.round((runningDues + prevSessionDues + currentRemaining) * 100) / 100;
     
     return {
       ...h,
       paid,
+      actualTotal,
       currentRemaining,
       prevRemaining,
       totalBalance: runningDues
@@ -97,7 +102,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
     const label = h.status === "PAID" ? "Settled" : h.status === "PARTIALLY_PAID" ? "Partial" : "Pending";
     return `<tr>
       <td>${h.month}</td>
-      <td class="r">Rs. ${fmt(h.total)}</td>
+      <td class="r">Rs. ${fmt(h.actualTotal)}</td>
       <td class="r">Rs. ${fmt(h.paid)}</td>
       <td class="r">Rs. ${fmt(h.prevRemaining)}</td>
       <td class="r" style="color:${h.currentRemaining > 0 ? "#b91c1c" : "#15803d"}">Rs. ${fmt(h.currentRemaining)}</td>
@@ -164,7 +169,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   <div class="receipt-block">
     <div class="receipt-label">Fee Receipt</div>
     <div class="receipt-meta">
-      Receipt No: <strong>${invoiceNo}</strong><br>
+      
       Date: <strong>${today}</strong><br>
       Billing Period: <strong>${fee.month}</strong>
     </div>
@@ -210,7 +215,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
       <th class="r">Total</th>
       <th class="r">Paid</th>
       <th class="r">Prev Bal</th>
-      <th class="r">Remaining</th>
+      <th class="r">Current Bal</th>
       <th class="r">Total Bal</th>
       <th class="c">Status</th>
     </tr>

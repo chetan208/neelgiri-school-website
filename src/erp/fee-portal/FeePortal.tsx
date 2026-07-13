@@ -21,13 +21,15 @@ import {
   BookOpen,
   Printer,
   Edit2,
-  MessageSquare
+  MessageSquare,
+  BarChart3
 } from "lucide-react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { printInvoice } from "./printInvoice";
 import FeeDefaultsSettings from "./FeeDefaultsSettings";
 import FeeAutomationSettings from "./FeeAutomationSettings";
+import StudentRegistrationForm from "../../components/sections/admin/StudentRegistrationForm";
 
 export default function FeePortal({ 
   preselectedStudent, 
@@ -40,7 +42,7 @@ export default function FeePortal({
   selectedSession: string;
   setActiveModule?: (id: string | null) => void;
 }) {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "add-student" | "class-config" | "automation">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "add-student" | "class-config" | "automation" | "analysis">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [students, setStudents] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -56,6 +58,13 @@ export default function FeePortal({
   const [searchLoading, setSearchLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [statsLoading, setStatsLoading] = useState(false);
+
+  // Analysis states
+  const [analysisData, setAnalysisData] = useState<any[]>([]);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [selectedAnalysisMonth, setSelectedAnalysisMonth] = useState<string>("");
+  const [unpaidSearch, setUnpaidSearch] = useState("");
+  const [unpaidClassFilter, setUnpaidClassFilter] = useState("All");
 
   // Modals & Feedback
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -128,6 +137,43 @@ export default function FeePortal({
     fetchClasses();
     fetchMonthlyClassFees();
   }, []);
+
+  useEffect(() => {
+    if (activeTab === "analysis") {
+      const fetchAnalysis = async () => {
+        setAnalysisLoading(true);
+        setError(null);
+        try {
+          const res = await axios.get(`${SERVER_URL}/api/erp/fees/income-analysis`, {
+            params: { session: selectedSession },
+            withCredentials: true
+          });
+          if (res.data.success) {
+            setAnalysisData(res.data.data);
+            if (res.data.data.length > 0) {
+              const now = new Date();
+              const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+              const currentMonthName = `${monthNames[now.getMonth()]}-${now.getFullYear()}`;
+              const hasCurrentMonth = res.data.data.some((d: any) => d.month === currentMonthName);
+              if (hasCurrentMonth) {
+                setSelectedAnalysisMonth(currentMonthName);
+              } else {
+                setSelectedAnalysisMonth(res.data.data[0].month); // Default to the first month in sorted order
+              }
+            } else {
+              setSelectedAnalysisMonth("");
+            }
+          }
+        } catch (err) {
+          console.error("Error fetching income analysis:", err);
+          setError("Failed to fetch income analysis data.");
+        } finally {
+          setAnalysisLoading(false);
+        }
+      };
+      fetchAnalysis();
+    }
+  }, [activeTab, selectedSession]);
 
   useEffect(() => {
     const fetchMonthlyFee = async () => {
@@ -540,6 +586,15 @@ export default function FeePortal({
           <MessageSquare size={14} />
           Automation
         </button>
+        <button
+          onClick={() => { setActiveTab("analysis"); setError(null); setSuccess(null); }}
+          className={`flex-1 min-w-[130px] flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold border-0 cursor-pointer transition ${
+            activeTab === "analysis" ? "bg-[#093C5D] text-white shadow-sm" : "text-slate-500 hover:text-[#093C5D] bg-transparent"
+          }`}
+        >
+          <BarChart3 size={14} />
+          Income Analysis
+        </button>
       </div>
 
       {/* Feedback Alert banners */}
@@ -807,13 +862,12 @@ export default function FeePortal({
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Tie & Belt</th>}
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Building</th>}
                             {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Annual</th>}
-                            {showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Prev Dues</th>}
                             {!showDetailedFees && <th className="p-3 text-[10px] font-black uppercase tracking-wider">Other</th>}
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider font-serif">Total</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Paid</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Date</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Prev Balance</th>
-                            <th className="p-3 text-[10px] font-black uppercase tracking-wider">Remaining</th>
+                            <th className="p-3 text-[10px] font-black uppercase tracking-wider">Current Balance</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Total Balance</th>
                             <th className="p-3 text-[10px] font-black uppercase tracking-wider">Status</th>
                             <th className="p-3 text-right text-[10px] font-black uppercase tracking-wider">Action</th>
@@ -822,11 +876,11 @@ export default function FeePortal({
                         <tbody className="divide-y divide-slate-100 text-slate-600">
                           {feesLoading ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 19 : 12} className="text-center py-10 text-slate-400">Loading ledger data...</td>
+                              <td colSpan={showDetailedFees ? 18 : 12} className="text-center py-10 text-slate-400">Loading ledger data...</td>
                             </tr>
                           ) : studentFees.length === 0 ? (
                             <tr>
-                              <td colSpan={showDetailedFees ? 19 : 12} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
+                              <td colSpan={showDetailedFees ? 18 : 12} className="text-center py-10 text-slate-400">No generated fee structures found.</td>
                             </tr>
                           ) : (() => {
                             // Sort fees chronologically
@@ -844,13 +898,16 @@ export default function FeePortal({
                             let runningDues = 0;
                             const feesWithBalances = sortedFees.map((fee: any) => {
                               const paid = fee.payments?.reduce((s: number, p: any) => s + parseFloat(p.amountPaid), 0) ?? 0;
-                              const currentRemaining = parseFloat(fee.total) - paid;
-                              const prevRemaining = runningDues;
-                              runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+                              const prevSessionDues = parseFloat(fee.previousSessionDues || "0") || 0;
+                              const actualTotal = parseFloat(fee.total) - prevSessionDues;
+                              const currentRemaining = actualTotal - paid;
+                              const prevRemaining = runningDues + prevSessionDues;
+                              runningDues = Math.round((runningDues + prevSessionDues + currentRemaining) * 100) / 100;
                               
                               return {
                                 ...fee,
                                 paid,
+                                actualTotal,
                                 currentRemaining,
                                 prevRemaining,
                                 totalBalance: runningDues
@@ -873,8 +930,7 @@ export default function FeePortal({
                                 parseFloat(fee.ptmFine || "0") + 
                                 parseFloat(fee.tieBeltBooks || "0") + 
                                 parseFloat(fee.buildingFund || "0") + 
-                                parseFloat(fee.annualCharges || "0") +
-                                parseFloat(fee.previousSessionDues || "0");
+                                parseFloat(fee.annualCharges || "0");
 
                               return (
                                 <tr key={fee.id} className="hover:bg-slate-50/50 transition">
@@ -888,9 +944,8 @@ export default function FeePortal({
                                   {showDetailedFees && <td className="p-3">₹{fee.tieBeltBooks}</td>}
                                   {showDetailedFees && <td className="p-3">₹{fee.buildingFund}</td>}
                                   {showDetailedFees && <td className="p-3">₹{fee.annualCharges}</td>}
-                                  {showDetailedFees && <td className="p-3">₹{fee.previousSessionDues || 0}</td>}
                                   {!showDetailedFees && <td className="p-3">₹{other.toFixed(2)}</td>}
-                                  <td className="p-3 font-bold text-slate-700">₹{fee.total}</td>
+                                  <td className="p-3 font-bold text-slate-700">₹{fee.actualTotal}</td>
                                   <td className="p-3 text-emerald-600 font-bold">₹{fee.paid.toFixed(2)}</td>
                                   <td className="p-3 font-medium text-slate-500">{latestPayStr}</td>
                                   <td className="p-3 text-amber-600 font-bold">₹{fee.prevRemaining.toFixed(2)}</td>
@@ -984,156 +1039,21 @@ export default function FeePortal({
 
         {/* Add Student Tab */}
         {activeTab === "add-student" && (
-          <form onSubmit={handleAddStudent} className="space-y-6 max-w-3xl">
+          <div className="space-y-6 max-w-3xl">
             <div>
               <h3 className="text-sm font-black text-[#093C5D] mb-1">Student Registration & Monthly Setup</h3>
               <p className="text-[10px] text-slate-400 font-semibold">Registering a student automatically generates monthly fee structures based on their admission date.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Full Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Student's Name"
-                  value={studentForm.name}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Class Enrolled</label>
-                <select
-                  required
-                  value={studentForm.className}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, className: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none cursor-pointer bg-white"
-                >
-                  <option value="">-- Select Class --</option>
-                  {classes.map(c => (
-                    <option key={c.id} value={c.className}>{c.className}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Date of Admission</label>
-                <input
-                  type="date"
-                  required
-                  value={studentForm.admissionDate}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, admissionDate: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Date of Birth</label>
-                <input
-                  type="date"
-                  required
-                  value={studentForm.dob}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, dob: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Card No. (Roll No)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. 101"
-                  value={studentForm.cardNo}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, cardNo: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Father's Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Father's Full Name"
-                  value={studentForm.fatherName}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, fatherName: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Mother's Name</label>
-                <input
-                  type="text"
-                  placeholder="Mother's Full Name"
-                  value={studentForm.motherName}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, motherName: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Contact Number</label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="10-digit mobile"
-                  value={studentForm.contactNo}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, contactNo: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Transit / Transport Station</label>
-                <select
-                  value={studentForm.station}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, station: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none cursor-pointer bg-white"
-                >
-                  <option value="">Day Scholar (No Bus)</option>
-                  {stations.map(st => (
-                    <option key={st.id} value={st.station}>{st.station} (+₹{st.amount})</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Initial Amount Collected (Upfront Deposit)</label>
-                <input
-                  type="number"
-                  placeholder="e.g. 5000 (0 if none)"
-                  value={studentForm.initialAmountPaid}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, initialAmountPaid: e.target.value }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Payment Mode (Upfront)</label>
-                <select
-                  value={studentForm.paymentMode}
-                  onChange={(e) => setStudentForm(prev => ({ ...prev, paymentMode: e.target.value as "CASH" | "UPI" }))}
-                  className="w-full px-3 py-2 text-xs font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none cursor-pointer bg-white"
-                >
-                  <option value="CASH">CASH</option>
-                  <option value="UPI">UPI (Digital)</option>
-                </select>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitLoading}
-              className="px-5 py-2.5 bg-[#093C5D] hover:bg-[#001F42] text-white rounded-xl text-xs font-bold transition border-0 cursor-pointer active:scale-95 flex items-center justify-center gap-2"
-            >
-              {submitLoading && <Loader2 className="animate-spin" size={13} />}
-              Register Student
-            </button>
-          </form>
+            <StudentRegistrationForm
+              selectedSession={selectedSession}
+              classes={classes}
+              stations={stations}
+              onSuccess={(studentName) => {
+                fetchStats();
+              }}
+            />
+          </div>
         )}
 
         {/* Defaults Configuration Tab */}
@@ -1144,6 +1064,246 @@ export default function FeePortal({
         {/* Automation Settings Tab */}
         {activeTab === "automation" && (
           <FeeAutomationSettings />
+        )}
+
+        {/* Income Analysis Tab */}
+        {activeTab === "analysis" && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-black text-[#093C5D] mb-1">Session Income & Class Analysis</h3>
+              <p className="text-[10px] text-slate-400 font-semibold">Track fee demand, collections, and pending balances class-by-class for each billing month of the current session.</p>
+            </div>
+
+            {analysisLoading ? (
+              <div className="flex flex-col items-center justify-center py-16 gap-3">
+                <Loader2 className="animate-spin text-[#093C5D]" size={24} />
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Loading Analysis Data...</span>
+              </div>
+            ) : analysisData.length === 0 ? (
+              <div className="py-16 text-center text-slate-400 italic text-xs">
+                No fee billing structures found for this session.
+              </div>
+            ) : (() => {
+              const monthData = analysisData.find(d => d.month === selectedAnalysisMonth);
+              return (
+                <div className="space-y-6">
+                  {/* Month selection sub-tabs */}
+                  <div className="flex flex-wrap gap-2 border-b border-slate-100 pb-3">
+                    {analysisData.map((d: any) => {
+                      const isActive = selectedAnalysisMonth === d.month;
+                      return (
+                        <button
+                          key={d.month}
+                          onClick={() => setSelectedAnalysisMonth(d.month)}
+                          className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition cursor-pointer active:scale-95 ${
+                            isActive
+                              ? "bg-[#093C5D] text-white border-[#093C5D] shadow-sm"
+                              : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+                          }`}
+                        >
+                          {d.month}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {monthData ? (
+                    <div className="space-y-6">
+                      {/* Summary Cards */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div className="bg-[#093C5D]/5 border border-[#093C5D]/10 rounded-2xl p-5 flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-[#093C5D]/10 text-[#093C5D] flex items-center justify-center font-bold">₹</div>
+                          <div>
+                            <p className="text-lg font-black text-[#093C5D] tracking-tight">₹{monthData.totalDemand.toLocaleString("en-IN")}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Total Demand (Billing)</p>
+                          </div>
+                        </div>
+
+                        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">₹</div>
+                          <div>
+                            <p className="text-lg font-black text-emerald-800 tracking-tight">₹{monthData.totalPaid.toLocaleString("en-IN")}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Collected Income</p>
+                          </div>
+                        </div>
+
+                        <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">₹</div>
+                          <div>
+                            <p className="text-lg font-black text-rose-800 tracking-tight">₹{monthData.totalPending.toLocaleString("en-IN")}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Pending Balance</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Class-wise Breakdown Table */}
+                      <div className="border border-slate-200/60 rounded-2xl overflow-hidden bg-white">
+                        <div className="overflow-x-auto">
+                          <table className="w-full border-collapse text-left text-xs font-semibold">
+                            <thead>
+                              <tr className="bg-slate-50 border-b border-slate-200/60 text-[#093C5D]">
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Class</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider text-center">Students</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Demand</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Collected</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Pending</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider w-1/4">Collection Progress</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Student Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 text-slate-650">
+                              {monthData.classes.map((cls: any) => {
+                                const progressPercent = cls.demand > 0 ? (cls.paid / cls.demand) * 100 : 0;
+                                return (
+                                  <tr key={cls.className} className="hover:bg-slate-50/50 transition">
+                                    <td className="p-3 font-bold text-[#093C5D]">{cls.className}</td>
+                                    <td className="p-3 text-center text-slate-500 font-bold">{cls.studentCount}</td>
+                                    <td className="p-3 text-slate-700">₹{cls.demand.toLocaleString("en-IN")}</td>
+                                    <td className="p-3 text-emerald-600 font-bold">₹{cls.paid.toLocaleString("en-IN")}</td>
+                                    <td className="p-3 text-rose-500 font-bold">₹{cls.pending.toLocaleString("en-IN")}</td>
+                                    <td className="p-3">
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
+                                          <div 
+                                            className="bg-[#59B292] h-full rounded-full" 
+                                            style={{ width: `${Math.min(100, progressPercent)}%` }}
+                                          />
+                                        </div>
+                                        <span className="text-[10px] font-extrabold text-[#093C5D] min-w-[32px]">{progressPercent.toFixed(0)}%</span>
+                                      </div>
+                                    </td>
+                                    <td className="p-3">
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="inline-flex px-1.5 py-0.5 rounded-md text-[9px] font-extrabold bg-emerald-50 border border-emerald-200 text-emerald-700" title="Fully Paid">
+                                          {cls.paidCount} P
+                                        </span>
+                                        <span className="inline-flex px-1.5 py-0.5 rounded-md text-[9px] font-extrabold bg-amber-50 border border-amber-200 text-amber-700" title="Partially Paid">
+                                          {cls.partialCount} R
+                                        </span>
+                                        <span className="inline-flex px-1.5 py-0.5 rounded-md text-[9px] font-extrabold bg-rose-50 border border-rose-200 text-rose-700" title="Unpaid / Pending">
+                                          {cls.pendingCount} U
+                                        </span>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* Unpaid Students List */}
+                      <div className="space-y-4 pt-4 border-t border-slate-100">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div>
+                            <h4 className="text-xs font-black text-rose-700 uppercase tracking-wider">Unpaid Students ({monthData.unpaidStudents?.length || 0})</h4>
+                            <p className="text-[10px] text-slate-400 font-semibold mt-0.5">Students who have pending or partially paid dues for {selectedAnalysisMonth}.</p>
+                          </div>
+                          
+                          {/* Search and class filters */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <input
+                              type="text"
+                              placeholder="Search by name or card..."
+                              value={unpaidSearch}
+                              onChange={(e) => setUnpaidSearch(e.target.value)}
+                              className="px-3 py-1.5 text-[11px] font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none focus:border-[#093C5D] w-full sm:w-48 bg-slate-50/50"
+                            />
+                            <select
+                              value={unpaidClassFilter}
+                              onChange={(e) => setUnpaidClassFilter(e.target.value)}
+                              className="px-3 py-1.5 text-[11px] font-bold text-[#093C5D] border border-slate-200 rounded-xl focus:outline-none cursor-pointer bg-white"
+                            >
+                              <option value="All">All Classes</option>
+                              {classes.map(c => (
+                                <option key={c.id} value={c.className}>{c.className}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* Filtered list table */}
+                        {(() => {
+                          const filtered = (monthData.unpaidStudents || []).filter((st: any) => {
+                            const matchSearch = 
+                              st.name.toLowerCase().includes(unpaidSearch.toLowerCase()) ||
+                              st.cardNo.toLowerCase().includes(unpaidSearch.toLowerCase());
+                            const matchClass = 
+                              unpaidClassFilter === "All" || 
+                              st.className === unpaidClassFilter;
+                            return matchSearch && matchClass;
+                          });
+
+                          return filtered.length === 0 ? (
+                            <div className="py-8 text-center text-slate-450 italic text-[11px] bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                              No unpaid students found matching your filters.
+                            </div>
+                          ) : (
+                            <div className="border border-slate-200/50 rounded-2xl overflow-hidden bg-white max-h-[400px] overflow-y-auto">
+                              <table className="w-full border-collapse text-left text-xs font-semibold">
+                                <thead>
+                                  <tr className="bg-slate-50 border-b border-slate-200/50 text-[#093C5D] sticky top-0 z-10">
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Card No.</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Name</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Class</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Dues Demand</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Paid</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Pending</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Status</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider">Contact</th>
+                                    <th className="p-3 text-[10px] font-black uppercase tracking-wider text-right">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 text-slate-655">
+                                  {filtered.map((st: any) => (
+                                    <tr key={st.id} className="hover:bg-rose-50/10 transition">
+                                      <td className="p-3 font-mono font-bold text-slate-500">{st.cardNo}</td>
+                                      <td className="p-3 font-bold text-[#093C5D]">{st.name}</td>
+                                      <td className="p-3 uppercase text-slate-400">{st.className}</td>
+                                      <td className="p-3 text-slate-600">₹{st.demand}</td>
+                                      <td className="p-3 text-emerald-600 font-bold">₹{st.paid}</td>
+                                      <td className="p-3 text-rose-500 font-black">₹{st.pending}</td>
+                                      <td className="p-3">
+                                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${
+                                          st.status === "PARTIALLY_PAID"
+                                            ? "bg-amber-50 border-amber-200 text-amber-700"
+                                            : "bg-rose-50 border-rose-200 text-rose-700"
+                                        }`}>
+                                          {st.status === "PARTIALLY_PAID" ? "Partial" : "Unpaid"}
+                                        </span>
+                                      </td>
+                                      <td className="p-3 text-slate-500 font-bold">{st.contactNo || "—"}</td>
+                                      <td className="p-3 text-right">
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            handleSelectStudent(st);
+                                            setActiveTab("dashboard");
+                                          }}
+                                          className="px-2.5 py-1 bg-[#093C5D]/10 hover:bg-[#093C5D] hover:text-white text-[#093C5D] border border-[#093C5D]/20 text-[10px] font-black uppercase tracking-wider rounded-lg transition cursor-pointer"
+                                        >
+                                          Open Ledger
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-10 text-center text-slate-400 italic text-xs">
+                      No details found for the selected month.
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
         )}
       </div>
 

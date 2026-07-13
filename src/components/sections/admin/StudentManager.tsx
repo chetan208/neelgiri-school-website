@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Plus, Search, Loader2, CheckCircle2, AlertTriangle, X, Users, UserPlus, Calendar, CreditCard, Bus, User, ArrowLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import StudentRegistrationForm from "./StudentRegistrationForm";
 
 interface StudentType {
   id: string;
@@ -16,6 +17,12 @@ interface StudentType {
   cardNo: string;
   contactNo: string;
   station?: string | null;
+  discountTuition?: string | number;
+  discountBus?: string | number;
+  discountAdmission?: string | number;
+  discountAnnual?: string | number;
+  discountExam?: string | number;
+  discountComputer?: string | number;
   studentclass?: {
     className: string;
   };
@@ -60,7 +67,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     station: "",
     initialAmountPaid: "",
     paymentMode: "CASH",
-    previousSessionDues: ""
+    previousSessionDues: "",
+    discountTuition: "",
+    discountBus: "",
+    discountAdmission: "",
+    discountAnnual: "",
+    discountExam: "",
+    discountComputer: ""
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -151,7 +164,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
     dob: "",
     cardNo: "",
     contactNo: "",
-    station: ""
+    station: "",
+    discountTuition: "",
+    discountBus: "",
+    discountAdmission: "",
+    discountAnnual: "",
+    discountExam: "",
+    discountComputer: ""
   });
 
 
@@ -164,7 +183,15 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
         withCredentials: true
       });
       if (res.data && res.data.students) {
-        setStudents(res.data.students);
+        const sortedStudents = [...res.data.students].sort((a: any, b: any) => {
+          const aNum = parseInt(a.cardNo);
+          const bNum = parseInt(b.cardNo);
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return aNum - bNum;
+          }
+          return (a.cardNo || "").localeCompare(b.cardNo || "");
+        });
+        setStudents(sortedStudents);
         if (res.data.pagination) {
           setTotalPages(res.data.pagination.totalPages || 1);
           setTotalCount(res.data.pagination.totalCount || 0);
@@ -222,7 +249,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
       station: "",
       initialAmountPaid: "",
       paymentMode: "CASH",
-      previousSessionDues: ""
+      previousSessionDues: "",
+      discountTuition: "",
+      discountBus: "",
+      discountAdmission: "",
+      discountAnnual: "",
+      discountExam: "",
+      discountComputer: ""
     });
     setError(null);
     setSuccess(null);
@@ -250,7 +283,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
         sessionYear: selectedSession,
         initialAmountPaid: formData.initialAmountPaid ? parseFloat(formData.initialAmountPaid) : 0,
         paymentMode: formData.paymentMode,
-        previousSessionDues: formData.previousSessionDues ? parseFloat(formData.previousSessionDues) : 0
+        previousSessionDues: formData.previousSessionDues ? parseFloat(formData.previousSessionDues) : 0,
+        discountTuition: formData.discountTuition ? parseFloat(formData.discountTuition) : 0,
+        discountBus: formData.discountBus ? parseFloat(formData.discountBus) : 0,
+        discountAdmission: formData.discountAdmission ? parseFloat(formData.discountAdmission) : 0,
+        discountAnnual: formData.discountAnnual ? parseFloat(formData.discountAnnual) : 0,
+        discountExam: formData.discountExam ? parseFloat(formData.discountExam) : 0,
+        discountComputer: formData.discountComputer ? parseFloat(formData.discountComputer) : 0
       };
       await axios.post(`${SERVER_URL}/api/erp/student`, payload, { withCredentials: true });
       setSuccess(`${formData.name} registered successfully!`);
@@ -282,7 +321,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
       dob: formatDateForInput(student.dob),
       cardNo: student.cardNo || "",
       contactNo: student.contactNo || "",
-      station: student.station || ""
+      station: student.station || "",
+      discountTuition: student.discountTuition !== undefined ? String(student.discountTuition) : "",
+      discountBus: student.discountBus !== undefined ? String(student.discountBus) : "",
+      discountAdmission: student.discountAdmission !== undefined ? String(student.discountAdmission) : "",
+      discountAnnual: student.discountAnnual !== undefined ? String(student.discountAnnual) : "",
+      discountExam: student.discountExam !== undefined ? String(student.discountExam) : "",
+      discountComputer: student.discountComputer !== undefined ? String(student.discountComputer) : ""
     });
     setError(null);
     setSuccess(null);
@@ -309,7 +354,13 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
         cardNo: editFormData.cardNo,
         contactNo: editFormData.contactNo,
         station: editFormData.station,
-        sessionYear: selectedSession
+        sessionYear: selectedSession,
+        discountTuition: editFormData.discountTuition ? parseFloat(editFormData.discountTuition) : 0,
+        discountBus: editFormData.discountBus ? parseFloat(editFormData.discountBus) : 0,
+        discountAdmission: editFormData.discountAdmission ? parseFloat(editFormData.discountAdmission) : 0,
+        discountAnnual: editFormData.discountAnnual ? parseFloat(editFormData.discountAnnual) : 0,
+        discountExam: editFormData.discountExam ? parseFloat(editFormData.discountExam) : 0,
+        discountComputer: editFormData.discountComputer ? parseFloat(editFormData.discountComputer) : 0
       };
       const res = await axios.put(`${SERVER_URL}/api/erp/students/${selectedStudentForDetail.id}`, payload, { withCredentials: true });
       if (res.data.success) {
@@ -463,6 +514,58 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
               </div>
             </div>
 
+            {/* Concessions Section */}
+            {(Number(selectedStudentForDetail.discountTuition || 0) > 0 ||
+              Number(selectedStudentForDetail.discountBus || 0) > 0 ||
+              Number(selectedStudentForDetail.discountAdmission || 0) > 0 ||
+              Number(selectedStudentForDetail.discountAnnual || 0) > 0 ||
+              Number(selectedStudentForDetail.discountExam || 0) > 0 ||
+              Number(selectedStudentForDetail.discountComputer || 0) > 0) && (
+              <div className="px-6 sm:px-8 pb-6 border-t border-slate-100 pt-6 space-y-4">
+                <h3 className="text-xs font-black text-[#093C5D] uppercase tracking-widest border-b border-slate-100 pb-2">
+                  Active Concessions & Discounts
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-xs">
+                  {Number(selectedStudentForDetail.discountTuition || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Tuition Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountTuition)} / month</p>
+                    </div>
+                  )}
+                  {Number(selectedStudentForDetail.discountBus || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Bus Fee Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountBus)} / month</p>
+                    </div>
+                  )}
+                  {Number(selectedStudentForDetail.discountAdmission || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Admission Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountAdmission)}</p>
+                    </div>
+                  )}
+                  {Number(selectedStudentForDetail.discountAnnual || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Annual Fee Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountAnnual)}</p>
+                    </div>
+                  )}
+                  {Number(selectedStudentForDetail.discountExam || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Exam Fee Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountExam)}</p>
+                    </div>
+                  )}
+                  {Number(selectedStudentForDetail.discountComputer || 0) > 0 && (
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Computer Fee Discount</p>
+                      <p className="font-bold text-emerald-600 mt-1">₹{String(selectedStudentForDetail.discountComputer)}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Actions Footer */}
             <div className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-start">
@@ -533,160 +636,17 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                 Student Admission Form
               </h3>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="E.g., Chetan Sharma"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Student Class</label>
-                    <select
-                      required
-                      value={formData.studentClass}
-                      onChange={(e) => setFormData({ ...formData, studentClass: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    >
-                      <option value="" disabled>Select Class</option>
-                      {dbClasses.map(c => (
-                        <option key={c.id} value={c.className}>{c.className}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Father's Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="E.g., Mr. Rajesh Sharma"
-                      value={formData.fatherName}
-                      onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Mother's Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="E.g., Mrs. Sunita Sharma"
-                      value={formData.motherName}
-                      onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Admission Date</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.dateOfAdmission}
-                      onChange={(e) => setFormData({ ...formData, dateOfAdmission: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Date of Birth</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.dob || ""}
-                      onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Contact Number</label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="E.g., 9876543210"
-                        value={formData.contactNo}
-                        onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Bus Station (Optional)</label>
-                      <select
-                        value={formData.station}
-                        onChange={(e) => setFormData({ ...formData, station: e.target.value })}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                      >
-                        <option value="">None / Day Scholar</option>
-                        {stations.map(s => (
-                          <option key={s.station} value={s.station}>{s.station}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Previous Balance (Dues)</label>
-                      <input
-                        type="number"
-                        placeholder="e.g. 1500 (0 if none)"
-                        value={formData.previousSessionDues}
-                        onChange={(e) => setFormData(prev => ({ ...prev, previousSessionDues: e.target.value }))}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Initial Amount Collected</label>
-                      <input
-                        type="number"
-                        placeholder="e.g. 5000 (0 if none)"
-                        value={formData.initialAmountPaid}
-                        onChange={(e) => setFormData(prev => ({ ...prev, initialAmountPaid: e.target.value }))}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">Payment Mode</label>
-                      <select
-                        value={formData.paymentMode}
-                        onChange={(e) => setFormData(prev => ({ ...prev, paymentMode: e.target.value }))}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
-                      >
-                        <option value="CASH">CASH</option>
-                        <option value="UPI">UPI</option>
-                        <option value="BANK_TRANSFER">BANK TRANSFER</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-2">
-                    <AlertTriangle size={15} />
-                    <span>{error}</span>
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={submitLoading}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#59B292] hover:bg-[#489d7f] text-white rounded-xl text-xs font-bold transition duration-200 cursor-pointer border-0 shadow-md shadow-[#59B292]/10"
-                >
-                  {submitLoading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-                  {submitLoading ? "Registering..." : "Add Student"}
-                </button>
-              </form>
+              <StudentRegistrationForm
+                selectedSession={selectedSession || "2026-27"}
+                classes={dbClasses}
+                stations={stations}
+                onSuccess={(studentName) => {
+                  setSuccess(`${studentName} registered successfully!`);
+                  setShowForm(false);
+                  fetchStudents(searchQuery, 1, selectedClass, selectedSession);
+                }}
+                onCancel={() => setShowForm(false)}
+              />
             </div>
           )}
 
@@ -988,6 +948,73 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                       <option key={s.station} value={s.station}>{s.station}</option>
                     ))}
                   </select>
+                </div>
+
+                {/* Concessions Section */}
+                <div className="sm:col-span-2 border-t border-slate-100 pt-4 mt-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-[#093C5D] mb-3">Fee Concessions & Discounts (Monthly Override)</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Tuition Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountTuition}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountTuition: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Bus Fee Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountBus}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountBus: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Admission Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountAdmission}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountAdmission: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Annual Fee Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountAnnual}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountAnnual: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Exam Fee Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountExam}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountExam: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1">Computer Fee Discount (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={editFormData.discountComputer}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, discountComputer: e.target.value }))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 

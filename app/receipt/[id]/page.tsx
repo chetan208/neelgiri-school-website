@@ -128,38 +128,45 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
         .filter(p => p.feeStructureId === f.id)
         .reduce((sum, p) => sum + (parseFloat(p.amountPaid) || 0), 0);
       
-      const fRemainingBefore = Math.round((parseFloat(f.remaining || "0") + paymentInThisTx) * 100) / 100;
-      activePreviousBalance = Math.round((activePreviousBalance + fRemainingBefore) * 100) / 100;
+      const prevSessionDues = parseFloat(f.previousSessionDues || "0") || 0;
+      const fRemainingBefore = Math.round((parseFloat(f.remaining || "0") + paymentInThisTx - prevSessionDues) * 100) / 100;
+      activePreviousBalance = Math.round((activePreviousBalance + prevSessionDues + fRemainingBefore) * 100) / 100;
     }
   }
 
-  // Current month outstanding BEFORE latest transaction
+  // Also fold current month's previousSessionDues into activePreviousBalance
+  const currentPrevSessionDues = parseFloat(fee.previousSessionDues || "0") || 0;
+  activePreviousBalance = Math.round((activePreviousBalance + currentPrevSessionDues) * 100) / 100;
+
+  // Current month outstanding BEFORE latest transaction (excluding previousSessionDues)
   const currentMonthPaymentInThisTx = latestTransactionPayments
     .filter(p => p.feeStructureId === fee.id)
     .reduce((sum, p) => sum + (parseFloat(p.amountPaid) || 0), 0);
 
-  const currentMonthOutstandingBefore = Math.round((parseFloat(fee.remaining || "0") + currentMonthPaymentInThisTx) * 100) / 100;
+  const currentMonthOutstandingBefore = Math.round((parseFloat(fee.remaining || "0") + currentMonthPaymentInThisTx - currentPrevSessionDues) * 100) / 100;
 
   const totalAmountDueBefore = Math.round((currentMonthOutstandingBefore + activePreviousBalance) * 100) / 100;
   
   // Total overall remaining balance AFTER this transaction across ALL months
   const remainingBalanceAfter = Math.round(sortedAllFees.reduce((sum, f) => sum + parseFloat(f.remaining || "0"), 0) * 100) / 100;
 
-  const activeTotal = parseFloat(fee.total || fee.totalDemand || "0");
+  const activeTotal = parseFloat(fee.total || fee.totalDemand || "0") - currentPrevSessionDues;
   const grossTotal = Math.round((activeTotal + activePreviousBalance) * 100) / 100;
 
   // Calculate running balances for all history fees
   let runningDues = 0;
   const historyWithBalances = sortedAllFees.map((h: any) => {
-    const total = parseFloat(h.total || h.totalDemand || "0");
+    const prevSessionDues = parseFloat(h.previousSessionDues || "0") || 0;
+    const total = parseFloat(h.total || h.totalDemand || "0") - prevSessionDues;
     const paid = h.payments?.reduce((s: number, p: any) => s + (parseFloat(p.amountPaid) || 0), 0) ?? 0;
     const currentRemaining = Math.round((total - paid) * 100) / 100;
-    const prevRemaining = runningDues;
-    runningDues = Math.round((runningDues + currentRemaining) * 100) / 100;
+    const prevRemaining = runningDues + prevSessionDues;
+    runningDues = Math.round((runningDues + prevSessionDues + currentRemaining) * 100) / 100;
     
     return {
       ...h,
       paid,
+      total,
       currentRemaining,
       prevRemaining,
       totalBalance: runningDues
