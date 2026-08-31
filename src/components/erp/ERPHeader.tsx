@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -10,49 +10,14 @@ import {
   User,
   Settings,
   ArrowLeft,
-  AlertTriangle,
-  CheckCircle2,
   X
 } from "lucide-react";
-import axios from "axios";
 
 export default function ERPHeader() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [whatsappConnected, setWhatsappConnected] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
-
-  const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
-
-  const fetchWhatsappStatus = async () => {
-    try {
-      const res = await axios.get(`${SERVER_URL}/api/erp/whatsapp/status`, { withCredentials: true });
-      if (res.data.success) {
-        const isConnected = res.data.status?.connected || false;
-        setWhatsappConnected(isConnected);
-        localStorage.setItem("whatsapp_connected", isConnected ? "true" : "false");
-      }
-    } catch (err) {
-      console.error("Error checking WhatsApp status in header:", err);
-      setWhatsappConnected(false);
-      localStorage.setItem("whatsapp_connected", "false");
-    }
-  };
-
-  useEffect(() => {
-    // Check cached connection status to set state instantly on mount/refresh
-    const cachedConnected = localStorage.getItem("whatsapp_connected");
-    if (cachedConnected === "false") {
-      setWhatsappConnected(false);
-    } else if (cachedConnected === "true") {
-      setWhatsappConnected(true);
-    }
-
-    fetchWhatsappStatus();
-    const interval = setInterval(fetchWhatsappStatus, 10000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -107,12 +72,6 @@ export default function ERPHeader() {
               className="relative w-8 h-8 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition cursor-pointer border-0 text-white"
             >
               <Bell size={14} />
-              {!whatsappConnected && (
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-              )}
-              {!whatsappConnected && (
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.6)]" />
-              )}
             </button>
 
             {showNotifications && (
@@ -130,24 +89,6 @@ export default function ERPHeader() {
                   </div>
 
                   <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                    {!whatsappConnected ? (
-                      <div className="p-3 rounded-xl bg-rose-50 border border-rose-100 text-xs font-semibold text-rose-800 space-y-1.5 flex gap-2.5 items-start">
-                        <AlertTriangle size={15} className="text-rose-600 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="font-black text-rose-700">WhatsApp Offline</p>
-                          <p className="text-[10px] text-rose-600/80 leading-normal mt-0.5 font-semibold">Gateway is not connected. Automated billing invoices and reminders will not be sent. Please connect it under Settings.</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="p-3 rounded-xl bg-emerald-50/50 border border-emerald-100 text-xs font-semibold text-emerald-800 space-y-1.5 flex gap-2.5 items-start">
-                        <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="font-black text-emerald-700">WhatsApp Online</p>
-                          <p className="text-[10px] text-emerald-600/80 leading-normal mt-0.5 font-semibold">Gateway connected successfully. Automated systems are fully operational.</p>
-                        </div>
-                      </div>
-                    )}
-
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-semibold text-slate-600 flex gap-2.5 items-start">
                       <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
                       <div>

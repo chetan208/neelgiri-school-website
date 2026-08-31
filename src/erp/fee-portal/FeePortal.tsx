@@ -583,8 +583,8 @@ export default function FeePortal({
             activeTab === "automation" ? "bg-[#093C5D] text-white shadow-sm" : "text-slate-500 hover:text-[#093C5D] bg-transparent"
           }`}
         >
-          <MessageSquare size={14} />
-          Automation
+          <Printer size={14} />
+          Generate Fees
         </button>
         <button
           onClick={() => { setActiveTab("analysis"); setError(null); setSuccess(null); }}
@@ -1114,8 +1114,8 @@ export default function FeePortal({
                         <div className="bg-[#093C5D]/5 border border-[#093C5D]/10 rounded-2xl p-5 flex items-center gap-4">
                           <div className="w-10 h-10 rounded-xl bg-[#093C5D]/10 text-[#093C5D] flex items-center justify-center font-bold">₹</div>
                           <div>
-                            <p className="text-lg font-black text-[#093C5D] tracking-tight">₹{monthData.totalDemand.toLocaleString("en-IN")}</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Total Demand (Billing)</p>
+                            <p className="text-lg font-black text-[#093C5D] tracking-tight">₹{(monthData.cumulativeDemand ?? monthData.totalDemand).toLocaleString("en-IN")}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Total Demand</p>
                           </div>
                         </div>
 
@@ -1130,7 +1130,7 @@ export default function FeePortal({
                         <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex items-center gap-4">
                           <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">₹</div>
                           <div>
-                            <p className="text-lg font-black text-rose-800 tracking-tight">₹{monthData.totalPending.toLocaleString("en-IN")}</p>
+                            <p className="text-lg font-black text-rose-800 tracking-tight">₹{Math.max(0, (monthData.cumulativeDemand ?? monthData.totalDemand) - monthData.totalPaid).toLocaleString("en-IN")}</p>
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Pending Balance</p>
                           </div>
                         </div>
@@ -1144,34 +1144,28 @@ export default function FeePortal({
                               <tr className="bg-slate-50 border-b border-slate-200/60 text-[#093C5D]">
                                 <th className="p-3 text-[10px] font-black uppercase tracking-wider">Class</th>
                                 <th className="p-3 text-[10px] font-black uppercase tracking-wider text-center">Students</th>
-                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Demand</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Prev Dues</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Current Dues</th>
+                                <th className="p-3 text-[10px] font-black uppercase tracking-wider">Total</th>
                                 <th className="p-3 text-[10px] font-black uppercase tracking-wider">Collected</th>
                                 <th className="p-3 text-[10px] font-black uppercase tracking-wider">Pending</th>
-                                <th className="p-3 text-[10px] font-black uppercase tracking-wider w-1/4">Collection Progress</th>
                                 <th className="p-3 text-[10px] font-black uppercase tracking-wider">Student Status</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 text-slate-650">
                               {monthData.classes.map((cls: any) => {
-                                const progressPercent = cls.demand > 0 ? (cls.paid / cls.demand) * 100 : 0;
+                                const cumDemand = cls.cumulativeDemand ?? cls.demand;
+                                const prevDues = Math.max(0, cumDemand - cls.demand);
+                                const totalPending = Math.max(0, cumDemand - cls.paid);
                                 return (
                                   <tr key={cls.className} className="hover:bg-slate-50/50 transition">
                                     <td className="p-3 font-bold text-[#093C5D]">{cls.className}</td>
                                     <td className="p-3 text-center text-slate-500 font-bold">{cls.studentCount}</td>
-                                    <td className="p-3 text-slate-700">₹{cls.demand.toLocaleString("en-IN")}</td>
+                                    <td className="p-3 text-amber-600 font-bold">₹{prevDues.toLocaleString("en-IN")}</td>
+                                    <td className="p-3 text-slate-700 font-bold">₹{cls.demand.toLocaleString("en-IN")}</td>
+                                    <td className="p-3 text-[#093C5D] font-black">₹{cumDemand.toLocaleString("en-IN")}</td>
                                     <td className="p-3 text-emerald-600 font-bold">₹{cls.paid.toLocaleString("en-IN")}</td>
-                                    <td className="p-3 text-rose-500 font-bold">₹{cls.pending.toLocaleString("en-IN")}</td>
-                                    <td className="p-3">
-                                      <div className="flex items-center gap-2">
-                                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200/50">
-                                          <div 
-                                            className="bg-[#59B292] h-full rounded-full" 
-                                            style={{ width: `${Math.min(100, progressPercent)}%` }}
-                                          />
-                                        </div>
-                                        <span className="text-[10px] font-extrabold text-[#093C5D] min-w-[32px]">{progressPercent.toFixed(0)}%</span>
-                                      </div>
-                                    </td>
+                                    <td className="p-3 text-rose-500 font-bold">₹{totalPending.toLocaleString("en-IN")}</td>
                                     <td className="p-3">
                                       <div className="flex items-center gap-1.5">
                                         <span className="inline-flex px-1.5 py-0.5 rounded-md text-[9px] font-extrabold bg-emerald-50 border border-emerald-200 text-emerald-700" title="Fully Paid">

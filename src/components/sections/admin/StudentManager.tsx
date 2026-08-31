@@ -673,7 +673,7 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                   <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="Search by name, card, or phone number..."
+                    placeholder="Search by name or card no..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-200 text-xs rounded-xl focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D] transition-all font-semibold"
@@ -944,9 +944,14 @@ export default function StudentManager({ onManageFees, selectedSession }: Studen
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-[#093C5D] focus:outline-none focus:ring-2 focus:ring-[#093C5D]/15 focus:border-[#093C5D]"
                   >
                     <option value="">None / Day Scholar</option>
-                    {stations.map(s => (
-                      <option key={s.station} value={s.station}>{s.station}</option>
-                    ))}
+                    {stations.map(s => {
+                      const feeAmount = parseFloat(s.amount || s.amount === 0 ? s.amount : 0);
+                      return (
+                        <option key={s.id || s.station} value={s.station}>
+                          {s.station} (₹{feeAmount.toFixed(0)})
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 

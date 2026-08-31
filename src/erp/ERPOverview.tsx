@@ -18,7 +18,6 @@ interface ERPOverviewProps {
   setSelectedSession: (session: string) => void;
   sessions: any[];
   fetchSessions: (autoSelectLatest?: boolean) => Promise<void>;
-  whatsappConnected?: boolean;
 }
 
 export default function ERPOverview({
@@ -29,8 +28,7 @@ export default function ERPOverview({
   selectedSession,
   setSelectedSession,
   sessions,
-  fetchSessions,
-  whatsappConnected = true
+  fetchSessions
 }: ERPOverviewProps) {
   const [stats, setStats] = useState(initialStats);
   const [loading, setLoading] = useState(false);
@@ -227,10 +225,6 @@ export default function ERPOverview({
                   {isComingSoon ? (
                     <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/40">
                       Under Dev
-                    </span>
-                  ) : mod.id === "settings" && !whatsappConnected ? (
-                    <span className="text-[8px] font-black uppercase tracking-widest text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-250 animate-pulse">
-                      Action Required
                     </span>
                   ) : (
                     <span className="text-[8px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/40">
