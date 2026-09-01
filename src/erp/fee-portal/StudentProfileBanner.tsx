@@ -29,7 +29,7 @@ export default function StudentProfileBanner({
         </div>
         <h3 className="text-xl font-black tracking-tight">{selectedStudent.name}</h3>
         <p className="text-xs text-white/80 font-semibold flex items-center gap-4 flex-wrap">
-          <span><strong>Class:</strong> {selectedStudent.studentClass}</span>
+          <span><strong>Class:</strong> {(selectedStudent as any).studentclass?.className || "N/A"}</span>
           <span>&middot;</span>
           <span><strong>Father:</strong> {selectedStudent.fatherName || "N/A"}</span>
           <span>&middot;</span>

@@ -291,7 +291,7 @@ export default function ReceiptPage({ params }: ReceiptPageProps) {
           <div className="info-box bg-slate-50 border border-slate-250/50 rounded-xl p-4 space-y-1.5">
             <h3 className="info-title text-[9px] font-black uppercase tracking-wider text-slate-500 border-b border-slate-200 pb-1.5 mb-2">Student Details</h3>
             <div className="flex justify-between"><span className="text-slate-500">Name</span><span className="font-bold text-slate-800">{student.name}</span></div>
-            <div className="flex justify-between"><span className="text-slate-500">Class</span><span className="font-bold text-slate-800">{student.studentClass || fee.studentClass}</span></div>
+            <div className="flex justify-between"><span className="text-slate-500">Class</span><span className="font-bold text-slate-800">{student.studentclass?.className || fee.studentClass}</span></div>
             <div className="flex justify-between"><span className="text-slate-500">Card No.</span><span className="font-bold text-[#093C5D] font-mono">{student.cardNo}</span></div>
             <div className="flex justify-between"><span className="text-slate-500">Father's Name</span><span className="font-bold text-slate-800">{student.fatherName || "N/A"}</span></div>
           </div>

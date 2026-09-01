@@ -181,7 +181,7 @@ export function printInvoice(student: StudentType, fee: any, allFees: any[]) {
   <div class="info-box">
     <div class="info-title">Student Details</div>
     <div class="info-row"><span class="info-label">Name</span><span class="info-val">${student.name}</span></div>
-    <div class="info-row"><span class="info-label">Class</span><span class="info-val">${student.studentClass}</span></div>
+    <div class="info-row"><span class="info-label">Class</span><span class="info-val">${(student as any).studentclass?.className || fee.studentClass || "N/A"}</span></div>
     <div class="info-row"><span class="info-label">Roll No.</span><span class="info-val" style="font-family:monospace;color:#093C5D">${student.cardNo}</span></div>
     <div class="info-row"><span class="info-label">Father</span><span class="info-val">${student.fatherName || "N/A"}</span></div>
   </div>

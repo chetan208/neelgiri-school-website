@@ -726,7 +726,7 @@ export default function FeePortal({
                           >
                             <div>
                               <p className="text-xs font-bold text-[#093C5D]">{st.name}</p>
-                              <p className="text-[9px] text-slate-400 font-semibold mt-0.5">Card No: {st.cardNo} | {st.studentClass}</p>
+                              <p className="text-[9px] text-slate-400 font-semibold mt-0.5">Card No: {st.cardNo} | {st.studentclass?.className}</p>
                             </div>
                             <span className="text-xs font-black text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-0.5 rounded-lg">₹{st.pendingAmount}</span>
                           </button>
